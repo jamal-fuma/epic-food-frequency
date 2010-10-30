@@ -34,8 +34,7 @@ namespace Epic
                 out << rs.ffq_line()          << rs.m_delim;
                 out << rs.food_code()         << rs.m_delim;
                 out << rs.nutrient_code()     << rs.m_delim;
-                out << rs.nutrient_quantity() << rs.m_delim;
-                out << std::endl;
+                out << rs.nutrient_quantity() << std::endl;
                 return out;
             }
         };
