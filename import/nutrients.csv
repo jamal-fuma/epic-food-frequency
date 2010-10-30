@@ -1,0 +1,109 @@
+CODE,DESCRIPTION,UNITS
+1,Alpha carotene,mcg
+2,Alcohol,g
+5,Beta carotene,mcg
+8,Calcium,mg
+9,Carotene - total (carotene equivalents),mcg
+11,Carbohydrate - total,g
+12,Cholesterol,mg
+13,Chloride,mg
+15,Copper,mg
+17,Beta-sitosterol,mg
+19,Campesterol,mg
+20,Englyst Fibre - Non Starch Polysaccharides (NSP),g
+21,Fat,g
+22,Iron,mg
+55,Total folate,mcg
+56,Carbohydrate - fructose,g
+57,Carbohydrate - galactose,g
+58,Carbohydrate - glucose,g
+61,Iodine,mcg
+63,Potassium,mg
+64,Energy,kcal
+65,Energy,kJ
+66,Carbohydrate - lactose,g
+68,Carbohydrate - maltose,g
+69,Magnesium,mg
+70,Manganese,mg
+71,Monounsaturated fatty acids,g
+72,Sodium,mg
+74,Niacin,mg
+77,Phosphorus,mg
+81,Polyunsaturated fatty acids,g
+83,Protein,g
+86,Vitamin A - retinol,mcg
+88,Vitamin A - retinol equivalents,mcg
+89,Vitamin B2 - riboflavin,mg
+91,Saturated fatty acids,g
+92,Selenium,mcg
+97,Carbohydrate - starch,g
+98,Carbohydrate - sucrose,g
+99,Vitamin B1 - thiamin,mg
+100,Nitrogen,g
+101,"Carbohydrate - sugars, total",g
+103,Vitamin B12 - cobalamin,mcg
+104,Vitamin B6 - pyridoxine,mg
+105,Vitamin C - ascorbic acid,mg
+106,Vitamin D - ergocalciferol,mcg
+107,Vitamin E - alpha tocopherol equivalents,mg
+109,Zinc,mg
+112,Stigmasterol,mg
+500,Vitamin K,mcg
+511,Cryptoxanthin - alpha,mcg
+512,Cryptoxanthin - beta,mcg
+513,Cryptoxanthin - total (as measured),mcg
+514,Lycopene,mcg
+515,Lutein and zeaxanthin (as measured),mcg
+516,Lutein,mcg
+517,Zeaxanthin,mcg
+518,Cis beta carotene,mcg
+519,Genistein,mcg
+520,Daidzein,mcg
+521,Secoisolariciresinol,mcg
+522,Shonanin,mcg
+523,Matairesinol,mcg
+524,Total isoflavones,mcg
+527,Campestanol,mg
+528,Sitostanol,mg
+529,Phytosterol - total,mg
+530,Glycitein,mcg
+531,Biochanin A,mcg
+532,Formononetin,mcg
+533,Coumestrol,mcg
+534,Enterolactone,mcg
+535,Equol,mcg
+536,Enterodiol,mcg
+537,Total phytoestrogens,mcg
+538,Total lignans,mcg
+539,Total enterolignans,mcg
+600,Fat - total,g
+601,Monounsaturated fatty acids (MUFA) - total,g
+602,Cis monunsaturated fatty acids - total,g
+603,Polyunsaturated fatty acids (PUFA) - total,g
+604,Cis polyunsaturated fatty acids - total,g
+605,N-6 polyunsaturated fatty acids - total,g
+606,N-3 polyunsaturated fatty acids - total,g
+607,Saturated fatty acids (SFA) - total,g
+608,Trans fatty acids - total,g
+609,Branched chain fatty acids - total,g
+610,Lauric acid,g
+611,Myristic acid,g
+612,Pentadecanoic acid,g
+613,Palmitic acid,g
+614,Stearic acid,g
+615,Arachidic acid,g
+616,Palmitoleic acid,g
+617,Cis 18:1 - total,g
+618,Cis/trans 18:1 n-9,g
+619,Vaccenic acid (cis/trans 18:1 n-7),g
+620,Trans monounsaturated fatty acids - total,g
+621,Linoleic acid,g
+622,Linolenic acid,g
+623,Gamma linolenic acid (GLA),g
+624,Alpha linolenic acid (ALA),g
+625,Stearidonic acid,g
+626,Dihomo gamma linolenic acid,g
+627,Arachidonic acid,g
+628,Eicosapentaenoic acid (EPA),g
+629,Docosahexaenoic acid (DHA),g
+630,Trans polyunsaturated fatty acids - total,g

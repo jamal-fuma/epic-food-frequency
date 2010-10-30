@@ -1,0 +1,90 @@
+# Process this file with autoconf to produce a configure script.
+
+AC_PREREQ([2.61])
+AC_INIT([epic-food-frequency],[0.0.1],[jamal.natour@fumasoftware.com])
+AC_CONFIG_SRCDIR([src/client.cpp])
+AC_CONFIG_HEADERS([config.h])
+
+# Checks for programs.
+AC_PROG_CXX
+AC_PROG_CC
+AC_PROG_MAKE_SET
+AC_PROG_LIBTOOL
+
+# Checks for libraries.
+dnl  don't moan about missing gnu styles project files
+AM_INIT_AUTOMAKE([foreign 1.10 no-define tar-pax])
+
+# Use the latest short output macro if available
+m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
+
+# I like maintainer mode
+AM_MAINTAINER_MODE
+
+AC_CANONICAL_HOST
+
+
+# Checks for header files.
+AC_HEADER_STDC
+AC_CHECK_HEADERS([stdarg.h stdio.h stdlib.h stdint string.h time.h signal.h ctype.h sys/mman.h sys/select.h sys/socket.h sys/stat.h sys/time.h sys/types.h sys/uio.h sys/un.h errno.h inttypes.h arpa/inet.h unistd.h windows.h winsock2.h ws2tcpip.h fcntl.h netinet/in.h netinet/tcp.h limits.h netdb.h assert.h errno.h uuid/uuid.h pwd.h unistd.h ev.h  fcntl.h sys/fcntl.h sys/ioctl.h sys/fileio.h])
+
+dnl Checks for typedefs, structures, and compiler characteristics.
+AC_TYPE_UID_T
+AC_C_INLINE
+AC_TYPE_INT16_T
+AC_TYPE_INT32_T
+AC_TYPE_INT64_T
+AC_TYPE_INT8_T
+AC_TYPE_MODE_T
+AC_TYPE_OFF_T
+AC_TYPE_SIZE_T
+AC_TYPE_SSIZE_T
+AC_CHECK_MEMBERS([struct stat.st_blksize])
+AC_TYPE_UINT16_T
+AC_TYPE_UINT32_T
+AC_TYPE_UINT64_T
+AC_TYPE_UINT8_T
+
+# Checks for library functions.
+AC_FUNC_CHOWN
+AC_FUNC_MALLOC
+AC_FUNC_MMAP
+AC_FUNC_REALLOC
+AC_CHECK_FUNCS([atexit clock_gettime fdatasync ftruncate getcwd gettimeofday localtime_r memchr memmove memset mkdir munmap rmdir select socket strchr strerror strndup strtol strtoul strtoull])
+
+dnl  DNS resolving
+AC_CHECK_FUNCS([getaddrinfo freeaddrinfo gai_strerror])
+
+dnl  Check for specifics of Unix cred passing
+AC_CHECK_FUNCS([getpeereid getpeerucred])
+AC_CHECK_TYPES([struct cmsgcred])
+AC_CHECK_TYPES([struct fcred])
+AC_CHECK_TYPES([struct sockcred])
+
+dnl Signal handling
+AC_CHECK_FUNCS([atexit pselect])
+
+dnl Memory mapping
+AC_CHECK_FUNCS([ftruncate mmap munmap])
+
+dnl  Networking
+AC_CHECK_FUNCS([inet_ntoa select socket])
+
+dnl  String functions
+AC_CHECK_FUNCS([memchr memmove memset  strchr strerror strndup strstr strtol strtoul strtoull])
+
+dnl  File and directory management
+AC_CHECK_FUNCS([mkdir rmdir basename])
+AC_CHECK_HEADERS([libgen.h])
+AC_C_INLINE
+AC_FUNC_CHOWN
+AC_FUNC_MALLOC
+AC_FUNC_MMAP
+AC_FUNC_REALLOC
+
+AC_CONFIG_FILES([Makefile
+                 libutility/src/libUtility-0.1.pc
+                 libutility/Makefile
+                 libutility/src/Makefile
+                 src/Makefile])
+AC_OUTPUT
