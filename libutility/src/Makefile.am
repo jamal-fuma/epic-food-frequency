@@ -37,7 +37,7 @@ libUtility_la_LDFLAGS =
 
 libUtility_la_LIBADD = 
 
-include_HEADERS = \
+noinst_HEADERS = \
         Utility_s_vector.h             \
         Utility_state.h             \
         Utility_push_buffer.h             \

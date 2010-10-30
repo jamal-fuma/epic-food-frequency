@@ -4,8 +4,6 @@
 #include "config/Global.hpp"
 #include "config/Quantity.hpp"
 
-#define DEFAULT_CONFIG_FILE "conf/client.conf"
-
 bool load_config(const std::string & config_file, Epic::Logging::Logger & log);
 Epic::Logging::Logger logger(Epic::CmdLine::Parser::result_map_t & args);
 int help();

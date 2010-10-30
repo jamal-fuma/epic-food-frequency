@@ -23,7 +23,7 @@ AM_CFLAGS =\
 	 -Wall\
 	 -g
 
-noinst_LTLIBRARIES = libEpic.la
+lib_LTLIBRARIES = libEpic.la
 libEpic_la_SOURCES = \
                 $(top_srcdir)/include/conversion/Conversion.hpp  \
                  $(top_srcdir)/include/Epic.hpp  \
