@@ -112,6 +112,8 @@ namespace Epic
                         }
                         return qd.commit();
                         break;
+
+                        // rewire jobfile processing
                     case Application::JobFile   :
                         std::cout << "Job file specifed as " << m_input_file;
                         break;

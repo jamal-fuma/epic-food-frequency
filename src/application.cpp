@@ -7,6 +7,7 @@
 #include "import/Group.hpp"
 #include "import/Weight.hpp"
 #include "import/Ingredient.hpp"
+#include "dataset/Report.hpp"
 
 
 template <class Data>
@@ -109,6 +110,9 @@ Epic::Client::Application::run()
             return EXIT_FAILURE;
         }
 
+        // need to wire output filename here
+        Database::Report rs (db);
+        rs.list_all(std::cout);
     }
     catch(std::runtime_error & e)
     {

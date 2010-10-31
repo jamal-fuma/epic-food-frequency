@@ -5,7 +5,6 @@
 #include "../include/dataset/Database.hpp"
 #include "../include/dataset/RespondentStatement.hpp"
 #include "../include/dataset/ResponseStatement.hpp"
-#include "../include/dataset/ResultStatement.hpp"
 #include "../include/dataset/QuestionStatement.hpp"
 
 namespace Epic
@@ -52,14 +51,13 @@ namespace Epic
 
             Database::RespondentInsertStatement   m_respondent;
             Database::ResponseInsertStatement     m_response;
-            Database::ResultQueryStatement        m_result;
-            Database::ResultSet                   m_rs;
+
+
             Database::QuestionInsertStatement     m_qs;
             QuestionaireDataModel(Database::DBConnection & db) :
                 DBModel(db),
                 m_respondent(db),
                 m_response(db),
-                m_result(db),
                 m_qs(db)
             {
             }       

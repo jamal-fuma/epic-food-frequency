@@ -69,6 +69,7 @@ libEpic_la_SOURCES = \
                    $(top_srcdir)/include/dataset/NutrientStatement.hpp  \
                    $(top_srcdir)/include/dataset/Schema.hpp  \
                    $(top_srcdir)/include/dataset/RespondentStatement.hpp  \
+                   $(top_srcdir)/include/dataset/Report.hpp  \
                    \
                    $(top_srcdir)/include/pattern/TwoKeyMap.hpp  \
                    $(top_srcdir)/include/pattern/Singleton.hpp  \

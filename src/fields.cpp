@@ -20,13 +20,6 @@ Epic::Import::QuestionaireDataModel::body(size_t line, str_vector_t & v)
         m_response.reset();
     }
 
-    m_result.bind(respondent_id);
-    while(SQLITE_ROW == m_result.step(m_rs))
-    {
-        std::cout << v.at(pos_by_field["ID"]) << "," << m_rs;
-    }
-    m_result.reset();
-
     // questionaire processing
     //
     // frequencies
@@ -36,3 +29,4 @@ Epic::Import::QuestionaireDataModel::body(size_t line, str_vector_t & v)
     //
     return true;
 }
+
