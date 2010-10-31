@@ -46,11 +46,19 @@ namespace Epic
             {
                 // grab questionaire respondent internal id
                 Database::Statement m_sql (m_db,"select id from respondents;");
-                int rc = sqlite3_step(m_sql); 
+                int rc = sqlite3_step(m_sql);
+                std::vector<sqlite3_int64> respondents;
                 for( ; (SQLITE_ROW == rc); rc = sqlite3_step(m_sql) )
                 {
-                    list(out, sqlite3_column_int64(m_sql,0));
-                    m_sql.reset();
+                    respondents.push_back(sqlite3_column_int64(m_sql,0));
+                }
+                m_sql.reset();
+                std::vector<sqlite3_int64>::const_iterator  begin,end;
+                begin   = respondents.begin();
+                end     = respondents.end();
+                for(; begin != end; ++begin)
+                {
+                    list(out,*begin);
                 }
             }
         };

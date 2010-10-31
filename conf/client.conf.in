@@ -3,7 +3,7 @@
 base_dir="@prefix@"
 
 # Location of the nutrients database
-database=""
+database="nutrient.db"
 
 # nutrient quantities may contain codes which refer to missing data so an additional
 # config file helps with mapping the codes onto quantities, the absence of a value
