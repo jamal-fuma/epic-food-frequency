@@ -28,6 +28,7 @@ libEpic_la_SOURCES = \
                 $(top_srcdir)/include/conversion/Conversion.hpp  \
                  $(top_srcdir)/include/Epic.hpp  \
                    \
+                   $(top_srcdir)/include/import/CerealTypes.hpp  \
                    $(top_srcdir)/include/import/Weight.hpp  \
                    $(top_srcdir)/include/import/Group.hpp  \
                    $(top_srcdir)/include/import/Parser.hpp  \
@@ -1293,6 +1294,7 @@ libEpic_la_SOURCES = \
                    application.cpp      \
                    questionaire.cpp     \
                    fields.cpp           \
+                   report.cpp           \
                    config_reader.cpp
 
 libEpic_la_LDFLAGS =  -lpthread -lrt -ldl

@@ -54,8 +54,8 @@ noinst_HEADERS = \
         libUtility.h             \
         Utility_internal.h             \
         Utility_pack.h             \
-        Utility_p2p_comms.h
-
+        Utility_p2p_comms.h		\
+	sqlite3.h
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libUtility-0.1.pc

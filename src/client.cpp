@@ -5,7 +5,6 @@
 #include "config/Quantity.hpp"
 
 bool load_config(const std::string & config_file, Epic::Logging::Logger & log);
-Epic::Logging::Logger logger(Epic::CmdLine::Parser::result_map_t & args);
 int help();
 
 Epic::Client::Options opts;
@@ -30,7 +29,15 @@ main(int argc, char **argv)
     if(args.find("version") != args.end())
         return ver();
 
-    Epic::Logging::Logger log = logger(args);
+    Epic::Logging::Logger log;
+ 
+    // direct logging to specifed file
+    if(args.find("log-file") != args.end())
+    {
+        log.open(args["log-file"]);
+    }
+ 
+    // direct logging to stderr
 
     if(args.find("config") == args.end())
     {
@@ -65,17 +72,7 @@ load_config(const std::string & config_file, Epic::Logging::Logger & log)
         Epic::Config::Global conf;
         conf.load(config_file);
         Epic::Config::Global::value_type cnf = Epic::Config::Global::config();
-        if(cnf.find("base_dir") != cnf.end())
-        {
-            std::string base_dir = cnf["base_dir"];
-            if(::chdir(base_dir.c_str()))
-            {
-                log.error("Failed to change working directory to : " 
-                        + base_dir );
-                return false;
-            }
-        }
- 
+
         // nutrient quantity config
         if(cnf.find("nutrient_quantity") == cnf.end())
         {
@@ -100,17 +97,3 @@ help()
     return opts("\nEpic_Client <options> - where options is one or more of the following:");
 }
 
-Epic::Logging::Logger
-logger( Epic::CmdLine::Parser::result_map_t & args)
-{
-     // direct logging to specifed file
-    if(args.find("log-file") != args.end())
-    {
-        Epic::Logging::Logger file_log(args["log-file"]);
-        return file_log;
-    }
- 
-    // direct logging to stderr
-    Epic::Logging::Logger stderr_log;
-    return stderr_log;
-}

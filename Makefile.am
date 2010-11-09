@@ -2,7 +2,8 @@
 ## Created by Anjuta
 
 SUBDIRS = libutility \
-          src
+          src \
+	  test
 
 pkgsysconfdir = $(sysconfdir)/$(PACKAGE)
 pkgsysconf_DATA =
@@ -11,20 +12,26 @@ pkgsysconf_DATA =
 confdir = ${pkgsysconfdir}/conf
 conf_DATA = \
         conf/quantity.conf \
-        client.conf
+        $(top_builddir)/client.conf
 
-client.conf: $(top_srcdir)/conf/client.conf.in
+$(top_builddir)/client.conf: $(top_srcdir)/conf/client.conf.in stamp-h1
 	sed -e 's![@]prefix[@]!$(prefix)!g' \
 	    -e 's![@]exec_prefix[@]!$(exec_prefix)!g' \
 	    -e 's![@]includedir[@]!$(includedir)!g' \
 	    -e 's![@]datadir[@]!$(datadir)!g' \
 	    -e 's![@]confdir[@]!$(confdir)!g' \
+	    -e 's![@]sqldir[@]!$(sqldir)!g' \
 	    -e 's![@]importdir[@]!$(importdir)!g' \
 	    -e 's![@]libdir[@]!$(libdir)!g' \
 	    -e 's![@]PACKAGE_VERSION[@]!$(PACKAGE_VERSION)!g' \
 	    -e 's![@]KRB5_LDFLAGS[@]!$(KRB5_LDFLAGS)!g' \
 	    -e 's![@]KRB5_LIBS[@]!$(KRB5_LIBS)!g' \
 	    $(top_srcdir)/conf/client.conf.in > $@
+
+# application data imports
+sqldir = ${pkgsysconfdir}/sql
+sql_DATA = \
+	sql/schema.sql
 
 # application data imports
 importdir = ${pkgsysconfdir}/import
@@ -78,7 +85,9 @@ epic_ffq_SOURCES = $(top_srcdir)/src/client.cpp
 epic_ffq_LDADD   = $(top_builddir)/src/libEpic.la
 epic_ffq_LDFLAGS = -lpthread -ldl -lrt
 
-EXTRA_DIST = $(epic_ffqdoc_DATA) $(conf_DATA) $(import_DATA)
+EXTRA_DIST = $(epic_ffqdoc_DATA) $(conf_DATA) $(sql_DATA) $(import_DATA) $(top_srcdir)/conf/client.conf.in $(top_srcdir)/autogen.sh
+
+DISTCLEANFILES = $(top_builddir)/client.conf
 
 # Remove doc directory on uninstall
 uninstall-local:

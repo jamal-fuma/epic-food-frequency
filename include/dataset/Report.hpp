@@ -17,49 +17,38 @@ namespace Epic
                     m_result(db),m_db(db) { }
 
             bool
-            list(std::ostream & out, sqlite3_int64 respondent_id)
+            list(std::ostream & out);
+
+            bool
+            respondents(std::ostream & out)
             {
-                // grab questionaire respondent external id
-                Database::Statement m_sql (m_db,"select reference from respondents where id = ?");
-                sqlite3_bind_int64(m_sql, 1, respondent_id);
+                Database::Statement sql (m_db,"select reference,id from respondents");
 
-                // walk over the responses
-                int rc = sqlite3_step(m_sql); 
-                for( ; (SQLITE_ROW == rc); rc = sqlite3_step(m_sql) )
+                int rc = sqlite3_step(sql); 
+                for( ; (SQLITE_ROW == rc); rc = sqlite3_step(sql) )
                 {
-                    std::string reference = reinterpret_cast<const char *>(sqlite3_column_text(m_sql,0) );
-                    m_result.bind(respondent_id);
-
-                    // display results
-                    while(SQLITE_ROW == m_result.step(m_rs))
-                    {
-                        out << reference << "," << m_rs;
-                        // v.at(pos_by_field["ID"]) << "," <<
-                    }
-                    m_result.reset();
+                    std::string     reference = reinterpret_cast<const char *>(sqlite3_column_text(sql,0) );
+                    sqlite3_int64   ref_id    = sqlite3_column_int64(sql,1);
+                    out << reference << " " << ref_id << std::endl;
+        //            response(out,sql);
                 }
                 return (SQLITE_DONE == rc);
             }
 
             void
-            list_all(std::ostream & out)
+            response(std::ostream & out, Database::Statement & sql)
             {
-                // grab questionaire respondent internal id
-                Database::Statement m_sql (m_db,"select id from respondents;");
-                int rc = sqlite3_step(m_sql);
-                std::vector<sqlite3_int64> respondents;
-                for( ; (SQLITE_ROW == rc); rc = sqlite3_step(m_sql) )
-                {
-                    respondents.push_back(sqlite3_column_int64(m_sql,0));
+                // grab each respondent in turn
+                std::string     reference = reinterpret_cast<const char *>(sqlite3_column_text(sql,0) );
+                sqlite3_int64   ref_id    = sqlite3_column_int64(sql,1);
+                // handle responses for this respondent
+                m_result.bind(ref_id);
+                int rc;
+                while(SQLITE_ROW == (rc = m_result.step(m_rs)))
+                {			
+                    out << reference  << "," << m_rs ;
                 }
-                m_sql.reset();
-                std::vector<sqlite3_int64>::const_iterator  begin,end;
-                begin   = respondents.begin();
-                end     = respondents.end();
-                for(; begin != end; ++begin)
-                {
-                    list(out,*begin);
-                }
+                m_result.reset();
             }
         };
     } // Epic::Database

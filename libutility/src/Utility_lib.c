@@ -256,6 +256,8 @@ const int radix = 10;
         ((int)(pend - buf)) ;
 }
 
+#if defined(ULLONG_MAX)
+
 /* Converts a substring to its unsigned long long integer representation
  * Returns -1 on error setting errno
  * Returns number of unconverted chars on success with numeric value stored in pdest
@@ -322,6 +324,7 @@ const int radix = 10;
     return (((intptr_t)(pend - buf)) > INT_MAX) ?  INT_MAX :
         ((int)(pend - buf)) ;
 }
+#endif /* ! defined(ULLONG_MAX) */
 
 /* Converts a substring to its unsigned integer representation
  * Returns -1 on error setting errno

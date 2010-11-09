@@ -85,7 +85,8 @@ AC_FUNC_REALLOC
 AC_CONFIG_FILES([Makefile
                  libutility/src/libUtility-0.1.pc
                  libutility/Makefile
-                 libutility/src/Makefile
+                 libutility/src/Makefile 
+                 test/Makefile
                  src/Makefile])
 AC_OUTPUT
 

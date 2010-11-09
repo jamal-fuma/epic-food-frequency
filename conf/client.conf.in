@@ -5,6 +5,8 @@ base_dir="@prefix@"
 # Location of the nutrients database
 database="nutrient.db"
 
+schema="@sqldir@/schema.sql"
+
 # nutrient quantities may contain codes which refer to missing data so an additional
 # config file helps with mapping the codes onto quantities, the absence of a value
 # in the config file is treated as if the value was present and mapped to its literal value.

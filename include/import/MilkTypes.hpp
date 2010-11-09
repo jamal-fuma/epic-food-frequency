@@ -1,26 +1,25 @@
-#ifndef EPIC_IMPORT_FOODS_HPP
-#define EPIC_IMPORT_FOODS_HPP
+#ifndef EPIC_IMPORT_MILK_TYPES_HPP
+#define EPIC_IMPORT_MILK_TYPES_HPP
 
 #include "import/Import.hpp"
-#include "dataset/FoodStatement.hpp"
+#include "dataset/MilkTypesStatement.hpp"
 
 namespace Epic
 {
     namespace Import
     {
-        struct Food
+        struct MilkTypes
         {
             static const size_t fields = 3;
         };
 
-        struct FoodData
+        struct MilkTypesData
         {
-            Database::DBConnection            & m_db;
-            Database::FoodInsertStatement       m_statement;
-            std::map < std::string, sqlite3_int64 > m_code_to_id; 
-            Database::Transaction               m_transaction;
+            Database::DBConnection                  &   m_db;
+            Database::MilkTypeInsertStatement         m_statement; 
+            Database::Transaction                       m_transaction;
 
-            FoodData(Database::DBConnection & db) :
+            MilkTypesData(Database::DBConnection & db) :
                 m_db(db), 
                 m_statement(db),
                 m_transaction(m_db)
@@ -39,37 +38,38 @@ namespace Epic
             bool operator()(str_vector_t & v)
             {
                 // sufficent fields for format
-                if(v.size() < Food::fields)
+                if(v.size() != MilkTypes::fields)
                 {
-                    std::cerr << "Unexpected number of fields in foods import file";
-                    std::cerr << " expected at least " << Food::fields;
+                    std::cerr << "Unexpected number of fields in milk types import file";
+                    std::cerr << " expected at least " << MilkTypes::fields;
                     std::cerr << " got " << v.size() << " fields" << std::endl;
                     return false;
                 }
 
-                if(v[0] != "FOOD_CODE")
+                if(v[0] != "CODE")
                 {
-                    std::cerr << "Unexpected field in foods import file";
-                    std::cerr << " expected first field to be 'FOOD_CODE' ";
+                    std::cerr << "Unexpected field in milk types import file";
+                    std::cerr << " expected first field to be 'CODE' ";
                     std::cerr << " got '" << v[0] << "'" << std::endl;
                     return false;
                 }
         
-                if(v[1] != "NUTRIENT")
+                if(v[1] != "FOOD_CODE")
                 {
-                    std::cerr << "Unexpected field in foods import file";
-                    std::cerr << " expected second field to be 'NUTRIENT' ";
+                    std::cerr << "Unexpected field in milk types import file";
+                    std::cerr << " expected second field to be 'FOOD_CODE' ";
                     std::cerr << " got '" << v[1] << "'" << std::endl;
                     return false;
                 }
-
-                if(v[2] != "QUANTITY")
+        
+                if(v[2] != "DESC")
                 {
-                    std::cerr << "Unexpected field in foods import file";
-                    std::cerr << " expected third field to be 'QUANTITY' ";
+                    std::cerr << "Unexpected field in milk types import file";
+                    std::cerr << " expected third field to be 'DESC' ";
                     std::cerr << " got '" << v[2] << "'" << std::endl;
                     return false;
                 }
+
                 return true;
             }
 
@@ -77,24 +77,19 @@ namespace Epic
             bool
             operator()(size_t line, str_vector_t & v)
             {
-                if(v.size() == Food::fields)
+                if(v.size() == MilkTypes::fields)
                 {
-                    // nutrient code
-                    Conversion::IntegerString nutrient_id(v[1]);
-                    long id = nutrient_id;
+                  // milk type code
+                    Conversion::IntegerString milk_type_code(v[0]);
+                    long code = milk_type_code;
 
-                    // quantity
-                    Conversion::NutrientQuantity nutrient_quantity(v[2]);
-                    double quantity = nutrient_quantity;
-
-                    // food code is just a string
-                    m_statement.bind(v[0],id,quantity);
+                    m_statement.bind(code,v[1],v[2]);
                     m_statement.step();
                     m_statement.reset();
                 }
                 else
                 {
-                    std::cerr << "Error in foods import file: ";
+                    std::cerr << "Error in milk types import file: ";
                     std::cerr << "skipping line :" << line;
                 }
                 return true;
@@ -110,4 +105,5 @@ namespace Epic
     } // Epic::Import
 } // Epic
 
-#endif /* ndef EPIC_IMPORT_FOODS_HPP */
+#endif /* EPIC_IMPORT_MILK_TYPES_HPP */
+
