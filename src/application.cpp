@@ -7,8 +7,13 @@
 #include "import/Group.hpp"
 #include "import/Weight.hpp"
 #include "import/Ingredient.hpp"
+#include "import/CerealTypes.hpp"
+#include "import/MilkTypes.hpp"
 #include "dataset/Report.hpp"
 
+
+bool
+load_string( const std::string & filename, std::string & dest);
 
 template <class Data>
 bool
@@ -70,6 +75,12 @@ Epic::Client::Application::load_tables(Database::DBConnection & db)
  
     if(!load_lookup< Import::IngredientData >(db,"ingredients"))
         return false;
+ 
+    if(!load_lookup< Import::CerealTypesData >(db,"cereal_types"))
+        return false;
+ 
+ //   if(!load_lookup< Import::MilkTypesData >(db,"milk_types"))
+ //       return false;
 
     return true;
 }
@@ -109,10 +120,25 @@ Epic::Client::Application::run()
             help();   
             return EXIT_FAILURE;
         }
-
-        // need to wire output filename here
+        
+        // sort out input / output
         Database::Report rs (db);
-        rs.list_all(std::cout);
+        if(m_args.find("output") == m_args.end())
+        {
+            rs.respondents(std::cout);
+        }
+        else
+        {
+            // need to wire output filename here
+            std::ofstream file(m_args["output"].c_str());
+            if(!file.is_open())
+            {
+                std::cerr << "unable to open output file " << std::endl;
+                return EXIT_FAILURE;
+            }
+            rs.respondents(file);
+            file.close();
+        }
     }
     catch(std::runtime_error & e)
     {
@@ -126,17 +152,40 @@ Epic::Client::Application::run()
 bool
 Epic::Client::Application::create_tables(Database::DBConnection & db)
 {
+#if(0)
     static const char schema[] = { EPIC_DB_SCHEMA };
-    char *errmsg=NULL;
+#endif
 
+    char *errmsg=NULL;
+    std::ostringstream ss;
+    
+    std::string filename;
+    if(!configured_value("schema",filename))
+    {
+        ss << "Config file lacks value for '" ;
+        ss << "schema";
+        ss << "'\n" ;
+        m_logger.error(ss.str());
+        return false;
+    }
+    
+    std::string schema;
+    if(!load_string(filename,schema))
+    {
+        ss << "Unable to load database schema from file '" ;
+        ss << filename;
+        ss << "'\n" ;
+        m_logger.error(ss.str());
+        return false;
+    }
+    
     /* create db tables */
     if(SQLITE_OK != sqlite3_exec(db,
-                schema,
+                schema.c_str(),
                 NULL,
                 NULL,
                 &errmsg))
     {
-        std::ostringstream ss;
 
         ss << "Could not execute statement in database ";
         ss << schema << " library error was " << errmsg << std::endl;
@@ -150,3 +199,35 @@ Epic::Client::Application::create_tables(Database::DBConnection & db)
     }
     return true;
 }
+
+#if 0
+if(cnf.find("base_dir") != cnf.end())
+        {
+            std::string base_dir = cnf["base_dir"];
+            if(::chdir(base_dir.c_str()))
+            {
+                log.error("Failed to change working directory to : " 
+                        + base_dir );
+                return false;
+            }
+        }
+#endif
+
+bool
+load_string( const std::string & filename, std::string & dest)
+{
+    size_t sz=0;
+    char *errmsg=NULL;
+    void *data = utility_slurp_with_sz(&sz,filename.c_str());
+    if(!data)
+        return false;
+
+    std::string str (static_cast<char *>(data),sz);
+    free(data);
+    data = NULL;
+
+    dest.clear();
+    dest.assign(str);
+    return true;
+}
+

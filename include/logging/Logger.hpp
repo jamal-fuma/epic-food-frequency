@@ -17,31 +17,39 @@ namespace Epic
 
         public:
            
-            explicit Logger(const std::string & filename) :
-                m_close_on_exit(true)
+            explicit Logger() : m_fp(stderr),
+                m_close_on_exit(false), m_filename("stderr")
+            {
+            }
+
+            void
+            open(const std::string & filename)    
             {
                 m_fp = fopen(filename.c_str(),"w");
                 if(!m_fp)
                 {
                     throw std::runtime_error("Unable to open log file" + filename);
                 }
-            }
-            
-            explicit Logger() : m_fp(stderr),
-                m_close_on_exit(false)
-            {
+                m_filename = filename;
+                m_close_on_exit = true;
             }
 
-            ~Logger()
+            void
+            close()
             {
                 if(m_close_on_exit)
                 {
-                    if(m_fp)
+                    if(m_fp && m_fp != stderr)
                     {
                         fclose(m_fp);
                     }
                 }
                 m_fp = NULL;
+            }
+
+            ~Logger()
+            {
+                close();
             }
 
             void

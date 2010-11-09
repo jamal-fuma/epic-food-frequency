@@ -31,11 +31,17 @@
     "description varchar NOT NULL "  \
 "); "  \
 \
+"CREATE INDEX IF NOT EXISTS questions_description_index on questions(description);" \
+\
 "CREATE TABLE IF NOT EXISTS respondents ("  \
     "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "  \
-    "reference varchar NOT NULL, "  \
+    "reference varchar UNIQUE NOT NULL, "  \
     "questionaire_id INTEGER NOT NULL "  \
 "); "  \
+\
+"CREATE UNIQUE INDEX IF NOT EXISTS respondents_reference_index on respondents(reference);" \
+\
+"CREATE INDEX IF NOT EXISTS respondents_reference_and_questionaire_index on respondents(reference,questionaire_id);" \
 \
 "CREATE TABLE IF NOT EXISTS responses ("  \
     "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "  \
@@ -43,6 +49,8 @@
     "question_id INTEGER NOT NULL, "  \
     "respondent_id INTEGER NOT NULL "  \
 "); "  \
+\
+"CREATE UNIQUE INDEX IF NOT EXISTS response_respondent_index on responses(respondent_id,id);" \
 \
 "CREATE TABLE IF NOT EXISTS modifiers ("  \
     "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "  \
@@ -70,6 +78,7 @@
     "description VARCHAR NOT NULL,"  \
     "weight_id INTEGER NOT NULL "  \
 "); "  \
+\
 "CREATE TABLE IF NOT EXISTS cereals_type_alternatives ("  \
     "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "  \
     "cereal_type_id INTEGER NOT NULL, "  \
@@ -120,7 +129,8 @@
     "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "  \
     "meal_id INTEGER NOT NULL, "  \
     "food VARCHAR NOT NULL, "  \
-    "amount INTEGER NOT NULL "  \
+    "amount INTEGER NOT NULL, "  \
+    "UNIQUE(meal_id,food) "  \
 "); "  \
 \
 "CREATE INDEX IF NOT EXISTS ingredients_meal_line_index on ingredients(meal_id,food);" \
