@@ -223,7 +223,6 @@ utility_strndup(
         size_t len
         )
 {
-#if !(defined  _GNU_SOURCE || defined(HAVE_STRNDUP)) || defined (_WIN32)
 char *p;
 	p2p_set_errno(util_eInvalidArguments);
 	p = (!s || ((len+1) < len))? NULL : malloc( len+1 );
@@ -235,9 +234,6 @@ char *p;
 	}
 
 	return p;
-#else
-	return strndup( s, len );
-#endif /* !(defined  _GNU_SOURCE || defined(HAVE_STRNDUP)) || defined (_WIN32) */
 }
 
 /* Replace every occurence of 'old' with 'new' in the string 's'

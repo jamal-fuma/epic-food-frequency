@@ -324,7 +324,7 @@ const int radix = 10;
     return (((intptr_t)(pend - buf)) > INT_MAX) ?  INT_MAX :
         ((int)(pend - buf)) ;
 }
-#endif /* ! defined(ULLONG_MAX) */
+#endif /* ndef ULLONG_MAX */
 
 /* Converts a substring to its unsigned integer representation
  * Returns -1 on error setting errno
@@ -430,6 +430,7 @@ utility_sntoui32(uint32_t *pdest,const char *s,int len)
 	return utility_sntoui_n((unsigned int *)pdest,UINT32_MAX,s,len);
 }
 
+#ifdef ULLONG_MAX
 /* Converts a substring to its unsigned integer representation
  * Returns -1 on error setting errno
  * Returns number of unconverted chars on success with numeric value stored in pdest
@@ -442,6 +443,8 @@ utility_sntoui64(uint64_t *pdest,const char *s,int len)
 {
 	return utility_sntoul_n(pdest,UINT64_MAX,s,len);
 }
+#endif
+
 /* Converts a string to its unsigned integer representation
  * Returns -1 on error setting errno
  * Returns number of unconverted chars on success with numeric value stored in pdest
@@ -484,6 +487,7 @@ utility_stoui32(uint32_t *pdest,const char *s)
 	return (!s) ? -1 : utility_sntoui32(pdest,s,strlen(s));
 }
 
+#ifdef ULLONG_MAX
 /* Converts a string to its unsigned integer representation
  * Returns -1 on error setting errno
  * Returns number of unconverted chars on success with numeric value stored in pdest
@@ -497,6 +501,8 @@ utility_stoui64(uint64_t *pdest,const char *s)
 	errno = EINVAL;
 	return (!s) ? -1 : utility_sntoui64(pdest,s,strlen(s));
 }
+
+#endif
 
 /* Converts a substring to its integer representation
  * Returns -1 on error setting errno
