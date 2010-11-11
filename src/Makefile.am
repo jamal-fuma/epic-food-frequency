@@ -28,6 +28,7 @@ libEpic_la_SOURCES = \
                 $(top_srcdir)/include/conversion/Conversion.hpp  \
                  $(top_srcdir)/include/Epic.hpp  \
                    \
+                   $(top_srcdir)/include/import/MilkTypes.hpp  \
                    $(top_srcdir)/include/import/CerealTypes.hpp  \
                    $(top_srcdir)/include/import/Weight.hpp  \
                    $(top_srcdir)/include/import/Group.hpp  \
@@ -48,8 +49,6 @@ libEpic_la_SOURCES = \
                    \
                    $(top_srcdir)/include/client/Record.hpp  \
                    $(top_srcdir)/include/client/Version.hpp  \
-                   $(top_srcdir)/include/client/Options.hpp  \
-                   $(top_srcdir)/include/client/Client.hpp  \
                    $(top_srcdir)/include/client/Application.hpp  \
                    \
                    $(top_srcdir)/include/dataset/IngredientStatement.hpp  \
@@ -71,6 +70,8 @@ libEpic_la_SOURCES = \
                    $(top_srcdir)/include/dataset/Schema.hpp  \
                    $(top_srcdir)/include/dataset/RespondentStatement.hpp  \
                    $(top_srcdir)/include/dataset/Report.hpp  \
+                   $(top_srcdir)/include/dataset/CerealTypesStatement.hpp  \
+                   $(top_srcdir)/include/dataset/MilkTypesStatement.hpp  \
                    \
                    $(top_srcdir)/include/pattern/TwoKeyMap.hpp  \
                    $(top_srcdir)/include/pattern/Singleton.hpp  \
@@ -80,11 +81,11 @@ libEpic_la_SOURCES = \
                    $(top_srcdir)/include/config/Quantity.hpp  \
                    $(top_srcdir)/include/config/Global.hpp  \
                    $(top_srcdir)/include/config/Reader.hpp  \
+                   $(top_srcdir)/include/config/Resource.hpp  \
                    \
                    $(top_srcdir)/include/license/License.hpp  \
                    \
                    $(top_srcdir)/include/cmdline/Parser.hpp  \
-                   $(top_srcdir)/include/cmdline/Option.hpp  \
             \
 	$(top_srcdir)/include/boost/lexical_cast.hpp \
 	$(top_srcdir)/include/boost/preprocessor/iterate.hpp \
