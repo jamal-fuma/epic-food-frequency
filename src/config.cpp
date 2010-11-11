@@ -40,10 +40,11 @@ bool Epic::Config::find(const std::string & key, std::string & dest)
         if(!ret)
         {
             std::ostringstream ss;
-            ss << "Config file lacks value for '" << "schema" "'\n" ;
+            ss << "Config file lacks value for '" << key << "'\n" ;
             Epic::Logging::error(ss.str());
             return false;
         }
+        return ret;
     }
     catch(...)
     {
@@ -72,10 +73,11 @@ bool Epic::Config::Field::find(const std::string & key, std::string & dest)
         if(!ret)
         {
             std::ostringstream ss;
-            ss << "Config file lacks value for '" << "schema" "'\n" ;
+            ss << "Config file lacks value for '" << key << "'\n" ;
             Epic::Logging::error(ss.str());
             return false;
         }
+        return ret;
     }
     catch(...)
     {
@@ -101,13 +103,13 @@ bool Epic::Config::Quantity::find(const std::string & key, std::string & dest)
     try
     {
         bool ret = Epic::Pattern::Singleton< Quantity::QuantityConfig >::instance().find(key,dest);
-        if(!ret)
+        if(ret)
         {
             std::ostringstream ss;
-            ss << "Config file lacks value for '" << "schema" "'\n" ;
-            Epic::Logging::error(ss.str());
-            return false;
+            ss << "Mapped value for '" << key << "' as " << dest << "\n" ;
+            Epic::Logging::note(ss.str());
         }
+        return ret;
     }
     catch(...)
     {

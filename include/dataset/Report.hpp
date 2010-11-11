@@ -20,21 +20,21 @@ namespace Epic
             bool
             respondents(std::ostream & out)
             {
-                Database::PreparedStatement sql ("select reference,id from respondents");
+                Database::Statement sql ("select reference,id from respondents");
 
                 int rc; 
                 for( rc = sql.step(); (SQLITE_ROW == rc); rc = sql.step() )
                 {
-                    std::string     reference = sql.column_text(0);
-                    sqlite3_int64   ref_id    = sql.column_int(1);
-                    out << reference << " " << ref_id << std::endl;
-        //            response(out,sql);
+             //       std::string     reference = sql.column_text(0);
+            //        sqlite3_int64   ref_id    = sql.column_int(1);
+       //             out << reference << " " << ref_id << std::endl;
+                    response(out,sql);
                 }
                 return (SQLITE_DONE == rc);
             }
 
             void
-            response(std::ostream & out, Database::PreparedStatement & sql)
+            response(std::ostream & out, Database::Statement & sql)
             {
                 // grab each respondent in turn
                 std::string     reference = sql.column_text(0);
