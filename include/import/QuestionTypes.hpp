@@ -31,32 +31,10 @@ namespace Epic
             // header
             bool operator()(str_vector_t & v)
             {
-                // sufficent fields for format
-                if(v.size() < QuestionType::fields)
-                {
-                    std::cerr << "Unexpected number of fields in question types import file";
-                    std::cerr << " expected at least " << QuestionType::fields;
-                    std::cerr << " got " << v.size() << " fields" << std::endl;
-                    return false;
-                }
-
-
-                if(v[0] != "ID")
-                {
-                    std::cerr << "Unexpected field in question types import file";
-                    std::cerr << " expected first field to be 'ID' ";
-                    std::cerr << " got '" << v[0] << "'" << std::endl;
-                    return false;
-                }
-        
-                if(v[1] != "TITLE")
-                {
-                    std::cerr << "Unexpected field in question types import file";
-                    std::cerr << " expected second field to be 'VALUE' ";
-                    std::cerr << " got '" << v[1] << "'" << std::endl;
-                    return false;
-                }
-                return true;
+                str_vector_t expected;
+                expected.push_back("ID");
+                expected.push_back("TITLE");
+                return Epic::Import::DBModel::same_header("question_types",expected,v);
             }
 
             // data lines

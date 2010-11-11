@@ -30,48 +30,12 @@ namespace Epic
             // header
             bool operator()(str_vector_t & v)
             {
-                // sufficent fields for format
-                if(v.size() != CerealTypes::fields)
-                {
-                    std::cerr << "Unexpected number of fields in cereal types import file";
-                    std::cerr << " expected at least " << CerealTypes::fields;
-                    std::cerr << " got " << v.size() << " fields" << std::endl;
-                    return false;
-                }
-
-                if(v[0] != "CODE")
-                {
-                    std::cerr << "Unexpected field in cereal types import file";
-                    std::cerr << " expected first field to be 'CODE' ";
-                    std::cerr << " got '" << v[0] << "'" << std::endl;
-                    return false;
-                }
-        
-                if(v[1] != "FOOD_CODE")
-                {
-                    std::cerr << "Unexpected field in cereal types import file";
-                    std::cerr << " expected second field to be 'FOOD_CODE' ";
-                    std::cerr << " got '" << v[1] << "'" << std::endl;
-                    return false;
-                }
-        
-                if(v[2] != "DESC")
-                {
-                    std::cerr << "Unexpected field in cereal types import file";
-                    std::cerr << " expected third field to be 'DESC' ";
-                    std::cerr << " got '" << v[2] << "'" << std::endl;
-                    return false;
-                }
-        
-                if(v[3] != "WEIGHT")
-                {
-                    std::cerr << "Unexpected field in cereal types import file";
-                    std::cerr << " expected fourth field to be 'WEIGHT' ";
-                    std::cerr << " got '" << v[3] << "'" << std::endl;
-                    return false;
-                }
-
-                return true;
+                str_vector_t expected;
+                expected.push_back("CODE");
+                expected.push_back("FOOD_CODE");
+                expected.push_back("DESC");
+                expected.push_back("WEIGHT");
+                return Epic::Import::DBModel::same_header("cereal_types",expected,v);
             }
 
             // data lines

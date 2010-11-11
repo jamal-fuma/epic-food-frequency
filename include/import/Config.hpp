@@ -59,32 +59,10 @@ namespace Epic
             // header
             bool operator()(str_vector_t & v)
             {
-                // sufficent fields for format
-                if(v.size() < Config::fields)
-                {
-                    std::cerr << "Unexpected number of fields in config file";
-                    std::cerr << " expected at least " << Config::fields;
-                    std::cerr << " got " << v.size() << " fields" << std::endl;
-                    return false;
-                }
-
-
-                if(v[0] != "NAME")
-                {
-                    std::cerr << "Unexpected field in config file";
-                    std::cerr << " expected first field to be 'NAME' ";
-                    std::cerr << " got '" << v[0] << "'" << std::endl;
-                    return false;
-                }
-        
-                if(v[1] != "VALUE")
-                {
-                    std::cerr << "Unexpected field in config file";
-                    std::cerr << " expected second field to be 'VALUE' ";
-                    std::cerr << " got '" << v[1] << "'" << std::endl;
-                    return false;
-                }
-                return true;
+                str_vector_t expected;
+                expected.push_back("NAME");
+                expected.push_back("VALUE");
+                return Epic::Import::DBModel::same_header("config",expected,v);
             }
 
             // data lines

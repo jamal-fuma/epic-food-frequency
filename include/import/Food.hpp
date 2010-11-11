@@ -34,39 +34,11 @@ namespace Epic
             // header
             bool operator()(str_vector_t & v)
             {
-                // sufficent fields for format
-                if(v.size() < Food::fields)
-                {
-                    std::cerr << "Unexpected number of fields in foods import file";
-                    std::cerr << " expected at least " << Food::fields;
-                    std::cerr << " got " << v.size() << " fields" << std::endl;
-                    return false;
-                }
-
-                if(v[0] != "FOOD_CODE")
-                {
-                    std::cerr << "Unexpected field in foods import file";
-                    std::cerr << " expected first field to be 'FOOD_CODE' ";
-                    std::cerr << " got '" << v[0] << "'" << std::endl;
-                    return false;
-                }
-        
-                if(v[1] != "NUTRIENT")
-                {
-                    std::cerr << "Unexpected field in foods import file";
-                    std::cerr << " expected second field to be 'NUTRIENT' ";
-                    std::cerr << " got '" << v[1] << "'" << std::endl;
-                    return false;
-                }
-
-                if(v[2] != "QUANTITY")
-                {
-                    std::cerr << "Unexpected field in foods import file";
-                    std::cerr << " expected third field to be 'QUANTITY' ";
-                    std::cerr << " got '" << v[2] << "'" << std::endl;
-                    return false;
-                }
-                return true;
+                str_vector_t expected;
+                expected.push_back("FOOD_CODE");
+                expected.push_back("NUTRIENT");
+                expected.push_back("QUANTITY");
+                return Epic::Import::DBModel::same_header("foods",expected,v);
             }
 
             // data lines
