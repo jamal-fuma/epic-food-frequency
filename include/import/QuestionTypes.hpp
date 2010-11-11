@@ -16,17 +16,10 @@ namespace Epic
 
         struct QuestionTypeData
         {
-            Database::DBConnection                  & m_db;
-            Database::QuestionTypesInsertStatement  m_statement; 
             Database::Transaction                   m_transaction;
+            Database::QuestionTypesInsertStatement  m_statement; 
 
-            QuestionTypeData(Database::DBConnection & db) :
-                m_db(db), 
-                m_statement(db),
-                m_transaction(db)
-            {
-                
-            }
+            QuestionTypeData() { }
 
             bool
             operator()(std::string & error_message)

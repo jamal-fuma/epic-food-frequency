@@ -1,40 +1,60 @@
 #ifndef EPIC_CONFIG_GLOBAL_HPP
 #define EPIC_CONFIG_GLOBAL_HPP
 
-#include "../include/pattern/Singleton.hpp"
-#include "../include/config/Reader.hpp"
+#include "pattern/Singleton.hpp"
+#include "config/Reader.hpp"
 #include <stdexcept>
+#include <sstream>
 
 namespace Epic
 {
     namespace Config
     {
-        class Global
-        {
-                std::map<std::string,std::string> & m_params;
-         public:
-                typedef std::map<std::string,std::string> value_type;
-                typedef value_type::const_iterator const_iterator;
+      class Config
+      {
+            std::map<std::string,std::string> m_params;
 
-                Global() :
-                    m_params(Epic::Pattern::Singleton< std::map<std::string,std::string> >::instance())
-                {
-                }
+            public:
+                Config() {}
 
-                // should only be called once
-                void load(const std::string & filename)
-                {
-                    Epic::Config::Reader rdr(filename);
-                    if(!rdr.load(m_params))
-                        throw std::runtime_error("failed to load configuration from " + filename);
-                }
-
-                static
-                value_type & config()
-                {
-                    return Epic::Pattern::Singleton< std::map<std::string,std::string> >::instance();
-                }
+                bool find(const std::string & key, std::string & dest);
+               
+                void load(const std::string & filename) ;
+           
         };
+        
+        bool load(const std::string & filename);
+      
+        bool find(const std::string & key, std::string & dest);
+       
+
+        namespace Field
+        {
+            class FieldConfig : public Config
+            {
+                public:
+                    FieldConfig(){}
+            };
+
+            bool load(const std::string & filename);
+
+            bool find(const std::string & key, std::string & dest);
+
+        } // Epic::Config::Field
+
+        namespace Quantity
+        {
+            class QuantityConfig : public Config
+            {
+                public:
+                    QuantityConfig (){}
+            };
+
+            bool load(const std::string & filename);
+
+            bool find(const std::string & key, std::string & dest);
+        } // Epic::Config::Quantity 
+
     } // Epic::Config
 } // Epic
 #endif /*ndef EPIC_CONFIG_GLOBAL_HPP */

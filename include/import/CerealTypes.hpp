@@ -15,17 +15,10 @@ namespace Epic
 
         struct CerealTypesData
         {
-            Database::DBConnection                  &   m_db;
-            Database::CerealTypeInsertStatement         m_statement; 
             Database::Transaction                       m_transaction;
+            Database::CerealTypeInsertStatement         m_statement; 
 
-            CerealTypesData(Database::DBConnection & db) :
-                m_db(db), 
-                m_statement(db),
-                m_transaction(m_db)
-            {
-                
-            }
+            CerealTypesData() { }
 
             bool
             operator()(std::string & error_message)

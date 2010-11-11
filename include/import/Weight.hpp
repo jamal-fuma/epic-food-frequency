@@ -15,17 +15,10 @@ namespace Epic
 
         struct WeightData
         {
-            Database::DBConnection            & m_db;
             Database::WeightInsertStatement     m_statement; 
             Database::Transaction               m_transaction;
 
-            WeightData(Database::DBConnection & db) :
-                m_db(db), 
-                m_statement(db),
-                m_transaction(m_db)
-            {
-                
-            }
+            WeightData() { }
 
             bool
             operator()(std::string & error_message)

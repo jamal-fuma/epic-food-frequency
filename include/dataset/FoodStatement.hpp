@@ -6,46 +6,20 @@ namespace Epic
 {
     namespace Database
     {
-        class FoodInsertStatement
+        class FoodInsertStatement : public PreparedStatement
         {
-            bool      m_bound;
-            Statement m_sql;
-
         public:
-            FoodInsertStatement(DBConnection & db) : 
-                m_bound(false),
-                m_sql(db,"INSERT INTO foods (code,nutrient,amount) VALUES (?,?,?) ;")
+            FoodInsertStatement() :
+                PreparedStatement("INSERT INTO foods (code,nutrient,amount) VALUES (?,?,?) ;")
             {
             }
 
             void
-            bind(const std::string & food_code, long nutrient_code, double quantity)
+            bind(const std::string & food_code, sqlite3_int64 nutrient_code, double quantity)
             {
-		sqlite3_bind_text(m_sql,1,food_code.c_str(),food_code.size(),SQLITE_STATIC);
-		sqlite3_bind_int(m_sql,2,nutrient_code);
-		sqlite3_bind_double(m_sql,3,quantity);
-                m_bound = true;
-            }
-
-            bool
-            step()
-            {
-                if(!m_bound)
-                {
-                    throw std::runtime_error("Need to bind statement prior to exec");
-                }
-
-	        return (SQLITE_DONE == sqlite3_step(m_sql));
-            }
-
-            void
-            reset()
-            {
-                if(m_bound)
-                {
-                    m_sql.reset();
-                    m_bound = false;
-                }
+	        bind_text(1,food_code);
+	        bind_int(2,nutrient_code);
+                bind_double(3,quantity);
             }
         };
 

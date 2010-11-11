@@ -96,14 +96,13 @@ namespace Epic
 
         struct Nutrient {
             sqlite3_int64 m_id;
-            std::string m_name;
             sqlite3_int64 m_code;
             std::string m_description;
             std::string m_units;
 
             Nutrient() {}
             Nutrient(sqlite3_int64 id, const std::string & name, sqlite3_int64 code, const std::string & description, const std::string & units) : 
-                m_id(id), m_name(name),  m_code(code), m_description(description), m_units(units) {}
+                m_id(id), m_code(code), m_description(description), m_units(units) {}
 
         };
 

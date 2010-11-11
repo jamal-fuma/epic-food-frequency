@@ -28,13 +28,11 @@ Epic::Import::QuestionaireDataModel::header(str_vector_t & v)
 
 		// group is being assigned here
         m_qs.bind(1,*it);
-
-
-		m_qs.step();
+	m_qs.step();
         m_qs.reset();
 
 
-        question_ids_by_pos[pos] = sqlite3_last_insert_rowid( this->database() ) ;
+        question_ids_by_pos[pos] = Epic::Database::last_insert_id() ;
     }
 
 

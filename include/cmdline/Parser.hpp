@@ -7,12 +7,25 @@
 #include <sstream>      // ostringstream
 #include <stdio.h>
 #include <iomanip>      //setw and friends
-#include "cmdline/Option.hpp"
 
 namespace Epic
 {
     namespace CmdLine
     {
+       struct Argument
+        {
+            std::string m_name;
+            std::string m_value;
+        };
+
+        struct Option
+        {
+            std::string m_id;
+            std::string m_long_opt;
+            int         m_short_opt;
+            bool        m_has_value;
+        };
+
         class Parser
         {
         public:

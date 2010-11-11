@@ -15,17 +15,10 @@ namespace Epic
 
         struct IngredientData
         {
-            Database::DBConnection                  & m_db;
-            Database::IngredientInsertStatement     m_statement; 
             Database::Transaction                   m_transaction;
+            Database::IngredientInsertStatement     m_statement; 
 
-           IngredientData(Database::DBConnection & db) :
-                m_db(db), 
-                m_statement(db),
-                m_transaction(m_db)
-            {
-                
-            }
+            IngredientData() { }
 
             bool
             operator()(std::string & error_message)

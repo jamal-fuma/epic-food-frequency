@@ -1,10 +1,10 @@
 #ifndef EPIC_DATABASE_HPP
 #define EPIC_DATABASE_HPP
 
-#include "libUtility.h"
-#include "Utility_internal.h"
+#include "sqlite3.h"
 #include <string>
 #include <stdexcept>
+
 namespace Epic
 {
     namespace Database
@@ -12,57 +12,68 @@ namespace Epic
         class DBConnection
         {
             public:
-                DBConnection(const std::string & filename)
+                DBConnection() : m_created(false),m_connected(false),m_db(NULL) {}
+                
+                void connect(const std::string & filename);
+                void disconnect();
+               
+                sqlite3* database() const
                 {
-                    if(SQLITE_OK != sqlite3_open(filename.c_str(), &m_db))
-                    {
-                        sqlite3_close(m_db);
-                        m_db = NULL;
-                        throw std::runtime_error("Could not connect to database");
-                    }
-                }
+                    if(m_connected)
+                        return m_db;
 
-                operator sqlite3* () const
-                {
-                    return m_db;
+                    throw std::runtime_error("Database not connected");
                 }
 
                 ~DBConnection()
                 {
-                    if(m_db)
-                    {
-                        sqlite3_close(m_db);
-                    }
-                    m_db = NULL;
+                    disconnect();
                 }
-            private:
+
+                bool created() 
+                { 
+                    return m_created; 
+                }
+
+                void exec( const std::string & sql);
+                
+                void prepare(const std::string & sql, sqlite3_stmt **p_statement);
+
+             private:
                 sqlite3 *m_db;
+                bool m_created;
+                bool m_connected;
         };
+        
+        // wrappers for the db singleton
+        bool connect();
+        bool created();
+        int execute( const std::string & sql);
+        void prepare( const std::string & sql,sqlite3_stmt **p_statement);
+
+        sqlite3_int64 last_insert_id();
 
         class Transaction
         {
-            DBConnection & m_db;
             bool           m_commited;
-            public:
-            Transaction(DBConnection & db) : m_db(db),m_commited(false)
+        public:
+            Transaction() : m_commited(false)
             {
-	        if(SQLITE_OK != sqlite3_exec(m_db,"BEGIN TRANSACTION;",NULL,0,NULL))
-                    throw std::runtime_error("Couldn't begin transaction");
+                Epic::Database::execute("BEGIN TRANSACTION;");
             }
             
             bool
             commit()
             {
-	        m_commited = (SQLITE_OK == sqlite3_exec(m_db,"COMMIT;",NULL,0,NULL));
+	        m_commited = (SQLITE_OK == Epic::Database::execute("COMMIT;"));
 	        return (m_commited);
             }
 
             ~Transaction()
             {
                 if(!m_commited)
-		    sqlite3_exec(m_db,"ROLLBACK;",NULL,0,NULL);
+                    Epic::Database::execute("ROLLBACK;");
             }
-
         };
     } // Epic::Database
     

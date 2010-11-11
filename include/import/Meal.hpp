@@ -16,17 +16,10 @@ namespace Epic
 
         struct MealData
         {
-            Database::DBConnection            & m_db;
-            Database::MealInsertStatement       m_statement; 
             Database::Transaction               m_transaction;
+            Database::MealInsertStatement       m_statement; 
 
-            MealData(Database::DBConnection & db) :
-                m_db(db), 
-                m_statement(db),
-                m_transaction(m_db)
-            {
-                
-            }
+            MealData() { }
 
             bool
             operator()(std::string & error_message)

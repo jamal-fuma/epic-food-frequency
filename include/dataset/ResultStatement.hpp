@@ -1,8 +1,8 @@
 #ifndef EPIC_DATABASE_RESULTS_QUERY_STATEMENT_HPP
 #define EPIC_DATABASE_RESULTS_QUERY_STATEMENT_HPP
 
-#include "../include/import/Import.hpp"
-#include "../include/dataset/Statement.hpp"
+#include "import/Import.hpp"
+#include "dataset/Statement.hpp"
 namespace Epic
 {
     namespace Database
@@ -40,14 +40,11 @@ namespace Epic
         };
 
 
-        class ResultQueryStatement
+        class ResultQueryStatement : public PreparedStatement
         {
-            bool      m_bound;
-            Statement m_sql;
         public:
-            ResultQueryStatement(DBConnection & db) : 
-                m_bound(false),
-	        m_sql(db,
+            ResultQueryStatement() : 
+	        PreparedStatement(
 "SELECT meals.line       AS FFQ_LINE,"
 "ingredients.food        AS FOOD_CODE,"
 "nutrients.code          AS NUTRIENT_CODE,"
@@ -66,38 +63,22 @@ namespace Epic
             void
             bind(sqlite3_int64 respondent)
             {
-               	sqlite3_bind_int64(m_sql, 1, respondent);
-                m_bound = true;
+                bind_int(1,respondent);
             }
 
             int
             step(ResultSet & dest)
             {
-                if(!m_bound)
-                {
-                    throw std::runtime_error("Need to bind statement prior to exec");
-                }
-
-	        int rc = sqlite3_step(m_sql);
+	        int rc = Epic::Database::PreparedStatement::step();
                 if(SQLITE_ROW == rc)
                 {
                     dest.m_columns.clear();
-                    dest.m_columns.push_back(reinterpret_cast<const char *>(sqlite3_column_text(m_sql,0) ));
-                    dest.m_columns.push_back(reinterpret_cast<const char *>(sqlite3_column_text(m_sql,1)  ));
-                    dest.m_columns.push_back(reinterpret_cast<const char *>(sqlite3_column_text(m_sql,2)));
-                    dest.m_columns.push_back(reinterpret_cast<const char *>(sqlite3_column_text(m_sql,3)));
+                    dest.m_columns.push_back(column_text(0));
+                    dest.m_columns.push_back(column_text(1));
+                    dest.m_columns.push_back(column_text(2));
+                    dest.m_columns.push_back(column_text(3));
                 }
                 return rc;
-            }
-
-            void
-            reset()
-            {
-                if(m_bound)
-                {
-                    m_sql.reset();
-                    m_bound = false;
-                }
             }
         };
 

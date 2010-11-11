@@ -15,15 +15,11 @@ namespace Epic
 
         struct FoodData
         {
-            Database::DBConnection            & m_db;
+            Database::Transaction               m_transaction;
             Database::FoodInsertStatement       m_statement;
             std::map < std::string, sqlite3_int64 > m_code_to_id; 
-            Database::Transaction               m_transaction;
 
-            FoodData(Database::DBConnection & db) :
-                m_db(db), 
-                m_statement(db),
-                m_transaction(m_db)
+            FoodData()
             {
                 
             }

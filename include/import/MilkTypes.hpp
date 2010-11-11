@@ -15,17 +15,10 @@ namespace Epic
 
         struct MilkTypesData
         {
-            Database::DBConnection                  &   m_db;
-            Database::MilkTypeInsertStatement         m_statement; 
             Database::Transaction                       m_transaction;
+            Database::MilkTypeInsertStatement         m_statement; 
 
-            MilkTypesData(Database::DBConnection & db) :
-                m_db(db), 
-                m_statement(db),
-                m_transaction(m_db)
-            {
-                
-            }
+            MilkTypesData() {} 
 
             bool
             operator()(std::string & error_message)

@@ -5,7 +5,7 @@
 
 #include <string>
 #include <map>
-#include "config/Quantity.hpp"
+#include "config/Global.hpp"
 
 namespace Epic
 {
@@ -56,33 +56,6 @@ namespace Epic
             }
         };
 
-/* we don't use this any more as we now have a reasonable looking
- * import file for nutrient codes rather the kludge of codes as field names
- * across the top*/
-#if(0)
-        struct NutrientCode 
-        {
-            long m_code;
-            bool m_valid;
-
-            NutrientCode(const std::string & s) : m_code(-1L), m_valid(false)
-            {
-                size_t pos  = s.find("NUT");
-                if(pos != std::string::npos)
-                {
-                    std::string code(s.substr(pos+3));
-                    IntegerString is(code);
-                    m_code = is;
-                    m_valid = true;
-                }
-            }
-
-            operator long() const
-            {
-                return m_code; 
-            }
-        };
-#endif
         /* this attempts to paper over the usage of a quantity as 
          * a code */
         struct NutrientQuantity 
@@ -91,8 +64,7 @@ namespace Epic
             bool m_valid;
 
             NutrientQuantity(const std::string & s) : 
-                m_valid(false),
-                m_config_map( Epic::Config::Quantity::config())
+                m_valid(false)
             {
                 std::string s_val(s);
 
@@ -102,26 +74,28 @@ namespace Epic
                 //
                 // Esentially if the value is an exact match in the config file we use it's
                 // configured value otherwise we decode the literal symbol
-                Epic::Config::Quantity::const_iterator it = m_config_map.find(s);
-                if(it != m_config_map.end())
+                if(Epic::Config::Quantity::find(s,s_val))
                 {
-                    s_val = it->second; /* this might well be dodgy data */
+                    // delegate the conversion proper ie. checking it's actually some
+                    // sort of number to DecimalString's implementation
+                    DecimalString ds(s_val);
+                    m_value = ds;
+                    m_valid = ds.m_valid;
                 }
-
-                // delegate the conversion proper ie. checking it's actually some
-                // sort of number to DecimalString's implementation
-                DecimalString ds(s_val);
-                m_value = ds;
-                m_valid = ds.m_valid;
+                else
+                {
+                    // delegate the conversion proper ie. checking it's actually some
+                    // sort of number to DecimalString's implementation
+                    DecimalString ds(s_val);
+                    m_value = ds;
+                    m_valid = ds.m_valid;
+                }
             }
 
             operator double() const
             {
                 return m_value; 
             }
-
-            private:
-                Epic::Config::Quantity::value_type & m_config_map;
         };
 
     } // Epic::Conversion

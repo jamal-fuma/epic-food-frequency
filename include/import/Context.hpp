@@ -1,7 +1,10 @@
 #ifndef EPIC_IMPORT_CONTEXT_HPP
 #define EPIC_IMPORT_CONTEXT_HPP
 
-#include "../include/import/Parser.hpp"
+#include "import/Parser.hpp"
+#include <map>
+#include <ostream>
+#include <sstream>
 
 #include <stddef.h>
 #include <string.h>

@@ -16,17 +16,10 @@ namespace Epic
 
         struct FrequencyData
         {
-            Database::DBConnection            & m_db;
-            Database::FrequencyInsertStatement  m_statement; 
             Database::Transaction               m_transaction;
+            Database::FrequencyInsertStatement  m_statement; 
 
-            FrequencyData(Database::DBConnection & db) :
-                m_db(db), 
-                m_statement(db),
-                m_transaction(m_db)
-            {
-                
-            }
+            FrequencyData() { }
 
             bool
             operator()(std::string & error_message)

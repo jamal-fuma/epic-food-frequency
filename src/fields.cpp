@@ -4,11 +4,11 @@ bool
 Epic::Import::QuestionaireDataModel::body(size_t line, str_vector_t & v)
 {
     // new line, means we have a respondant ID
-    m_respondent.bind(m_questionaire_id,v.at(pos_by_field["ID"]));
+    m_respondent.bind(v.at(pos_by_field["ID"]));
     m_respondent.step();
     m_respondent.reset();
 
-    sqlite3_int64 respondent_id = sqlite3_last_insert_rowid(m_db);
+    sqlite3_int64 respondent_id = Epic::Database::last_insert_id();
 
     // insert {respondent, field name, field value} triplets
     str_vector_t::size_type end = v.size();

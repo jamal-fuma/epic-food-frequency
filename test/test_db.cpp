@@ -3,8 +3,8 @@
 #include "dataset/Statement.hpp"
 #include <iostream>
 
-bool
-load_string( const std::string & filename, std::string & dest);
+#include "config/Global.hpp"
+#include "config/Resource.hpp"
 
 int
 main(int argc, char **argv)
@@ -31,64 +31,23 @@ main(int argc, char **argv)
         return EXIT_FAILURE;
     }
     
+    std::string data;
     if(args.find("input") != args.end())
     {
-            std::string data;
-            if(!load_string(args["input"],data))
-            {
-                std::cerr << "unable to load data from input file " << std::endl;
-                return EXIT_FAILURE;
-            }
-
-            std::ofstream file("test.txt");
-            if(!file.is_open())
-            {
-                std::cerr << "unable to open ouput file " << std::endl;
-                return EXIT_FAILURE;
-            }
- 
-            file << data;
-            file.close();
-
-            std::cout << data;
-#if(0)
-            Epic::Database::DBConnection db ("nutrients.db");
-            Epic::Database::Statement m_sql (db,str);
-            
-            // walk over the responses
-            int rc = sqlite3_step(m_sql); 
-
-            for( ; (SQLITE_ROW == rc); rc = sqlite3_step(m_sql) )
-            {
-                sqlite3_int64   id         = sqlite3_column_int64(m_sql,0);
-                std::string     reference  = reinterpret_cast<const char *>(sqlite3_column_text(m_sql,1) );
-                std::string     group      = reinterpret_cast<const char *>(sqlite3_column_text(m_sql,2) );
-                std::string     title      = reinterpret_cast<const char *>(sqlite3_column_text(m_sql,3) );
-                std::string     response   = reinterpret_cast<const char *>(sqlite3_column_text(m_sql,4) );
-            }
-#endif
-
+        Epic::Config::Resource::load(args["input"],data);
+        std::cout << "loaded from file: " << data << std::endl;
     }
 
+    if(args.find("config") != args.end())
+    {
+        Epic::Config::load(args["config"]);
+    }
+    
+    if(Epic::Config::find("tst",data))
+        std::cout << "loaded from config: " << data << std::endl;
+
+ //   Import::NutrientData importer(db);
+  //  Import::load(value,importer);
     return 0;
-
-}
-
-bool
-load_string( const std::string & filename, std::string & dest)
-{
-    size_t sz=0;
-    char *errmsg=NULL;
-    void *data = utility_slurp_with_sz(&sz,filename.c_str());
-    if(!data)
-        return false;
-
-    std::string str (static_cast<char *>(data),sz);
-    free(data);
-    data = NULL;
-
-    dest.clear();
-    dest.assign(str);
-    return true;
 }
 

@@ -16,14 +16,10 @@ namespace Epic
 
         struct NutrientData
         {
-            Database::DBConnection            & m_db;
             Database::NutrientInsertStatement   m_ns; 
             Database::Transaction               m_transaction;
 
-            NutrientData(Database::DBConnection & db) :
-                m_db(db), 
-                m_ns(db),
-                m_transaction(m_db)
+            NutrientData()
             {
                 
             }
@@ -38,6 +34,7 @@ namespace Epic
             // header
             bool operator()(str_vector_t & v)
             {
+            #if(0)
                 // sufficent fields for format
                 if(v.size() < Nutrient::fields)
                 {
@@ -72,6 +69,13 @@ namespace Epic
                     return false;
                 }
                 return true;
+            #endif
+
+                str_vector_t expected;
+                expected.push_back("CODE");
+                expected.push_back("DESCRIPTION");
+                expected.push_back("UNITS");
+                return Epic::Import::DBModel::same_header("nutrients",expected,v);
             }
 
             // data lines

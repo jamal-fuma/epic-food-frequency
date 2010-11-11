@@ -6,45 +6,17 @@ namespace Epic
 {
     namespace Database
     {
-        class GroupInsertStatement
+        class GroupInsertStatement : public PreparedStatement
         {
-            bool      m_bound;
-            Statement m_sql;
-
         public:
-            GroupInsertStatement(DBConnection & db) : 
-                m_bound(false),
-                m_sql(db,"INSERT INTO groups (code,description) VALUES (?,?) ;")
-            {
-            }
+            GroupInsertStatement() : 
+                PreparedStatement("INSERT INTO groups (code,description) VALUES (?,?) ;") { }
 
             void
-            bind(long code,const std::string & group )
+            bind(sqlite3_int64 code,const std::string & group )
             {
-		sqlite3_bind_int(m_sql,1,code);
-		sqlite3_bind_text(m_sql,2,group.c_str(),group.size(),SQLITE_STATIC);
-                m_bound = true;
-            }
-
-            bool
-            step()
-            {
-                if(!m_bound)
-                {
-                    throw std::runtime_error("Need to bind statement prior to exec");
-                }
-
-	        return (SQLITE_DONE == sqlite3_step(m_sql));
-            }
-
-            void
-            reset()
-            {
-                if(m_bound)
-                {
-                    m_sql.reset();
-                    m_bound = false;
-                }
+                bind_int(1,code);
+                bind_text(2,group);
             }
         };
 

@@ -1,7 +1,7 @@
 #ifndef EPIC_DATABASE_REPORT_HPP
 #define EPIC_DATABASE_REPORT_HPP
 
-#include "../include/dataset/ResultStatement.hpp"
+#include "dataset/ResultStatement.hpp"
 namespace Epic
 {
     namespace Database
@@ -10,11 +10,9 @@ namespace Epic
         {
             Database::ResultQueryStatement        m_result;
             Database::ResultSet                   m_rs;
-            Database::DBConnection &              m_db;
             
             public:
-                Report(Database::DBConnection & db) :
-                    m_result(db),m_db(db) { }
+                Report() {}
 
             bool
             list(std::ostream & out);
@@ -22,13 +20,13 @@ namespace Epic
             bool
             respondents(std::ostream & out)
             {
-                Database::Statement sql (m_db,"select reference,id from respondents");
+                Database::PreparedStatement sql ("select reference,id from respondents");
 
-                int rc = sqlite3_step(sql); 
-                for( ; (SQLITE_ROW == rc); rc = sqlite3_step(sql) )
+                int rc; 
+                for( rc = sql.step(); (SQLITE_ROW == rc); rc = sql.step() )
                 {
-                    std::string     reference = reinterpret_cast<const char *>(sqlite3_column_text(sql,0) );
-                    sqlite3_int64   ref_id    = sqlite3_column_int64(sql,1);
+                    std::string     reference = sql.column_text(0);
+                    sqlite3_int64   ref_id    = sql.column_int(1);
                     out << reference << " " << ref_id << std::endl;
         //            response(out,sql);
                 }
@@ -36,11 +34,12 @@ namespace Epic
             }
 
             void
-            response(std::ostream & out, Database::Statement & sql)
+            response(std::ostream & out, Database::PreparedStatement & sql)
             {
                 // grab each respondent in turn
-                std::string     reference = reinterpret_cast<const char *>(sqlite3_column_text(sql,0) );
-                sqlite3_int64   ref_id    = sqlite3_column_int64(sql,1);
+                std::string     reference = sql.column_text(0);
+                sqlite3_int64   ref_id    = sql.column_int(1);
+
                 // handle responses for this respondent
                 m_result.bind(ref_id);
                 int rc;

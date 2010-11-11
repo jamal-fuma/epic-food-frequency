@@ -1292,6 +1292,9 @@ libEpic_la_SOURCES = \
 	$(top_srcdir)/include/boost/aligned_storage.hpp \
                                         \
                    application.cpp      \
+                   database.cpp      	\
+                   config.cpp      	\
+                   logger.cpp      	\
                    questionaire.cpp     \
                    fields.cpp           \
                    report.cpp           \

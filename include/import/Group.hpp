@@ -15,17 +15,10 @@ namespace Epic
 
         struct GroupData
         {
-            Database::DBConnection            & m_db;
+            Database::Transaction           m_transaction;
             Database::GroupInsertStatement  m_statement; 
-            Database::Transaction               m_transaction;
 
-            GroupData(Database::DBConnection & db) :
-                m_db(db), 
-                m_statement(db),
-                m_transaction(m_db)
-            {
-                
-            }
+            GroupData() { }
 
             bool
             operator()(std::string & error_message)

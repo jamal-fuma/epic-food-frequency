@@ -1,7 +1,8 @@
 ACLOCAL_AMFLAGS = -I m4
 
 noinst_PROGRAMS = \
-	       test_db
+	       test_db \
+	       test_header
 
 BUILD_DEFS	=  -ggdb -O0
 LINK_DEPS	=  $(top_builddir)/src/libEpic.la -lpthread -ldl -lrt
@@ -26,8 +27,14 @@ test_db_SOURCES = test_db.cpp
 test_db_LDADD = $(LINK_DEPS)
 test_db_DEPENDENCIES = $(LINK_DEPS)
 
+test_header_SOURCES = test_db.cpp 
+test_header_LDADD = $(LINK_DEPS)
+test_header_DEPENDENCIES = $(LINK_DEPS)
+
+
 reallyclean: maintainer-clean
 	rm -f Makefile
 	rm -f Makefile.in
 	rm -f  \
+	       test_header \
 	       test_db

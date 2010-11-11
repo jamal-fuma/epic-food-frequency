@@ -1,11 +1,11 @@
 #ifndef EPIC_IMPORT_QUESTIONAIRE_HPP
 #define EPIC_IMPORT_QUESTIONAIRE_HPP
 
-#include "../include/import/Import.hpp"
-#include "../include/dataset/Database.hpp"
-#include "../include/dataset/RespondentStatement.hpp"
-#include "../include/dataset/ResponseStatement.hpp"
-#include "../include/dataset/QuestionStatement.hpp"
+#include "import/Import.hpp"
+#include "dataset/Database.hpp"
+#include "dataset/RespondentStatement.hpp"
+#include "dataset/ResponseStatement.hpp"
+#include "dataset/QuestionStatement.hpp"
 
 namespace Epic
 {
@@ -24,21 +24,15 @@ namespace Epic
             Database::ResponseInsertStatement     m_response;
 
             Database::QuestionInsertStatement     m_qs;
-            QuestionaireDataModel(Database::DBConnection & db) :
-                DBModel(db),
-                m_respondent(db),
-                m_response(db),
-                m_qs(db)
-            {
-            }       
+
+            QuestionaireDataModel() { }       
             bool header(str_vector_t & names);
             bool body(size_t line, str_vector_t & values);
         };
 
         struct QuestionaireData : ImportModel<QuestionaireDataModel>
         {
-            QuestionaireData(Database::DBConnection & db) :
-                 ImportModel<QuestionaireDataModel>(db) {}
+            QuestionaireData(){}
         };
 
     } // Epic::Import

@@ -7,46 +7,19 @@ namespace Epic
     namespace Database
     {
     
-        class CerealTypeInsertStatement
+        class CerealTypeInsertStatement : public PreparedStatement
         {
-            bool      m_bound;
-            Statement m_sql;
-
         public:
-            CerealTypeInsertStatement(DBConnection & db) : 
-                m_bound(false),
-                m_sql(db,"INSERT INTO cereal_types (code,food,description,weight_id) VALUES (?,?,?,?) ;")
-            {
-            }
-            void
-            bind(long code, const std::string & food_code, const std::string & desc,long weight_id)
-            {
-		sqlite3_bind_int(m_sql,1,code);
-		sqlite3_bind_text(m_sql,2,food_code.c_str(),food_code.size(),SQLITE_STATIC);
-		sqlite3_bind_text(m_sql,3,desc.c_str(),desc.size(),SQLITE_STATIC);
-		sqlite3_bind_int(m_sql,4,weight_id);
-                m_bound = true;
-            }
-
-            bool
-            step()
-            {
-                if(!m_bound)
-                {
-                    throw std::runtime_error("Need to bind statement prior to exec");
-                }
-
-	        return (SQLITE_DONE == sqlite3_step(m_sql));
-            }
+            CerealTypeInsertStatement() : 
+                PreparedStatement("INSERT INTO cereal_types (code,food,description,weight_id) VALUES (?,?,?,?) ;") { }
 
             void
-            reset()
+            bind(sqlite3_int64 code, const std::string & food_code, const std::string & desc,sqlite3_int64 weight_id)
             {
-                if(m_bound)
-                {
-                    m_sql.reset();
-                    m_bound = false;
-                }
+                bind_int(1,code);
+                bind_text(2,food_code);
+                bind_text(3,desc);
+                bind_int(4,weight_id);
             }
         };
 

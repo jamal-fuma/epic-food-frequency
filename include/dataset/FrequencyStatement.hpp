@@ -6,45 +6,19 @@ namespace Epic
 {
     namespace Database
     {
-        class FrequencyInsertStatement
+        class FrequencyInsertStatement : public PreparedStatement
         {
-            bool      m_bound;
-            Statement m_sql;
-
         public:
-            FrequencyInsertStatement(DBConnection & db) : 
-                m_bound(false),
-                m_sql(db,"INSERT INTO frequencies (code,amount) VALUES (?,?) ;")
+            FrequencyInsertStatement() : 
+                PreparedStatement("INSERT INTO frequencies (code,amount) VALUES (?,?) ;")
             {
             }
 
             void
-            bind(long frequency, double multiplier)
+            bind(sqlite3_int64 frequency, double multiplier)
             {
-		sqlite3_bind_int(m_sql,1,frequency);
-		sqlite3_bind_double(m_sql,2,multiplier);
-                m_bound = true;
-            }
-
-            bool
-            step()
-            {
-                if(!m_bound)
-                {
-                    throw std::runtime_error("Need to bind statement prior to exec");
-                }
-
-	        return (SQLITE_DONE == sqlite3_step(m_sql));
-            }
-
-            void
-            reset()
-            {
-                if(m_bound)
-                {
-                    m_sql.reset();
-                    m_bound = false;
-                }
+		bind_int(1,frequency);
+                bind_double(2,multiplier);
             }
         };
 
