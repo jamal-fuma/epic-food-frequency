@@ -7,16 +7,16 @@ namespace Epic
     {
          // wrapper to keep track of line information
         template<typename IteratorT>
-        struct LineInfo 
+        struct LineInfo
         {
             IteratorT m_line_iter;      // last iterator position
             size_t    m_line_number;    // last line processed
 
-            LineInfo( IteratorT begin ) : m_line_iter(begin), m_line_number(1) { } 
+            LineInfo( IteratorT begin ) : m_line_iter(begin), m_line_number(1) { }
 
             // update line counter and last iterator position
             void
-            operator()(IteratorT begin) 
+            operator()(IteratorT begin)
             {
                 m_line_iter = begin;
                 ++m_line_number;
@@ -25,4 +25,4 @@ namespace Epic
     } // Epic::Import
 } // Epic
 
-#endif /* EPIC_IMPORT_LINEINFO_HPP */ 
+#endif /* EPIC_IMPORT_LINEINFO_HPP */

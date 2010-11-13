@@ -9,7 +9,7 @@ namespace Epic
         class IngredientInsertStatement : public PreparedStatement
         {
         public:
-            IngredientInsertStatement() : 
+            IngredientInsertStatement() :
                 PreparedStatement("INSERT INTO ingredients (meal_id,food,amount) VALUES (?,?,?) ;") { }
 
             void
@@ -22,7 +22,7 @@ namespace Epic
         };
 
     } // Epic::Database
-    
+
 } // Epic
 
 #endif /* ndef EPIC_DATABASE_INGEDIENT_INSERT_STATEMENT_HPP */

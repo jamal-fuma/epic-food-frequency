@@ -9,7 +9,7 @@ namespace Epic
         class QuestionaireInsertStatement : public PreparedStatement
         {
         public:
-            QuestionaireInsertStatement() : 
+            QuestionaireInsertStatement() :
                 PreparedStatement("INSERT INTO questionaires (code,filename) VALUES (?,?) ;")
             {
             }
@@ -23,7 +23,7 @@ namespace Epic
         };
 
     } // Epic::Database
-    
+
 } // Epic
 
 #endif /* ndef EPIC_DATABASE_QUESTIONAIRE_INSERT_STATEMENT_HPP */

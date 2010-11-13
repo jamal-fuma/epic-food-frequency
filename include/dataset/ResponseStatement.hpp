@@ -9,7 +9,7 @@ namespace Epic
         class ResponseInsertStatement : public PreparedStatement
         {
         public:
-            ResponseInsertStatement() : 
+            ResponseInsertStatement() :
                 PreparedStatement("INSERT INTO responses (respondent_id,question_id,value) VALUES (?,?,?) ;")
             {
             }
@@ -24,7 +24,7 @@ namespace Epic
         };
 
     } // Epic::Database
-    
+
 } // Epic
 
 #endif /* ndef EPIC_DATABASE_RESPONSE_INSERT_STATEMENT_HPP */

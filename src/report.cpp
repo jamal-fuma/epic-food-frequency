@@ -19,12 +19,12 @@
              "        AND "
              "        questions.id                = responses.question_id "
              "        AND "
-             "        questions.question_type_id  = groups.id;" 
+             "        questions.question_type_id  = groups.id;"
 "SELECT meals.id, meals.name, ingredients.food, ingredients.amount FROM meals,ingredients where ingredients.meal_id = meals.line;"
              );
 
      // walk over the responses
-     int rc = sqlite3_step(m_sql); 
+     int rc = sqlite3_step(m_sql);
 
      for( ; (SQLITE_ROW == rc); rc = sqlite3_step(m_sql) )
      {

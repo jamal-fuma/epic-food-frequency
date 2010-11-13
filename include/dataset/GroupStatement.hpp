@@ -9,7 +9,7 @@ namespace Epic
         class GroupInsertStatement : public PreparedStatement
         {
         public:
-            GroupInsertStatement() : 
+            GroupInsertStatement() :
                 PreparedStatement("INSERT INTO groups (code,description) VALUES (?,?) ;") { }
 
             void
@@ -21,7 +21,7 @@ namespace Epic
         };
 
     } // Epic::Database
-    
+
 } // Epic
 
 #endif /* ndef EPIC_DATABASE_GROUP_INSERT_STATEMENT_HPP */

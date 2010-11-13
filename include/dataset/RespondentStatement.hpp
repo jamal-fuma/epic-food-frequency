@@ -9,7 +9,7 @@ namespace Epic
         class RespondentInsertStatement : public PreparedStatement
         {
         public:
-            RespondentInsertStatement() : 
+            RespondentInsertStatement() :
                 PreparedStatement(
                 "INSERT INTO respondents (questionaire_id,reference) "
                 "VALUES ( (select max(id) from questionaires),?) ;"
@@ -25,7 +25,7 @@ namespace Epic
         };
 
     } // Epic::Database
-    
+
 } // Epic
 
 #endif /* ndef EPIC_DATABASE_RESPONDENT_INSERT_STATEMENT_HPP */

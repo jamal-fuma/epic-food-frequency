@@ -24,7 +24,7 @@ namespace Epic
         };
 
     } // Epic::Database
-    
+
 } // Epic
 
 #endif /* ndef EPIC_DATABASE_FOOD_INSERT_STATEMENT_HPP */

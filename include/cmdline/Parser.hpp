@@ -59,8 +59,8 @@ namespace Epic
 
             bool
             add_option(
-                    const char *name, 
-                    int short_opt, 
+                    const char *name,
+                    int short_opt,
                     bool has_value=false,
                     const char *long_opt=NULL
                     )
@@ -79,10 +79,10 @@ namespace Epic
 
             bool
             parse_long_options(result_map_t & dest, int argc, char **argv, int & i)
-            {   
+            {
                 char *arg = ((argv[i])+2);
-                option_map_iterator_t iter = m_opts_map.begin(); 
-                option_map_iterator_t end  = m_opts_map.end(); 
+                option_map_iterator_t iter = m_opts_map.begin();
+                option_map_iterator_t end  = m_opts_map.end();
 
                 // see if we have a match for this argument
                 for(; iter != end; ++iter)
@@ -122,10 +122,10 @@ namespace Epic
                     char **argv,
                     int & i
             )
-            {   
+            {
                 char *arg = ((argv[i])+1);
-                option_map_iterator_t iter = m_opts_map.begin(); 
-                option_map_iterator_t end  = m_opts_map.end(); 
+                option_map_iterator_t iter = m_opts_map.begin();
+                option_map_iterator_t end  = m_opts_map.end();
 
                 // see if we have a match for this argument
                 for(; iter != end; ++iter)
@@ -160,7 +160,7 @@ namespace Epic
             std::string
             describe() const
             {
-                option_map_const_iterator_t end = m_opts_map.end(); 
+                option_map_const_iterator_t end = m_opts_map.end();
                 std::ostringstream ss ;
                 ss << "\tUsage :" << std::endl;
 
@@ -178,7 +178,7 @@ namespace Epic
                 int argc,
                 char **argv
                 )
-            {   
+            {
                 bool positional = false;
 
                 m_name = argv[0];
@@ -187,7 +187,7 @@ namespace Epic
                 for(int i = 1; i<argc; ++i)
                 {
                     int pos = 0;
-                    // all remaining arguments are treated 
+                    // all remaining arguments are treated
                     // as purely positional following this terminator
                     if(!strcmp("--",argv[i]))
                     {
@@ -198,14 +198,14 @@ namespace Epic
                     if(!positional && ('-' == argv[i][0] && '\0' != argv[i][1]))
                     {
                         if('-' == argv[i][1])
-                        {   
+                        {
                             if(!parse_long_options(dest,argc,argv,i))
-                                return false;    
+                                return false;
                         }
-                        else 
+                        else
                         {
                             if(!parse_short_options(dest,argc,argv,i))
-                                return false;    
+                                return false;
                         }
                     }
 

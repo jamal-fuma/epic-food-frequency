@@ -23,7 +23,7 @@
 namespace Epic
 {
     namespace Client
-    {   
+    {
         typedef CmdLine::Parser::result_map_t cmdline_t;
 
         class Application
@@ -31,12 +31,12 @@ namespace Epic
             enum FileType { InputFile=1, JobFile} ;
 
         public:
-            Application() : 
+            Application() :
                 m_status(Application::InputFile)
             {
             }
-            
-            ~Application() 
+
+            ~Application()
             {
                 Logging::trace("Shutting Down\n");
             }
@@ -48,7 +48,7 @@ namespace Epic
                 m_input_file = filename;
                 m_status = Application::InputFile;
             }
-            
+
             void
             set_jobfile(const std::string & filename)
             {
@@ -64,7 +64,7 @@ namespace Epic
             }
 
             int run();
-            
+
             bool
             load_questionaire()
             {
@@ -99,11 +99,11 @@ namespace Epic
                 return true;
             }
            private:
-            
+
             // load lookup tables
             bool
             load_tables();
-          
+
             // generic loader for lookup tables
             template <class Data>
             bool load_lookup(const std::string & config_key);

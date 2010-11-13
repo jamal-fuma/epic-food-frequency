@@ -28,13 +28,13 @@ namespace Epic
 
         // forward declaration for child version
         // of relation
-        template <  class Parent, 
-                    class Child, 
-                    class Relation > 
+        template <  class Parent,
+                    class Child,
+                    class Relation >
         class RelationChild ;
 
         // parent version of relation
-        template <  class Parent, 
+        template <  class Parent,
                     class Child,
                     class Relation = void,
                     class Policy = SetValuesPolicy<Child*> >
@@ -85,7 +85,7 @@ namespace Epic
                 swap(m_children,tmp);
 
                 const_iterator_t tmp_end = tmp.end();
-                for(iterator_t it = tmp.begin(); 
+                for(iterator_t it = tmp.begin();
                         it != tmp_end ; ++it)
                 {
                     delete *it;
@@ -95,21 +95,21 @@ namespace Epic
             Container m_children;
 
         };
-       
+
         // definition for child version
         // of relation
-        template <  class Parent, 
-                    class Child, 
-                    class Relation = void> 
+        template <  class Parent,
+                    class Child,
+                    class Relation = void>
         class RelationChild
         {
             // parent version of relation
             typedef RelationParent <
-                Parent, 
+                Parent,
                 Child,
                 Relation> Relationship;
         public:
-            explicit 
+            explicit
             RelationChild(Parent *parent) : m_parent(parent)
             {
                 m_parent->Relationship::attach(child());
@@ -124,7 +124,7 @@ namespace Epic
                     m_parent = NULL;
                 }
             }
-            ~RelationChild() 
+            ~RelationChild()
             {
                 reset();
             }
@@ -145,7 +145,7 @@ namespace Epic
 
         typedef RelationParent<Meal,Ingredient,Preceeding> PreceedingMeal;
         typedef RelationParent<Meal,Ingredient,Following>  FollowingMeal;
- 
+
         typedef RelationChild<Meal,Ingredient,Preceeding> PreceedingIngredient;
         typedef RelationChild<Meal,Ingredient,Following>  FollowingIngredient;
 
@@ -158,7 +158,7 @@ namespace Epic
             typedef FollowingMeal  Following;
             Meal() {}
         };
-        
+
         class Ingredient :
             public PreceedingIngredient,
             public FollowingIngredient
@@ -166,12 +166,12 @@ namespace Epic
         public:
             typedef PreceedingIngredient Preceeding;
             typedef FollowingIngredient  Following;
-            
+
             Ingredient(Meal *meal_prior, Meal *meal_after)
-                : Preceeding(meal_prior), 
+                : Preceeding(meal_prior),
                   Following(meal_after)
             {
-            
+
             }
         };
 

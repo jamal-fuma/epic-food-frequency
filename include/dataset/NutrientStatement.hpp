@@ -10,7 +10,7 @@ namespace Epic
         class NutrientInsertStatement : public PreparedStatement
         {
         public:
-            NutrientInsertStatement() : 
+            NutrientInsertStatement() :
                 PreparedStatement("INSERT INTO nutrients (code,description,units) VALUES (?,?,?) ;")
             {
             }
@@ -25,7 +25,7 @@ namespace Epic
         };
 
     } // Epic::Database
-    
+
 } // Epic
 
 #endif /* ndef EPIC_DATABASE_NUTRIENT_INSERT_STATEMENT_HPP */

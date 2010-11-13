@@ -17,7 +17,7 @@ namespace Epic
         struct FrequencyData
         {
             Database::Transaction               m_transaction;
-            Database::FrequencyInsertStatement  m_statement; 
+            Database::FrequencyInsertStatement  m_statement;
 
             FrequencyData() { }
 
@@ -62,7 +62,7 @@ namespace Epic
                 }
                 return true;
             }
-            
+
             bool
             commit()
             {

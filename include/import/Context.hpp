@@ -18,7 +18,7 @@ namespace Epic
         public:
             typedef boost::spirit::classic::file_iterator<char>     iterator_t;     // file iterator for text files
             typedef boost::spirit::classic::parse_info<iterator_t>  parse_info_t;   // scanner context for boost::spirit
-            typedef LineInfo<iterator_t>                            line_info_t;    
+            typedef LineInfo<iterator_t>                            line_info_t;
             // parser context for boost::spirit
 
             struct Error
@@ -37,7 +37,7 @@ namespace Epic
                 }
             };
 
-      
+
         private:
             iterator_t              m_begin;
             iterator_t              m_header;
@@ -46,7 +46,7 @@ namespace Epic
             parse_info_t            m_parse_info;
             str_vector_t            m_row;
             str_vector_t            m_fldnames;
-            
+
             bool
             next()
             {
@@ -66,7 +66,7 @@ namespace Epic
             bool
             fieldset()
             {
-                m_parse_info = parse_csv(m_begin,m_end,m_row,m_line_info); 
+                m_parse_info = parse_csv(m_begin,m_end,m_row,m_line_info);
                 return next();
             }
 
@@ -102,8 +102,8 @@ namespace Epic
                 return s;
             }
         public:
-        
-            explicit Context(iterator_t begin, iterator_t end) : 
+
+            explicit Context(iterator_t begin, iterator_t end) :
                 m_begin(begin), m_header(m_begin), m_end(end), m_line_info(m_begin)
             {
             }

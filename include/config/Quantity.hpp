@@ -22,15 +22,15 @@ namespace Epic
 
             template <class T>
             Code &
-            operator=(const T & rhs) 
+            operator=(const T & rhs)
             {
                 m_value = rhs;
                 return *this;
             }
-            private: 
+            private:
                 std::string m_value;
         };
- 
+
         class Quantity
         {
          public:
@@ -49,7 +49,7 @@ namespace Epic
                     Epic::Config::Reader::value_type params;
                     if(!rdr.load(params))
                         throw std::runtime_error("failed to load configuration from " + filename);
-                   
+
                     // copy over to final storage
                     Epic::Config::Reader::const_iterator cur, end;
                     cur = params.begin();

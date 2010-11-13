@@ -29,14 +29,14 @@ namespace Epic
 {
     namespace Server
     {
-    
+
     }
 
     namespace Client
     {
-       
+
     }
-    
+
     class IFile
     {
         public:
@@ -47,20 +47,20 @@ namespace Epic
             virtual void open(const std::string & mode="w") = 0;
             virtual void close() = 0;
     };
-         
+
     class File : public IFile
     {
         public:
-            File(const std::string & filename, const std::string & mode="rb") throw(std::string) : 
+            File(const std::string & filename, const std::string & mode="rb") throw(std::string) :
                 m_fp(NULL),
                 m_filename(filename)
             {
                 open(mode);
             }
-        
+
             File(FILE * &fp, const std::string &filename, const std::string & mode="w")  throw(std::string) :
                 m_fp(fp),
-                m_filename(filename) 
+                m_filename(filename)
             {
                 open(fp,mode);
             }
@@ -70,21 +70,21 @@ namespace Epic
                 close();
             }
 
-            
+
             // decay into file pointer
             inline operator FILE * () const
             {
                 return m_fp;
             }
-            
+
             // decay into filename
             inline operator std::string () const
             {
                 return m_filename;
             }
-        
+
         protected:
-     
+
             void
             open(const std::string & mode="rb")
             {
@@ -96,7 +96,7 @@ namespace Epic
                     throw err;
                 }
             }
-            
+
             void
             open(FILE * fp,  const std::string & mode="w")
             {
@@ -114,7 +114,7 @@ namespace Epic
                     throw err;
                 }
             }
-            
+
             void
             close()
             {
@@ -130,7 +130,7 @@ namespace Epic
 
         FILE *m_fp;
         std::string m_filename;
-    };  
+    };
 }
 
 #endif /* EPIC_HPP */

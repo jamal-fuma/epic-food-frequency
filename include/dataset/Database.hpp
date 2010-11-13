@@ -13,10 +13,10 @@ namespace Epic
         {
             public:
                 DBConnection() : m_created(false),m_connected(false),m_db(NULL) {}
-                
+
                 void connect(const std::string & filename);
                 void disconnect();
-               
+
                 sqlite3* database() const
                 {
                     if(m_connected)
@@ -30,13 +30,13 @@ namespace Epic
                     disconnect();
                 }
 
-                bool created() 
-                { 
-                    return m_created; 
+                bool created()
+                {
+                    return m_created;
                 }
 
                 void exec( const std::string & sql);
-                
+
                 void prepare(const std::string & sql, sqlite3_stmt **p_statement);
 
              private:
@@ -44,7 +44,7 @@ namespace Epic
                 bool m_created;
                 bool m_connected;
         };
-        
+
         // wrappers for the db singleton
         bool connect();
         bool created();
@@ -61,7 +61,7 @@ namespace Epic
             {
                 Epic::Database::execute("BEGIN TRANSACTION;");
             }
-            
+
             bool
             commit()
             {
@@ -76,7 +76,7 @@ namespace Epic
             }
         };
     } // Epic::Database
-    
+
 } // Epic
 
 #endif /* ndef EPIC_DATABASE_HPP */

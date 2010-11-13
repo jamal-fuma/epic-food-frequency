@@ -54,9 +54,9 @@ bool
 Epic::Config::Reader::has_values(const std::string & line)
 {
     return ( !line.empty()  &&
-             line[0] != '#' && 
-             line != "\n"   && 
-             line != "\r"   && 
+             line[0] != '#' &&
+             line != "\n"   &&
+             line != "\r"   &&
              line != "\r\n" );
 }
 

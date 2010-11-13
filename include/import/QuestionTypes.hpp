@@ -17,7 +17,7 @@ namespace Epic
         struct QuestionTypeData
         {
             Database::Transaction                   m_transaction;
-            Database::QuestionTypesInsertStatement  m_statement; 
+            Database::QuestionTypesInsertStatement  m_statement;
 
             QuestionTypeData() { }
 
@@ -56,7 +56,7 @@ namespace Epic
                 }
                 return true;
             }
-        
+
             bool
             commit()
             {

@@ -24,7 +24,7 @@ bool Epic::Config::load(const std::string & filename)
     try
     {
         Epic::Pattern::Singleton< Config >::instance().load(filename);
-        return true;
+        return Epic::Config::Quantity::load();
     }
     catch(...)
     {
@@ -85,15 +85,26 @@ bool Epic::Config::Field::find(const std::string & key, std::string & dest)
     }
 }
 
-bool Epic::Config::Quantity::load(const std::string & filename)
+bool Epic::Config::Quantity::load()
 {
     try
     {
-        Epic::Pattern::Singleton< Quantity::QuantityConfig >::instance().load(filename);
+        // nutrient quantity config
+        std::string config_file;
+        if(!Epic::Config::find("nutrient_quantity",config_file))
+        {
+            Epic::Logging::error(
+                "Nutrient Quantity Configuration file not listed in application config\n"
+            );
+            return false;
+        }
+
+        Epic::Pattern::Singleton< Quantity::QuantityConfig >::instance().load(config_file);
         return true;
     }
     catch(...)
     {
+        Epic::Logging::error("Nutrient Quantity Configuration file not loaded\n");
         return false;
     }
 }

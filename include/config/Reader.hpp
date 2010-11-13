@@ -22,7 +22,7 @@ namespace Epic
 
                 bool load( value_type & dest);
 
-                friend std::ostream & 
+                friend std::ostream &
                 operator << (std::ostream & out, const Reader & cnf)
                 {
                     const_iterator end = cnf.m_params.end();
@@ -33,10 +33,10 @@ namespace Epic
                     return out;
                 }
 
-                
+
                 bool
                 configured_value(const std::string & key,std::string & s);
-        
+
                 void
                 insert(const std::string & key,const std::string & value)
                 {
@@ -46,10 +46,10 @@ namespace Epic
             private:
                 void
                 strip_quotes(std::string & str);
-                
+
                 bool
                 has_values(const std::string & line);
-                
+
                 void
                 parse_line(const std::string & line, std::string & key, std::string & value);
         };

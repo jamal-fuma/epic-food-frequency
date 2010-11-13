@@ -12,17 +12,17 @@ namespace Epic
             Epic::Import::str_vector_t m_columns;
             std::string                m_delim;
 
-            const std::string & ffq_line() const { 
-                return m_columns.at(0) ; 
+            const std::string & ffq_line() const {
+                return m_columns.at(0) ;
             }
-            const std::string & food_code() const { 
-                return m_columns.at(1) ; 
+            const std::string & food_code() const {
+                return m_columns.at(1) ;
             }
-            const std::string & nutrient_code() const { 
-                return m_columns.at(2) ; 
+            const std::string & nutrient_code() const {
+                return m_columns.at(2) ;
             }
-            const std::string & nutrient_quantity() const { 
-                return m_columns.at(3) ; 
+            const std::string & nutrient_quantity() const {
+                return m_columns.at(3) ;
             }
 
             ResultSet(const std::string & delim=",") : m_delim(delim)
@@ -43,7 +43,7 @@ namespace Epic
         class ResultQueryStatement : public PreparedStatement
         {
         public:
-            ResultQueryStatement() : 
+            ResultQueryStatement() :
 	        PreparedStatement(
 "SELECT meals.line       AS FFQ_LINE,"
 "ingredients.food        AS FOOD_CODE,"
@@ -59,7 +59,7 @@ namespace Epic
 " WHERE NUTRIENT_QUANTITY > 0 AND responses.respondent_id = ? ;" )
             {
             }
-            
+
             void
             bind(sqlite3_int64 respondent)
             {
@@ -84,7 +84,7 @@ namespace Epic
 
 
     } // Epic::Database
-    
+
 } // Epic
 
 #endif /* ndef EPIC_DATABASE_RESULTS_QUERY_STATEMENT_HPP */

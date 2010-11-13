@@ -31,7 +31,7 @@ namespace Epic
             std::string m_filename;
 
             Questionaire() {}
-            Questionaire(sqlite3_int64 id, const std::string & filename) : 
+            Questionaire(sqlite3_int64 id, const std::string & filename) :
                 m_id(id), m_filename(filename) {}
         };
 
@@ -40,7 +40,7 @@ namespace Epic
             std::string m_reference;
 
             Person(){}
-            Person(sqlite3_int64 id, const std::string & reference) : 
+            Person(sqlite3_int64 id, const std::string & reference) :
                 m_id(id), m_reference(reference) {}
         };
 
@@ -49,7 +49,7 @@ namespace Epic
             sqlite3_int64 m_person_id;
 
             QuestionairePerson(){}
-            QuestionairePerson(sqlite3_int64 questionaire_id, sqlite3_int64 person_id) : 
+            QuestionairePerson(sqlite3_int64 questionaire_id, sqlite3_int64 person_id) :
                 m_questionaire_id(questionaire_id),  m_person_id(person_id) {}
         };
 
@@ -59,7 +59,7 @@ namespace Epic
             double m_frequency;
 
             PersonMeal(){}
-            PersonMeal(sqlite3_int64 person_id, sqlite3_int64 meal_id, double frequency) : 
+            PersonMeal(sqlite3_int64 person_id, sqlite3_int64 meal_id, double frequency) :
                 m_person_id(person_id),  m_meal_id(meal_id), m_frequency(frequency) {}
         };
 
@@ -70,7 +70,7 @@ namespace Epic
             double m_frequency;
 
             PersonFood(){}
-            PersonFood(sqlite3_int64 person_id, sqlite3_int64 food_id, sqlite3_int64 portion, double frequency) : 
+            PersonFood(sqlite3_int64 person_id, sqlite3_int64 food_id, sqlite3_int64 portion, double frequency) :
                 m_person_id(person_id),  m_food_id(food_id),  m_portion(portion), m_frequency(frequency) {}
         };
 
@@ -80,7 +80,7 @@ namespace Epic
             std::string m_description;
 
             Meal() {}
-            Meal(sqlite3_int64 id, const std::string & name, const std::string & description) : 
+            Meal(sqlite3_int64 id, const std::string & name, const std::string & description) :
                 m_id(id), m_name(name), m_description(description) {}
         };
 
@@ -90,7 +90,7 @@ namespace Epic
             std::string m_description;
 
             Food(){}
-            Food(sqlite3_int64 id, const std::string & name, const std::string & description) : 
+            Food(sqlite3_int64 id, const std::string & name, const std::string & description) :
                 m_id(id), m_name(name), m_description(description) {}
         };
 
@@ -101,7 +101,7 @@ namespace Epic
             std::string m_units;
 
             Nutrient() {}
-            Nutrient(sqlite3_int64 id, const std::string & name, sqlite3_int64 code, const std::string & description, const std::string & units) : 
+            Nutrient(sqlite3_int64 id, const std::string & name, sqlite3_int64 code, const std::string & description, const std::string & units) :
                 m_id(id), m_code(code), m_description(description), m_units(units) {}
 
         };
@@ -112,7 +112,7 @@ namespace Epic
             sqlite3_int64 m_portion;
 
             MealFood(){}
-            MealFood(sqlite3_int64 meal_id, sqlite3_int64 food_id, sqlite3_int64 portion) : 
+            MealFood(sqlite3_int64 meal_id, sqlite3_int64 food_id, sqlite3_int64 portion) :
                 m_meal_id(meal_id),  m_food_id(food_id),  m_portion(portion) {}
         };
 
@@ -122,7 +122,7 @@ namespace Epic
             double m_quantity;
 
             FoodNutrient(){}
-            FoodNutrient(sqlite3_int64 food_id, sqlite3_int64 nutrient_id, double quantity) : 
+            FoodNutrient(sqlite3_int64 food_id, sqlite3_int64 nutrient_id, double quantity) :
                 m_food_id(food_id),  m_nutrient_id(nutrient_id), m_quantity(quantity) {}
         };
     }

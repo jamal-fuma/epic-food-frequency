@@ -10,7 +10,7 @@ namespace Epic
         {
             Database::ResultQueryStatement        m_result;
             Database::ResultSet                   m_rs;
-            
+
             public:
                 Report() {}
 
@@ -22,7 +22,7 @@ namespace Epic
             {
                 Database::Statement sql ("select reference,id from respondents");
 
-                int rc; 
+                int rc;
                 for( rc = sql.step(); (SQLITE_ROW == rc); rc = sql.step() )
                 {
              //       std::string     reference = sql.column_text(0);
@@ -44,7 +44,7 @@ namespace Epic
                 m_result.bind(ref_id);
                 int rc;
                 while(SQLITE_ROW == (rc = m_result.step(m_rs)))
-                {			
+                {
                     out << reference  << "," << m_rs ;
                 }
                 m_result.reset();

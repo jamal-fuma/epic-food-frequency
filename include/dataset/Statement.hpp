@@ -7,7 +7,7 @@ namespace Epic
 {
     namespace Database
     {
- 
+
         class Statement
         {
             public:
@@ -17,7 +17,7 @@ namespace Epic
             {
                 prepare(sql);
             }
-            
+
             void prepare(const std::string & sql)
             {
                 if(m_prepared)
@@ -49,7 +49,7 @@ namespace Epic
             {
                 return sqlite3_bind_int(m_statement,row,value);
             }
-            
+
             int
             bind_text(sqlite3_int64 row, const std::string & value)
             {
@@ -69,14 +69,20 @@ namespace Epic
                 const char *s = reinterpret_cast<const char *>(sqlite3_column_text(m_statement,row) );
                 if(!s)
                     return std::string("NULL");
-                
+
                 return std::string(s);
             }
-            
+
             sqlite3_int64
             column_int(sqlite3_int64 row)
             {
                 return sqlite3_column_int64(m_statement,row);
+            }
+
+            int
+            column_count()
+            {
+                return sqlite3_column_count(m_statement);
             }
 
             ~Statement()
@@ -99,19 +105,19 @@ namespace Epic
             bool m_prepared;
             sqlite3_stmt *m_statement;
         };
-        
+
         class PreparedStatement
         {
             bool      m_bound;
             Statement m_sql;
 
             public:
-            PreparedStatement(const std::string & sql) : 
+            PreparedStatement(const std::string & sql) :
                 m_bound(false),
                 m_sql(sql)
             {
             }
-            
+
             template<class T> void
             bind_statement(T & binder)
             {
@@ -127,7 +133,7 @@ namespace Epic
                     m_bound = true;
                 return rc;
             }
-            
+
             int
             bind_text(sqlite3_int64 row, const std::string & value)
             {
@@ -136,19 +142,19 @@ namespace Epic
                     m_bound = true;
                 return rc;
             }
-            
+
             int
             bind_double(sqlite3_int64 row, double value)
             {
                 int rc = m_sql.bind_double(row,value);
                 if(SQLITE_OK == rc)
                     m_bound = true;
-                
+
                 return rc;
             }
 
             // column readers
-            
+
             std::string
             column_text(sqlite3_int64 row)
             {
@@ -184,7 +190,7 @@ namespace Epic
         };
 
     } // Epic::Database
-    
+
 } // Epic
 
 

@@ -16,12 +16,12 @@ namespace Epic
 
         struct NutrientData
         {
-            Database::NutrientInsertStatement   m_ns; 
+            Database::NutrientInsertStatement   m_ns;
             Database::Transaction               m_transaction;
 
             NutrientData()
             {
-                
+
             }
 
             bool
@@ -60,7 +60,7 @@ namespace Epic
                 }
                 return true;
             }
-            
+
             bool
             commit()
             {

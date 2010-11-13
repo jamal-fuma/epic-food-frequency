@@ -14,17 +14,17 @@ namespace Epic
         {
             LineInfo<IteratorT> & m_line_info; // reference to newline counter
 
-            NewLine( LineInfo<IteratorT>& info ) : 
+            NewLine( LineInfo<IteratorT>& info ) :
                 m_line_info(info)
-            { 
+            {
             }
 
             // called whenever an newline is consumed by parser
             void
             operator()(
-                    IteratorT begin, // unused 
+                    IteratorT begin, // unused
                     IteratorT end
-                    ) const 
+                    ) const
             {
                 // update line counter and iterator
                 m_line_info(end);
@@ -34,4 +34,4 @@ namespace Epic
     } // Epic::Import
 } // Epic
 
-#endif /* EPIC_IMPORT_NEWLINE_HPP */ 
+#endif /* EPIC_IMPORT_NEWLINE_HPP */

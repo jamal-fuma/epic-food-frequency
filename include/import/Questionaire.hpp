@@ -25,7 +25,7 @@ namespace Epic
 
             Database::QuestionInsertStatement     m_qs;
 
-            QuestionaireDataModel() { }       
+            QuestionaireDataModel() { }
             bool header(str_vector_t & names);
             bool body(size_t line, str_vector_t & values);
         };

@@ -9,7 +9,7 @@ namespace Epic
         class QuestionTypesInsertStatement : public PreparedStatement
         {
         public:
-            QuestionTypesInsertStatement() : 
+            QuestionTypesInsertStatement() :
                 PreparedStatement("INSERT INTO question_types (id,description) VALUES (?,?) ;") { }
 
             void
@@ -21,7 +21,7 @@ namespace Epic
         };
 
     } // Epic::Database
-    
+
 } // Epic
 
 #endif /* ndef EPIC_DATABASE_QUESTION_TYPE_INSERT_STATEMENT_HPP */

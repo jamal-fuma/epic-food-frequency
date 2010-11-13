@@ -16,7 +16,7 @@ namespace Epic
         struct CerealTypesData
         {
             Database::Transaction                       m_transaction;
-            Database::CerealTypeInsertStatement         m_statement; 
+            Database::CerealTypeInsertStatement         m_statement;
 
             CerealTypesData() { }
 
@@ -63,7 +63,7 @@ namespace Epic
                 }
                 return true;
             }
-            
+
             bool
             commit()
             {

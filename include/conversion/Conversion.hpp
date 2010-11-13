@@ -23,7 +23,7 @@ namespace Epic
             }
             operator long() const
             {
-                return m_num; 
+                return m_num;
             }
         };
 
@@ -51,19 +51,19 @@ namespace Epic
             {
                 if(m_valid)
                     return m_num / 100.00F;
-                
+
                 return 0.0F;
             }
         };
 
-        /* this attempts to paper over the usage of a quantity as 
+        /* this attempts to paper over the usage of a quantity as
          * a code */
-        struct NutrientQuantity 
+        struct NutrientQuantity
         {
             double m_value;
             bool m_valid;
 
-            NutrientQuantity(const std::string & s) : 
+            NutrientQuantity(const std::string & s) :
                 m_valid(false)
             {
                 std::string s_val(s);
@@ -94,7 +94,7 @@ namespace Epic
 
             operator double() const
             {
-                return m_value; 
+                return m_value;
             }
         };
 

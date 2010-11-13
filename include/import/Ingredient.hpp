@@ -16,7 +16,7 @@ namespace Epic
         struct IngredientData
         {
             Database::Transaction                   m_transaction;
-            Database::IngredientInsertStatement     m_statement; 
+            Database::IngredientInsertStatement     m_statement;
 
             IngredientData() { }
 

@@ -51,25 +51,25 @@ Epic::Client::Application::load_tables()
 
     if(!load_lookup< Import::MealData >("meals"))
         return false;
-    
+
     if(!load_lookup< Import::QuestionTypeData >("question_types"))
         return false;
-    
+
     if(!load_lookup< Import::FrequencyData >("frequencies"))
         return false;
-    
+
     if(!load_lookup< Import::GroupData >("groups"))
         return false;
-    
+
     if(!load_lookup< Import::WeightData >("weights"))
         return false;
- 
+
     if(!load_lookup< Import::IngredientData >("ingredients"))
         return false;
- 
+
     if(!load_lookup< Import::CerealTypesData >("cereal_types"))
         return false;
- 
+
  //   if(!load_lookup< Import::MilkTypesData >("milk_types"))
  //       return false;
     return true;
@@ -96,7 +96,7 @@ Epic::Client::Application::run()
             Epic::Logging::note("Questionaire may be specifed as single file input or in a batch using a jobfile\n");
             return EXIT_FAILURE;
         }
-        
+
         // sort out input / output
         Database::Report rs;
         if(m_output_file.empty())

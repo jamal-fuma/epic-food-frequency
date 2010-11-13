@@ -30,7 +30,7 @@ namespace Epic
             DBModel() {}
 
             virtual bool error(std::string & error_message)
-            {  
+            {
                 std::cerr << error_message << std::endl;
                 return false;
             }
@@ -39,12 +39,12 @@ namespace Epic
 
             protected:
                 virtual bool header(str_vector_t & names) = 0;
-                virtual bool body(size_t line, str_vector_t & values) = 0;              
-            
+                virtual bool body(size_t line, str_vector_t & values) = 0;
+
             public:
                 static bool
-                same_header( const std::string  & name, 
-                        const std::vector< std::string > & expected, 
+                same_header( const std::string  & name,
+                        const std::vector< std::string > & expected,
                         const std::vector< std::string > & actual)
                 {
                     std::ostringstream ss;
@@ -52,8 +52,8 @@ namespace Epic
                     // sufficent fields for format
                     if(actual.size() < expected.size())
                     {
-                        ss << "Unexpected number of fields in " << name 
-                            << " import file," << " expected "   << expected.size() << " field(s)" 
+                        ss << "Unexpected number of fields in " << name
+                            << " import file," << " expected "   << expected.size() << " field(s)"
                             << " got " << actual.size() << " field(s)" << std::endl;
 
                         Epic::Logging::error(ss.str());
@@ -67,8 +67,8 @@ namespace Epic
                     {
                         if(*it != actual.at(pos))
                         {
-                            ss << "Unexpected fieldname for field: " << (pos+1) << " of " << name 
-                                << " import file," << " expected "   << *it 
+                            ss << "Unexpected fieldname for field: " << (pos+1) << " of " << name
+                                << " import file," << " expected "   << *it
                                 << " got " << actual.at(pos) << std::endl;
 
                             Epic::Logging::error(ss.str());
@@ -92,9 +92,9 @@ namespace Epic
 
             // line
             bool operator()(size_t line, str_vector_t & v) { return m_model.body(line,v); }
-            
+
             // error
-            bool 
+            bool
             operator()(std::string & error_message) { return m_model.error(error_message) ; }
 
             bool
@@ -103,8 +103,8 @@ namespace Epic
                 return m_transaction.commit();
             }
         };
-        
-         
+
+
     } // Epic::Import
 } // Epic
 

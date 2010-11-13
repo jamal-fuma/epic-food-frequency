@@ -9,7 +9,7 @@ namespace Epic
 {
     namespace Pattern
     {
-        template <typename Key1, typename Value, typename Key2=Key1> 
+        template <typename Key1, typename Value, typename Key2=Key1>
         class TwoKeyMap
         {
             typedef std::map< Key1, std::pair<Key2,Value> > FrontMap_t;
@@ -58,7 +58,7 @@ namespace Epic
             {
                 Front_iterator_t it = m_front_map.find(key);
                 if(it == m_front_map.end())
-                    return; 
+                    return;
 
                 m_back_map.erase(it->second.first);
                 m_front_map.erase(it);
@@ -69,7 +69,7 @@ namespace Epic
             {
                 Back_iterator_t it = m_back_map.find(key);
                 if(it == m_back_map.end())
-                    return; 
+                    return;
 
                 m_front_map.erase(it->second);
                 m_back_map.erase(it);
@@ -90,7 +90,7 @@ namespace Epic
                 const Value & value
             ) throw (std::out_of_range)
             {
-                erase_front(primary);    
+                erase_front(primary);
                 erase_back(secondary);
                 m_back_map[secondary] = primary;
                 m_front_map[primary]  = std::make_pair(secondary,value);

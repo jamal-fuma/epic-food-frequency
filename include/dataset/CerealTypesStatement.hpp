@@ -6,11 +6,11 @@ namespace Epic
 {
     namespace Database
     {
-    
+
         class CerealTypeInsertStatement : public PreparedStatement
         {
         public:
-            CerealTypeInsertStatement() : 
+            CerealTypeInsertStatement() :
                 PreparedStatement("INSERT INTO cereal_types (code,food,description,weight_id) VALUES (?,?,?,?) ;") { }
 
             void
@@ -24,7 +24,7 @@ namespace Epic
         };
 
     } // Epic::Database
-    
+
 } // Epic
 
 #endif /* ndef EPIC_DATABASE_CEREAL_TYPES_INSERT_STATEMENT_HPP */

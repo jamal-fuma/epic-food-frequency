@@ -9,7 +9,7 @@ namespace Epic
         class FrequencyInsertStatement : public PreparedStatement
         {
         public:
-            FrequencyInsertStatement() : 
+            FrequencyInsertStatement() :
                 PreparedStatement("INSERT INTO frequencies (code,amount) VALUES (?,?) ;")
             {
             }
@@ -23,7 +23,7 @@ namespace Epic
         };
 
     } // Epic::Database
-    
+
 } // Epic
 
 #endif /* ndef EPIC_DATABASE_FREQUENCY_INSERT_STATEMENT_HPP */

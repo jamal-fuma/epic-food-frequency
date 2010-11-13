@@ -18,15 +18,15 @@ namespace Epic
                 Config() {}
 
                 bool find(const std::string & key, std::string & dest);
-               
+
                 void load(const std::string & filename) ;
-           
+
         };
-        
+
         bool load(const std::string & filename);
-      
+
         bool find(const std::string & key, std::string & dest);
-       
+
 
         namespace Field
         {
@@ -50,10 +50,10 @@ namespace Epic
                     QuantityConfig (){}
             };
 
-            bool load(const std::string & filename);
+            bool load();
 
             bool find(const std::string & key, std::string & dest);
-        } // Epic::Config::Quantity 
+        } // Epic::Config::Quantity
 
     } // Epic::Config
 } // Epic

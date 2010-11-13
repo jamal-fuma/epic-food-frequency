@@ -16,7 +16,7 @@ namespace Epic
         struct GroupData
         {
             Database::Transaction           m_transaction;
-            Database::GroupInsertStatement  m_statement; 
+            Database::GroupInsertStatement  m_statement;
 
             GroupData() { }
 
@@ -59,7 +59,7 @@ namespace Epic
                 }
                 return true;
             }
-            
+
             bool
             commit()
             {

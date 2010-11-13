@@ -13,7 +13,7 @@ namespace Epic
                 : PreparedStatement(
                         "INSERT INTO milk_types (code,food,description) VALUES (?,?,?) ;"){ }
 
-            void bind(  sqlite3_int64 code, 
+            void bind(  sqlite3_int64 code,
                         const std::string & food_code,
                         const std::string & desc)
             {
@@ -24,7 +24,7 @@ namespace Epic
         };
 
     } // Epic::Database
-    
+
 } // Epic
 
 #endif /* ndef EPIC_DATABASE_MILK_TYPES_INSERT_STATEMENT_HPP */

@@ -17,11 +17,11 @@ namespace Epic
         {
             Database::Transaction               m_transaction;
             Database::FoodInsertStatement       m_statement;
-            std::map < std::string, sqlite3_int64 > m_code_to_id; 
+            std::map < std::string, sqlite3_int64 > m_code_to_id;
 
             FoodData()
             {
-                
+
             }
 
             bool
@@ -67,7 +67,7 @@ namespace Epic
                 }
                 return true;
             }
-            
+
             bool
             commit()
             {

@@ -15,14 +15,14 @@ namespace Epic
             void *m_ptr;
             public:
             Resource() : m_ptr(NULL), m_size(0) {}
-            Resource(const std::string & filename) :m_ptr(NULL),m_size(0) 
+            Resource(const std::string & filename) :m_ptr(NULL),m_size(0)
             {
                 if(!load(filename))
                 {
                     throw std::runtime_error("Loading Resource from file failed");
                 }
             }
-            ~Resource() 
+            ~Resource()
             {
                 clear();
             }
@@ -30,7 +30,7 @@ namespace Epic
             static bool
             load( const std::string & filename, std::string & dest)
             {
-                try 
+                try
                 {
                     Resource rs(filename);
                     rs.data(dest);
@@ -44,7 +44,7 @@ namespace Epic
 
 
 
-            bool 
+            bool
             load(const std::string & filename)
             {
                 char *errmsg=NULL;
@@ -57,17 +57,17 @@ namespace Epic
                     return false;
                 }
 
-                return true;   
+                return true;
             }
 
             private:
 
             void
             data(std::string & dest)
-            { 
+            {
                 if(m_ptr)
                 {
-                    dest.assign(static_cast<char *>(m_ptr),m_size); 
+                    dest.assign(static_cast<char *>(m_ptr),m_size);
                 }
             };
 

@@ -37,15 +37,15 @@ Epic::Import::QuestionaireDataModel::header(str_vector_t & v)
 
 
     Person person;
-    
+
     Milk milk;
-    
+
     if(pos_by_field.find("MILK") != pos_by_field.end())
         milk.type = v.at(pos_by_field["MILK"]);
 
     if(pos_by_field.find("MILK_OTHER") != pos_by_field.end())
         milk.other = v.at(pos_by_field["MILK_OTHER"]);
- 
+
     if(pos_by_field.find("MILK_FREQUENCY") != pos_by_field.end())
         milk.portion = v.at(pos_by_field["MILK_FREQUENCY"]);
 
@@ -64,7 +64,7 @@ Epic::Import::QuestionaireDataModel::header(str_vector_t & v)
     {
         // type
         // other
-        // frequency is really a portion 
+        // frequency is really a portion
         // multiplied by frequency code for daily usage
     }
 
@@ -84,11 +84,11 @@ Epic::Import::QuestionaireDataModel::header(str_vector_t & v)
     {
         // value lookup in meals table
         // select ingredients.food,
-        //        ingredients.amount 
+        //        ingredients.amount
         //  from meals,
-        //       ingredients 
+        //       ingredients
         //  where
-        //      ingredients.meal_id = meals.line 
+        //      ingredients.meal_id = meals.line
         //  and meal.name = ?;
     }
 

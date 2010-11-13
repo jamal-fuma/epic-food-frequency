@@ -15,7 +15,7 @@ namespace Epic
             int m_major;
             int m_minor;
             std::string m_license;
-            Version() : m_major(0), m_minor(1), m_license(GPL_LICENSE_TEXT) {} 
+            Version() : m_major(0), m_minor(1), m_license(GPL_LICENSE_TEXT) {}
 
             int
             operator()()

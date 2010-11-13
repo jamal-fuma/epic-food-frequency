@@ -17,7 +17,7 @@ namespace Epic
         struct MealData
         {
             Database::Transaction               m_transaction;
-            Database::MealInsertStatement       m_statement; 
+            Database::MealInsertStatement       m_statement;
 
             MealData() { }
 
@@ -59,7 +59,7 @@ namespace Epic
                 }
                 return true;
             }
-            
+
             bool
             commit()
             {

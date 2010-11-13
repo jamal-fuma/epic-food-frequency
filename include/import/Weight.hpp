@@ -15,7 +15,7 @@ namespace Epic
 
         struct WeightData
         {
-            Database::WeightInsertStatement     m_statement; 
+            Database::WeightInsertStatement     m_statement;
             Database::Transaction               m_transaction;
 
             WeightData() { }
@@ -61,7 +61,7 @@ namespace Epic
                 }
                 return true;
             }
-            
+
             bool
             commit()
             {

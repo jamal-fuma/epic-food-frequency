@@ -8,7 +8,7 @@ namespace Epic
 {
     namespace Import
     {
- 
+
         struct Config
         {
             static const size_t fields = 2;
@@ -18,8 +18,8 @@ namespace Epic
 
             Config() {}
             Config( const std::string & name,
-                    const std::string & value) : 
-                m_name(name), 
+                    const std::string & value) :
+                m_name(name),
                 m_value(value) {}
 
             friend std::ostream & operator<<(std::ostream & rhs, const Config & conf)
@@ -38,10 +38,10 @@ namespace Epic
         {
             typedef std::map<std::string,Config> value_map_t;
             value_map_t                         & m_configs_by_name;
-         
+
             ConfigData() : m_configs_by_name( Epic::Pattern::Singleton<value_map_t>::instance())
             {
-                
+
             }
 
             operator const value_map_t & () const

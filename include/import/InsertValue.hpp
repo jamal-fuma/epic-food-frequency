@@ -21,13 +21,13 @@ namespace Epic
             // all post-processing on tokens occurs here
             template<class IteratorT>
             void
-            operator()( IteratorT begin, IteratorT end) const 
+            operator()( IteratorT begin, IteratorT end) const
             {
                 std::string s(begin, end);
                 std::string::size_type pos(0);
 
                 // fold a rfc4180 literal double quote ("") into
-                // a single literal double quote 
+                // a single literal double quote
                 pos = s.find("\"\"", pos);
                 for(; pos != std::string::npos;  pos = s.find("\"\"", pos))
                 {
@@ -36,7 +36,7 @@ namespace Epic
                 }
 
                 // need to remove carriage returns
-                pos = s.find('\r',0); 
+                pos = s.find('\r',0);
                 for(; pos != std::string::npos; pos = s.find('\r',pos+1) )
                 {
                     s.erase(pos,1);

@@ -41,37 +41,15 @@ main(int argc, char **argv)
         if(args.find("log-file") != args.end())
             Epic::Logging::open(args["log-file"]);
 
-        // try a default config
+        // try a default config unless  config file specified on command line
         if(args.find("config") == args.end())
-        {
-            if(!Epic::Config::load(DEFAULT_CONFIG_FILE))
-            {
-                std::ostringstream ss;
-                ss << "Config file missing " << DEFAULT_CONFIG_FILE << std::endl;
-                Epic::Logging::error(ss.str());
-                return EXIT_FAILURE;
-            }
-        }
-        // load config file specified on command line
-        else if(!Epic::Config::load(args["config"]))
+            args["config"] = DEFAULT_CONFIG_FILE;
+
+        if(!Epic::Config::load(args["config"]))
         {
             std::ostringstream ss;
             ss << "Config file missing " << args["config"] << std::endl;
             Epic::Logging::error(ss.str());
-            return EXIT_FAILURE;
-        }
-        
-        // nutrient quantity config
-        std::string config_file;
-        if(!Epic::Config::find("nutrient_quantity",config_file))
-        {
-            Epic::Logging::error("Nutrient Quantity Configuration file not listed in application config\n");
-            return EXIT_FAILURE;
-        }
-        
-        if(!Epic::Config::Quantity::load(config_file))
-        {
-            Epic::Logging::error("Nutrient Quantity Configuration file not loaded\n");
             return EXIT_FAILURE;
         }
 
@@ -91,16 +69,16 @@ main(int argc, char **argv)
             Epic::Logging::error("No jobfile or input file specifed on command line\n");
             return EXIT_FAILURE;
         }
-        
+
         if(args.find("output") != args.end())
             app.set_output(args["output"]);
-    
+
         Epic::Database::connect();
 
         // all that for this
         return app.run();
     }
- 
+
     catch(std::runtime_error & e)
     {
         std::ostringstream ss;
@@ -109,7 +87,7 @@ main(int argc, char **argv)
         return EXIT_FAILURE;
     }
     catch(...)
-    {   
+    {
         return EXIT_FAILURE;
     }
 }

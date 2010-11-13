@@ -16,9 +16,9 @@ namespace Epic
         struct MilkTypesData
         {
             Database::Transaction                       m_transaction;
-            Database::MilkTypeInsertStatement         m_statement; 
+            Database::MilkTypeInsertStatement         m_statement;
 
-            MilkTypesData() {} 
+            MilkTypesData() {}
 
             bool
             operator()(std::string & error_message)
@@ -58,7 +58,7 @@ namespace Epic
                 }
                 return true;
             }
-            
+
             bool
             commit()
             {
