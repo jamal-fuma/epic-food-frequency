@@ -47,7 +47,6 @@ libEpic_la_SOURCES = \
                    $(top_srcdir)/include/import/InsertValue.hpp  \
                    $(top_srcdir)/include/import/NewLine.hpp  \
                    \
-                   $(top_srcdir)/include/client/Record.hpp  \
                    $(top_srcdir)/include/client/Application.hpp  \
                    \
                    $(top_srcdir)/include/dataset/IngredientStatement.hpp  \

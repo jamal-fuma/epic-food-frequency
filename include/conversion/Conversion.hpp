@@ -1,11 +1,9 @@
 #ifndef EPIC_CONVERSION_HPP
 #define EPIC_CONVERSION_HPP
 
-#include "Epic.hpp"
-
+#include "Epic_lib.hpp"
 #include <string>
 #include <map>
-#include "config/Global.hpp"
 
 namespace Epic
 {
