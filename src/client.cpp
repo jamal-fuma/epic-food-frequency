@@ -1,16 +1,16 @@
-#include "cmdline/Parser.hpp"
+#include "Epic_lib.hpp"
+
 #include "client/Application.hpp"
-#include "logging/Logger.hpp"
-#include "config/Global.hpp"
+#include "cmdline/Parser.hpp"
 
 static int help();
+static int version();
 
 int
 main(int argc, char **argv)
 {
     try
     {
-        Epic::Client::Version ver;
         Epic::CmdLine::Parser cmd;
 
         cmd.add_option("version",   'V');
@@ -35,7 +35,7 @@ main(int argc, char **argv)
             return help();
 
         if(args.find("version") != args.end())
-            return ver();
+            return version();
 
         // direct logging to specifed file
         if(args.find("log-file") != args.end())
@@ -53,9 +53,14 @@ main(int argc, char **argv)
             return EXIT_FAILURE;
         }
 
+        Epic::Database::connect();
+
         Epic::Client::Application app;
 
         // sort out input / output
+        if(args.find("output") != args.end())
+            app.set_output(args["output"]);
+
         if(args.find("input") != args.end())
         {
             app.set_input(args["input"]);
@@ -69,11 +74,6 @@ main(int argc, char **argv)
             Epic::Logging::error("No jobfile or input file specifed on command line\n");
             return EXIT_FAILURE;
         }
-
-        if(args.find("output") != args.end())
-            app.set_output(args["output"]);
-
-        Epic::Database::connect();
 
         // all that for this
         return app.run();
@@ -96,7 +96,7 @@ static int
 help()
 {
     std::cerr << "Epic_Client <options> - where options is one or more of the following:\n" ;
-    std::cerr << "	Usage :\n" ;
+    std::cerr << "	Usage :" << std::endl;
     std::cerr << "		(-f) 	 --config\n" ;
     std::cerr << "		(-h) 	 --help\n" ;
     std::cerr << "		(-i) 	 --input\n" ;
@@ -107,6 +107,15 @@ help()
     std::cerr << "		(-s) 	 --style\n" ;
     std::cerr << "		(-v) 	 --verbose\n" ;
     std::cerr << "		(-V) 	 --version\n" ;
+    std::cerr << std::endl;
+    return EXIT_SUCCESS;
+}
+
+static int
+version()
+{
+    std::cerr << "Epic_Client V " << PACKAGE_VERSION << std::endl;
+    std::cerr << GPL_LICENSE_TEXT << std::endl;
     std::cerr << std::endl;
     return EXIT_SUCCESS;
 }

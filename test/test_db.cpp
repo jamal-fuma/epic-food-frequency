@@ -1,19 +1,16 @@
-#include "cmdline/Parser.hpp"
-#include "client/Application.hpp"
-#include "logging/Logger.hpp"
-#include "config/Global.hpp"
+#include "Epic_lib.hpp"
+
 #include "dataset/Statement.hpp"
 
 int
 main(int argc, char **argv)
 {
-    Epic::CmdLine::Parser::result_map_t args;
-    args["config"] = "/home/me/workspace/clone/epic-food-frequency-0.0.1/build/client.conf";
+    std::string conf = "/home/me/workspace/clone/epic-food-frequency-0.0.1/build/client.conf";
 
-    if(!Epic::Config::load(args["config"]))
+    if(!Epic::Config::load(conf))
     {
         std::ostringstream ss;
-        ss << "Config file missing " << args["config"] << std::endl;
+        ss << "Config file missing " << conf << std::endl;
         Epic::Logging::error(ss.str());
         return EXIT_FAILURE;
     }

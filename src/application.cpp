@@ -1,4 +1,10 @@
 #include "client/Application.hpp"
+
+#include "dataset/Database.hpp"
+#include "config/Global.hpp"
+
+#include "import/Questionaire.hpp"
+
 #include "import/Nutrient.hpp"
 #include "import/Food.hpp"
 #include "import/Meal.hpp"
@@ -9,8 +15,62 @@
 #include "import/Ingredient.hpp"
 #include "import/CerealTypes.hpp"
 #include "import/MilkTypes.hpp"
-#include "dataset/Report.hpp"
 
+#include "dataset/Report.hpp"
+#include "dataset/QuestionaireStatement.hpp"
+#include "dataset/QuestionStatement.hpp"
+#include "dataset/RespondentStatement.hpp"
+#include "dataset/ResponseStatement.hpp"
+
+
+int
+Epic::Client::Application::run()
+{
+    try
+    {
+        if(Epic::Database::created())
+        {
+            if(!load_tables())
+            {
+                Epic::Logging::error("Populating db tables failed\n");
+                return EXIT_FAILURE;
+            }
+        }
+
+        // parse data into the database
+        if(!load_questionaire())
+        {
+            Epic::Logging::error("Questionaire processing not started due to insuffient input\n");
+            Epic::Logging::note("Questionaire may be specifed as single file input or in a batch using a jobfile\n");
+            return EXIT_FAILURE;
+        }
+
+        // sort out input / output
+        Epic::Database::Report rs;
+        if(m_output_file.empty())
+        {
+            rs.respondents(std::cout);
+        }
+        else
+        {
+            std::ofstream file(m_output_file.c_str());
+            if(!file.is_open())
+            {
+                std::cerr << "unable to open output file " << std::endl;
+                return EXIT_FAILURE;
+            }
+            rs.respondents(file);
+            file.close();
+        }
+    }
+    catch(std::runtime_error & e)
+    {
+        Epic::Logging::error(e.what());
+        return EXIT_FAILURE;
+    }
+
+    return EXIT_SUCCESS;
+}
 
 template <class Data>
 bool
@@ -74,52 +134,35 @@ Epic::Client::Application::load_tables()
  //       return false;
     return true;
 }
-
-int
-Epic::Client::Application::run()
+bool
+Epic::Client::Application::load_questionaire()
 {
-    try
+    Import::QuestionaireData qd;
+    Database::QuestionaireInsertStatement qs;
+    switch(m_status)
     {
-        if(Epic::Database::created())
-        {
-            if(!load_tables())
+        case Application::InputFile :
+
+            qs.bind("epic",m_input_file);
+            qs.step();
+            qs.reset();
+
+            if(!Import::load(m_input_file,qd))
             {
-                Epic::Logging::error("Populating db tables failed\n");
-                return EXIT_FAILURE;
+                Logging::error("Loading Questionaire file " + m_input_file + "failed\n");
+                return false;
             }
-        }
+            return qd.commit();
+            break;
 
-        // parse data into the database
-        if(!load_questionaire())
-        {
-            Epic::Logging::error("Questionaire processing not started due to insuffient input\n");
-            Epic::Logging::note("Questionaire may be specifed as single file input or in a batch using a jobfile\n");
-            return EXIT_FAILURE;
-        }
-
-        // sort out input / output
-        Database::Report rs;
-        if(m_output_file.empty())
-        {
-            rs.respondents(std::cout);
-        }
-        else
-        {
-            std::ofstream file(m_output_file.c_str());
-            if(!file.is_open())
-            {
-                std::cerr << "unable to open output file " << std::endl;
-                return EXIT_FAILURE;
-            }
-            rs.respondents(file);
-            file.close();
-        }
+            // rewire jobfile processing
+        case Application::JobFile   :
+            std::cout << "Job file specifed as " << m_input_file;
+            break;
+        default:
+            return false;
     }
-    catch(std::runtime_error & e)
-    {
-        Epic::Logging::error(e.what());
-        return EXIT_FAILURE;
-    }
-
-    return EXIT_SUCCESS;
+    return true;
 }
+
+

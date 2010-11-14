@@ -26,7 +26,7 @@ AM_CFLAGS =\
 lib_LTLIBRARIES = libEpic.la
 libEpic_la_SOURCES = \
                 $(top_srcdir)/include/conversion/Conversion.hpp  \
-                 $(top_srcdir)/include/Epic.hpp  \
+                 $(top_srcdir)/include/Epic_lib.hpp  \
                    \
                    $(top_srcdir)/include/import/MilkTypes.hpp  \
                    $(top_srcdir)/include/import/CerealTypes.hpp  \
@@ -48,7 +48,6 @@ libEpic_la_SOURCES = \
                    $(top_srcdir)/include/import/NewLine.hpp  \
                    \
                    $(top_srcdir)/include/client/Record.hpp  \
-                   $(top_srcdir)/include/client/Version.hpp  \
                    $(top_srcdir)/include/client/Application.hpp  \
                    \
                    $(top_srcdir)/include/dataset/IngredientStatement.hpp  \
