@@ -12,41 +12,39 @@ main(int argc, char **argv)
     expected.push_back("Foo");
     expected.push_back("Bar");
 
-    std::string err;
-
-    if(Epic::Import::DBModel::same_header("meals",expected,actual,err))
+    if(Epic::Import::DBModel::same_header("meals",expected,actual))
     {
         std::cout << "Passed" <<std::endl;
     }
     else
     {
-        std::cerr << "Failed with error " << err << std::endl;
+        std::cerr << "Failed with error "<< std::endl;
     }
 
     // correct but misordered fields
     actual.clear();
     actual.push_back("Bar");
     actual.push_back("Foo");
-    if(Epic::Import::DBModel::same_header("meals",expected,actual,err))
+    if(Epic::Import::DBModel::same_header("meals",expected,actual))
     {
         std::cout << "Passed" <<std::endl;
     }
     else
     {
-        std::cerr << "Failed with error " << err << std::endl;
+        std::cerr << "Failed with error "<< std::endl;
     }
 
     // correct fields
     actual.clear();
     actual.push_back("Foo");
     actual.push_back("Bar");
-    if(Epic::Import::DBModel::same_header("meals",expected,actual,err))
+    if(Epic::Import::DBModel::same_header("meals",expected,actual))
     {
         std::cout << "Passed" <<std::endl;
     }
     else
     {
-        std::cerr << "Failed with error " << err << std::endl;
+        std::cerr << "Failed with error "<< std::endl;
     }
 
     return 0;

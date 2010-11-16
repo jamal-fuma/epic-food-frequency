@@ -23,11 +23,15 @@ AM_CPPFLAGS 	=  -I$(top_srcdir)/libutility/src \
 
 AM_LDFLAGS	=  $(LINK_DEPS)
 
-test_db_SOURCES = test_db.cpp 
+test_db_SOURCES = test_db.cpp \
+    		 Questionaire.hpp \
+    		 QuestionaireDao.cpp \
+    		 QuestionaireDao.hpp
+
 test_db_LDADD = $(LINK_DEPS)
 test_db_DEPENDENCIES = $(LINK_DEPS)
 
-test_header_SOURCES = test_db.cpp 
+test_header_SOURCES = test_header.cpp 
 test_header_LDADD = $(LINK_DEPS)
 test_header_DEPENDENCIES = $(LINK_DEPS)
 

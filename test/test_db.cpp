@@ -1,6 +1,7 @@
 #include "Epic_lib.hpp"
 
 #include "dataset/Statement.hpp"
+#include "Questionaire.hpp"
 
 int
 main(int argc, char **argv)
@@ -26,6 +27,24 @@ main(int argc, char **argv)
         return EXIT_FAILURE;
 
     Epic::Database::connect();
+
+    Test::Questionaire::Questionaire questionaire ;
+
+    questionaire.set_filename("foo");
+    questionaire.save();
+
+    std::cout << "1st " << questionaire;
+ 
+    questionaire.set_filename("bar");
+    questionaire.save();
+
+    std::cout << "2nd " << questionaire;
+
+    Test::Questionaire::Questionaire foo = Test::Questionaire::Questionaire::find_by_filename("foo");
+    
+    std::cout << "3rd " << foo;
+
+    assert(foo.valid() && "Foo is expected to be valid");
 
 #if(0)
     Epic::Database::Statement sql ("select * from meals");
