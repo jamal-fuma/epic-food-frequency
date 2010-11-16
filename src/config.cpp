@@ -8,6 +8,25 @@ void Epic::Config::Config::load(const std::string & filename)
         throw std::runtime_error("failed to load configuration from " + filename);
 }
 
+bool Epic::Config::Config::insert(const std::string & key, const std::string & value, bool overwrite)
+{
+    iterator lower = m_params.lower_bound(key);
+    if(lower != m_params.end() && !(m_params.key_comp()(key, lower->first)))
+    {
+        // exists and overwrite acceptable
+        if(overwrite)
+        {
+            lower->second = value;
+            return true;
+        }
+        // exists but not supposed to overwrite
+        return false;
+    }
+    // key doesnt exists so use lower bound as insertion hint
+    m_params.insert(lower, value_type(key, value));
+    return true;
+}
+
 bool Epic::Config::Config::find(const std::string & key, std::string & dest)
 {
     std::map<std::string,std::string>::const_iterator value = m_params.find(key);
@@ -40,7 +59,7 @@ bool Epic::Config::find(const std::string & key, std::string & dest)
         if(!ret)
         {
             std::ostringstream ss;
-            ss << "Config file lacks value for '" << key << "'\n" ;
+            ss << "Config file lacks value for key : '" << key << "'" << std::endl ;
             Epic::Logging::error(ss.str());
             return false;
         }
@@ -51,6 +70,27 @@ bool Epic::Config::find(const std::string & key, std::string & dest)
         return false;
     }
 }
+
+bool Epic::Config::insert(const std::string & key, const std::string & value, bool overwrite)
+{
+    try
+    {
+        bool ret = Epic::Pattern::Singleton< Config >::instance().insert(key,value,overwrite);
+        if(!ret && !overwrite)
+        {
+            std::ostringstream ss;
+            ss << "Failed to insert configuration value with key,value : ('" << key << "','" << value << "')" << std::endl ;
+            Epic::Logging::error(ss.str());
+            return false;
+        }
+        return ret;
+    }
+    catch(...)
+    {
+        return false;
+    }
+}
+
 
 bool Epic::Config::Field::load(const std::string & filename)
 {

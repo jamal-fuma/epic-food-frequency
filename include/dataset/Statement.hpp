@@ -45,9 +45,15 @@ namespace Epic
             }
 
             int
-            bind_int(sqlite3_int64 row, sqlite3_int64 value)
+            bind_int(sqlite3_int64 row, int value)
             {
                 return sqlite3_bind_int(m_statement,row,value);
+            }
+
+            int
+            bind_int64(sqlite3_int64 row, sqlite3_int64 value)
+            {
+                return sqlite3_bind_int64(m_statement,row,value);
             }
 
             int
@@ -74,9 +80,21 @@ namespace Epic
             }
 
             sqlite3_int64
+            column_int64(sqlite3_int64 row)
+            {
+                return sqlite3_column_int64(m_statement,row);
+            }
+
+            int
             column_int(sqlite3_int64 row)
             {
                 return sqlite3_column_int64(m_statement,row);
+            }
+
+            double
+            column_double(sqlite3_int64 row)
+            {
+                return sqlite3_column_double(m_statement,row);
             }
 
             int
@@ -126,9 +144,18 @@ namespace Epic
 
             // binders
             int
-            bind_int(sqlite3_int64 row, sqlite3_int64 value)
+            bind_int(sqlite3_int64 row, int value)
             {
                 int rc = m_sql.bind_int(row,value);
+                if(SQLITE_OK == rc)
+                    m_bound = true;
+                return rc;
+            }
+
+            sqlite3_int64
+            bind_int64(sqlite3_int64 row, sqlite3_int64 value)
+            {
+                int rc = m_sql.bind_int64(row,value);
                 if(SQLITE_OK == rc)
                     m_bound = true;
                 return rc;
@@ -162,9 +189,21 @@ namespace Epic
             }
 
             sqlite3_int64
+            column_int64(sqlite3_int64 row)
+            {
+                return m_sql.column_int64(row);
+            }
+
+            int
             column_int(sqlite3_int64 row)
             {
                 return m_sql.column_int(row);
+            }
+
+            double
+            column_double(sqlite3_int64 row)
+            {
+                return m_sql.column_double(row);
             }
 
             int

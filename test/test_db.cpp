@@ -5,7 +5,9 @@
 int
 main(int argc, char **argv)
 {
-    std::string conf = "/home/me/workspace/clone/epic-food-frequency-0.0.1/build/client.conf";
+    std::string conf    = "/home/me/workspace/clone/epic-food-frequency-0.0.1/build/client.conf";
+    std::string schema  = "/home/me/workspace/clone/epic-food-frequency-0.0.1/sql/model.sql" ;
+    std::string dbase   = "/home/me/workspace/clone/epic-food-frequency-0.0.1/build/test/foods.db" ;
 
     if(!Epic::Config::load(conf))
     {
@@ -15,8 +17,17 @@ main(int argc, char **argv)
         return EXIT_FAILURE;
     }
 
+    // overwrite the schema variable listed in config file with the new version
+    if(!Epic::Config::insert("schema",schema,true))
+        return EXIT_FAILURE;
+
+    // overwrite the database variable listed in config file with the new version
+    if(!Epic::Config::insert("database",dbase,true))
+        return EXIT_FAILURE;
+
     Epic::Database::connect();
 
+#if(0)
     Epic::Database::Statement sql ("select * from meals");
 
     int rc;
@@ -29,8 +40,7 @@ main(int argc, char **argv)
         }
         std::cout << std::endl;
     }
-    return (SQLITE_DONE == rc);
-
+#endif
     return EXIT_SUCCESS;
 }
 

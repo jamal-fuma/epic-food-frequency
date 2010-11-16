@@ -12,19 +12,24 @@ namespace Epic
     {
       class Config
       {
-            std::map<std::string,std::string> m_params;
+            typedef std::map<std::string,std::string>       map_value_type;
+            typedef map_value_type::value_type              value_type;
+            typedef map_value_type::const_iterator          const_iterator;
+            typedef map_value_type::iterator                iterator;
+
+            map_value_type m_params;
 
             public:
                 Config() {}
 
                 bool find(const std::string & key, std::string & dest);
-
+                bool insert(const std::string & key, const std::string & value, bool overwrite=false);
                 void load(const std::string & filename) ;
 
         };
 
         bool load(const std::string & filename);
-
+        bool insert(const std::string & key, const std::string & value, bool overwrite=false);
         bool find(const std::string & key, std::string & dest);
 
 

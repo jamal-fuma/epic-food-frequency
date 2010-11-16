@@ -28,7 +28,7 @@ CREATE TABLE person_foods (
 	person_id INTEGER NOT NULL,
 	food_id INTEGER NOT NULL,
 	portion INTEGER NOT NULL,
-	frequency float
+	frequency float NOT NULL
 );
 CREATE INDEX index_person_foods_on_person ON person_foods(person_id);
 
