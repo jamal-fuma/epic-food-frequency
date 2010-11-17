@@ -1,6 +1,5 @@
 #include "Epic_lib.hpp"
 
-#include "dataset/Statement.hpp"
 #include "Questionaire.hpp"
 
 int
@@ -46,20 +45,6 @@ main(int argc, char **argv)
 
     assert(foo.valid() && "Foo is expected to be valid");
 
-#if(0)
-    Epic::Database::Statement sql ("select * from meals");
-
-    int rc;
-    for( rc = sql.step(); (SQLITE_ROW == rc); rc = sql.step() )
-    {
-        int max = sql.column_count();
-        for(int i=0; i<max; ++i)
-        {
-            std::cout << sql.column_text(i) << " ";
-        }
-        std::cout << std::endl;
-    }
-#endif
     return EXIT_SUCCESS;
 }
 
