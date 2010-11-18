@@ -27,7 +27,11 @@ AM_LDFLAGS	=  $(LINK_DEPS)
 test_db_SOURCES = test_db.cpp \
     		 Questionaire.hpp \
     		 QuestionaireDao.cpp \
-    		 QuestionaireDao.hpp
+    		 QuestionaireDao.hpp \
+		 \
+    		 Person.hpp \
+    		 PersonDao.cpp \
+    		 PersonDao.hpp
 
 test_db_LDADD = $(LINK_DEPS)
 test_db_DEPENDENCIES = $(LINK_DEPS)

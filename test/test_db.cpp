@@ -1,6 +1,11 @@
 #include "Epic_lib.hpp"
 
 #include "Questionaire.hpp"
+#include "Person.hpp"
+
+
+void test_person();
+void test_questionaire();
 
 int
 main(int argc, char **argv)
@@ -27,6 +32,37 @@ main(int argc, char **argv)
 
     Epic::Database::connect();
 
+    test_questionaire();
+    test_person();
+
+    return EXIT_SUCCESS;
+}
+
+void test_person()
+{
+    Test::Person::Person person ;
+
+    person.set_reference("foo");
+    person.save();
+
+    std::cout << "1st " << person;
+ 
+    person.set_reference("bar");
+    person.save();
+
+    std::cout << "2nd " << person;
+
+    Test::Person::Person foo = Test::Person::Person::find_by_reference("foo");
+    
+    std::cout << "3rd " << foo;
+
+    assert(foo.valid() && "Foo is expected to be valid");
+    
+    std::cout << "Person [ok]" << std::endl;
+}
+
+void test_questionaire()
+{
     Test::Questionaire::Questionaire questionaire ;
 
     questionaire.set_filename("foo");
@@ -45,6 +81,6 @@ main(int argc, char **argv)
 
     assert(foo.valid() && "Foo is expected to be valid");
 
-    return EXIT_SUCCESS;
+    std::cout << "Questionaire [ok]" << std::endl;
 }
 
