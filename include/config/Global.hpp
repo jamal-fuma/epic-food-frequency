@@ -22,9 +22,20 @@ namespace Epic
             public:
                 Config() {}
 
-                bool find(const std::string & key, std::string & dest);
+                bool find(const std::string & key, std::string & dest) const ;
                 bool insert(const std::string & key, const std::string & value, bool overwrite=false);
                 void load(const std::string & filename) ;
+
+                friend std::ostream & operator << (std::ostream & out, const Config & cnf)
+                {
+                    const_iterator end = cnf.m_params.end();
+                    for(const_iterator cur = cnf.m_params.begin(); cur != end; ++cur)
+                    {
+                        out << cur->first  <<  "=\""  << cur->second  << "\"" << std::endl;
+                    }
+                    return out;
+                }
+
 
         };
 
@@ -43,7 +54,7 @@ namespace Epic
 
             bool load(const std::string & filename);
 
-            bool find(const std::string & key, std::string & dest);
+            bool find(const std::string & key, std::string & dest) ;
 
         } // Epic::Config::Field
 
@@ -57,7 +68,7 @@ namespace Epic
 
             bool load();
 
-            bool find(const std::string & key, std::string & dest);
+            bool find(const std::string & key, std::string & dest) ;
         } // Epic::Config::Quantity
 
     } // Epic::Config
