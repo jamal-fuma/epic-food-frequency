@@ -40,7 +40,7 @@ main(int argc, char **argv)
 
 void test_person()
 {
-    Test::Person::Person person ;
+    Epic::DAO::Person person ;
 
     person.set_reference("foo");
     person.save();
@@ -52,7 +52,7 @@ void test_person()
 
     std::cout << "2nd " << person;
 
-    Test::Person::Person foo = Test::Person::Person::find_by_reference("foo");
+    Epic::DAO::Person foo = Epic::DAO::Person::find_by_reference("foo");
     
     std::cout << "3rd " << foo;
 
@@ -63,7 +63,7 @@ void test_person()
 
 void test_questionaire()
 {
-    Test::Questionaire::Questionaire questionaire ;
+    Epic::DAO::Questionaire questionaire ;
 
     questionaire.set_filename("foo");
     questionaire.save();
@@ -75,7 +75,7 @@ void test_questionaire()
 
     std::cout << "2nd " << questionaire;
 
-    Test::Questionaire::Questionaire foo = Test::Questionaire::Questionaire::find_by_filename("foo");
+    Epic::DAO::Questionaire foo =  Epic::DAO::Questionaire::find_by_filename("foo");
     
     std::cout << "3rd " << foo;
 

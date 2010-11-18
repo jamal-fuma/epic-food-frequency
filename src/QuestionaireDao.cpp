@@ -2,7 +2,7 @@
 #include "dao/Questionaire.hpp"
 
 // find a questionaire given an id
-bool Test::Questionaire::DataAccess::find(sqlite3_int64 id, Test::Questionaire::Questionaire & questionaire)
+bool Epic::QuestionaireDAO::DataAccess::find(sqlite3_int64 id, Epic::DAO::Questionaire & questionaire)
 {
     bool rc = false;
     m_find_by_id.bind_int64(1,id);
@@ -17,7 +17,7 @@ bool Test::Questionaire::DataAccess::find(sqlite3_int64 id, Test::Questionaire::
 }
 
 // find a questionaire given a filename
-bool Test::Questionaire::DataAccess::find(const std::string & filename, Test::Questionaire::Questionaire & questionaire)
+bool Epic::QuestionaireDAO::DataAccess::find(const std::string & filename, Epic::DAO::Questionaire & questionaire)
 {
     bool rc = false;
     m_find_by_filename.bind_text(1,filename);
@@ -32,7 +32,7 @@ bool Test::Questionaire::DataAccess::find(const std::string & filename, Test::Qu
 }
 
 // save a questionaire
-bool Test::Questionaire::DataAccess::save(Test::Questionaire::Questionaire & questionaire)
+bool Epic::QuestionaireDAO::DataAccess::save(Epic::DAO::Questionaire & questionaire)
 {
     if(questionaire.filename_empty())
     {
@@ -62,42 +62,42 @@ bool Test::Questionaire::DataAccess::save(Test::Questionaire::Questionaire & que
 // singleton versions
 
 // find a questionaire given an id
-bool Test::Questionaire::find_by_id(sqlite3_int64 id, Test::Questionaire::Questionaire & questionaire)
+bool Epic::QuestionaireDAO::find_by_id(sqlite3_int64 id, Epic::DAO::Questionaire & questionaire)
 {
-    return Epic::Pattern::Singleton< Test::Questionaire::DataAccess >::instance().find(id,questionaire);
+    return Epic::Pattern::Singleton< Epic::QuestionaireDAO::DataAccess >::instance().find(id,questionaire);
 }
 
 // find a questionaire given a filename
-bool Test::Questionaire::find_by_filename(const std::string & filename, Test::Questionaire::Questionaire & questionaire)
+bool Epic::QuestionaireDAO::find_by_filename(const std::string & filename, Epic::DAO::Questionaire & questionaire)
 {
-    return Epic::Pattern::Singleton< Test::Questionaire::DataAccess >::instance().find(filename,questionaire);
+    return Epic::Pattern::Singleton< Epic::QuestionaireDAO::DataAccess >::instance().find(filename,questionaire);
 }
 
 // save a questionaire
-bool Test::Questionaire::save(Test::Questionaire::Questionaire & questionaire)
+bool Epic::QuestionaireDAO::save(Epic::DAO::Questionaire & questionaire)
 {
-    return Epic::Pattern::Singleton< Test::Questionaire::DataAccess >::instance().save(questionaire);
+    return Epic::Pattern::Singleton< Epic::QuestionaireDAO::DataAccess >::instance().save(questionaire);
 }
 
 
 // wire up saving the model to the DAO
-bool Test::Questionaire::Questionaire::save()
+bool Epic::DAO::Questionaire::save()
 {   
-    return Test::Questionaire::save(*this);
+    return Epic::QuestionaireDAO::save(*this);
 }
 
 // wire up finding the model using the DAO and a filename
-Test::Questionaire::Questionaire Test::Questionaire::Questionaire::find_by_filename(const std::string & filename)
+Epic::DAO::Questionaire Epic::DAO::Questionaire::find_by_filename(const std::string & filename)
 {
-    Test::Questionaire::Questionaire q;
-    Test::Questionaire::find_by_filename(filename,q);
+    Epic::DAO::Questionaire q;
+    Epic::QuestionaireDAO::find_by_filename(filename,q);
     return q;
 }
 
 // wire up finding the model using the DAO and an id
-Test::Questionaire::Questionaire Test::Questionaire::Questionaire::find_by_id(sqlite3_int64 id)
+Epic::DAO::Questionaire Epic::DAO::Questionaire::find_by_id(sqlite3_int64 id)
 {
-    Test::Questionaire::Questionaire q;
-    Test::Questionaire::find_by_id(id,q);
+    Epic::DAO::Questionaire q;
+    Epic::QuestionaireDAO::find_by_id(id,q);
     return q;
 }

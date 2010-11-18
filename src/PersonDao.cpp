@@ -2,7 +2,7 @@
 #include "dao/Person.hpp"
 
 // find a person given an id
-bool Test::Person::DataAccess::find(sqlite3_int64 id, Test::Person::Person & person)
+bool Epic::PersonDAO::DataAccess::find(sqlite3_int64 id, Epic::DAO::Person & person)
 {
     bool rc = false;
     m_find_by_id.bind_int64(1,id);
@@ -17,7 +17,7 @@ bool Test::Person::DataAccess::find(sqlite3_int64 id, Test::Person::Person & per
 }
 
 // find a person given a reference
-bool Test::Person::DataAccess::find(const std::string & reference, Test::Person::Person & person)
+bool Epic::PersonDAO::DataAccess::find(const std::string & reference, Epic::DAO::Person & person)
 {
     bool rc = false;
     m_find_by_reference.bind_text(1,reference);
@@ -32,7 +32,7 @@ bool Test::Person::DataAccess::find(const std::string & reference, Test::Person:
 }
 
 // save a person
-bool Test::Person::DataAccess::save(Test::Person::Person & person)
+bool Epic::PersonDAO::DataAccess::save(Epic::DAO::Person & person)
 {
     if(person.reference_empty())
     {
@@ -62,42 +62,42 @@ bool Test::Person::DataAccess::save(Test::Person::Person & person)
 // singleton versions
 
 // find a person given an id
-bool Test::Person::find_by_id(sqlite3_int64 id, Test::Person::Person & person)
+bool Epic::PersonDAO::find_by_id(sqlite3_int64 id, Epic::DAO::Person & person)
 {
-    return Epic::Pattern::Singleton< Test::Person::DataAccess >::instance().find(id,person);
+    return Epic::Pattern::Singleton< Epic::PersonDAO::DataAccess >::instance().find(id,person);
 }
 
 // find a person given a reference
-bool Test::Person::find_by_reference(const std::string & reference, Test::Person::Person & person)
+bool Epic::PersonDAO::find_by_reference(const std::string & reference, Epic::DAO::Person & person)
 {
-    return Epic::Pattern::Singleton< Test::Person::DataAccess >::instance().find(reference,person);
+    return Epic::Pattern::Singleton< Epic::PersonDAO::DataAccess >::instance().find(reference,person);
 }
 
 // save a person
-bool Test::Person::save(Test::Person::Person & person)
+bool Epic::PersonDAO::save(Epic::DAO::Person & person)
 {
-    return Epic::Pattern::Singleton< Test::Person::DataAccess >::instance().save(person);
+    return Epic::Pattern::Singleton< Epic::PersonDAO::DataAccess >::instance().save(person);
 }
 
 
 // wire up saving the model to the DAO
-bool Test::Person::Person::save()
+bool Epic::DAO::Person::save()
 {   
-    return Test::Person::save(*this);
+    return Epic::PersonDAO::save(*this);
 }
 
 // wire up finding the model using the DAO and a reference
-Test::Person::Person Test::Person::Person::find_by_reference(const std::string & reference)
+Epic::DAO::Person Epic::DAO::Person::find_by_reference(const std::string & reference)
 {
-    Test::Person::Person q;
-    Test::Person::find_by_reference(reference,q);
+    Epic::DAO::Person q;
+    Epic::PersonDAO::find_by_reference(reference,q);
     return q;
 }
 
 // wire up finding the model using the DAO and an id
-Test::Person::Person Test::Person::Person::find_by_id(sqlite3_int64 id)
+Epic::DAO::Person Epic::DAO::Person::find_by_id(sqlite3_int64 id)
 {
-    Test::Person::Person q;
-    Test::Person::find_by_id(id,q);
+    Epic::DAO::Person q;
+    Epic::PersonDAO::find_by_id(id,q);
     return q;
 }

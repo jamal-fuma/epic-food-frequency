@@ -1,11 +1,11 @@
-#ifndef TEST_PERSON_HPP
-#define TEST_PERSON_HPP
+#ifndef EPIC_DAO_PERSON_HPP
+#define EPIC_DAO_PERSON_HPP
 
 #include "Epic_lib.hpp"
 
-namespace Test
+namespace Epic
 {
-    namespace Person
+    namespace DAO
     {
         class Person 
         {
@@ -60,9 +60,9 @@ namespace Test
                 std::string m_reference;
                 bool m_valid;
         };
-    } // Person namespace
+    } // DAO namespace
 
-} // Test namespace
+} // Epic namespace
 
 
-#endif /* ndef TEST_PERSON_HPP */
+#endif /* ndef EPIC_DAO_PERSON_HPP */

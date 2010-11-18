@@ -1,11 +1,11 @@
-#ifndef TEST_QUESTIONAIRE_HPP
-#define TEST_QUESTIONAIRE_HPP
+#ifndef EPIC_DAO_QUESTIONAIRE_HPP
+#define EPIC_DAO_QUESTIONAIRE_HPP
 
 #include "Epic_lib.hpp"
 
-namespace Test
+namespace Epic
 {
-    namespace Questionaire
+    namespace DAO
     {
         class Questionaire 
         {
@@ -60,9 +60,9 @@ namespace Test
                 std::string m_filename;
                 bool m_valid;
         };
-    } // Questionaire namespace
+    } // DAO namespace
 
-} // Test namespace
+} // Epic namespace
 
 
-#endif /* ndef TEST_QUESTIONAIRE_HPP */
+#endif /* ndef EPIC_DAO_QUESTIONAIRE_HPP */

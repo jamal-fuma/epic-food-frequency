@@ -1,14 +1,17 @@
-#ifndef TEST_QUESTIONAIRE_DAO_HPP
-#define TEST_QUESTIONAIRE_DAO_HPP
+#ifndef EPIC_DAO_QUESTIONAIRE_DAO_HPP
+#define EPIC_DAO_QUESTIONAIRE_DAO_HPP
 
 #include "Epic_lib.hpp"
 
-namespace Test
+namespace Epic
 {
-    namespace Questionaire
-    {
-        class Questionaire; //forward declaration
+    namespace DAO 
+    {   
+         class Questionaire; //forward declaration
+    } // DAO namespace
 
+    namespace QuestionaireDAO
+    {
         class DataAccess
         {
         public:
@@ -19,13 +22,13 @@ namespace Test
 
 
             // find a questionaire given an id
-            bool find(sqlite3_int64 id, Questionaire & questionaire);
+            bool find(sqlite3_int64 id, Epic::DAO::Questionaire & questionaire);
 
             // find a questionaire given a filename
-            bool find(const std::string & filename, Questionaire & questionaire);
+            bool find(const std::string & filename, Epic::DAO::Questionaire & questionaire);
 
             // save a questionaire
-            bool save(Questionaire & questionaire);
+            bool save(Epic::DAO::Questionaire & questionaire);
 
         private:
             Epic::Database::PreparedStatement m_insert;
@@ -33,11 +36,11 @@ namespace Test
             Epic::Database::PreparedStatement m_find_by_id;
         };
         
-        bool find_by_filename(const std::string & filename, Questionaire & questionaire);
-        bool find_by_id(sqlite3_int64, Questionaire & questionaire);
-        bool save(Questionaire & questionaire);
-    } // Questionaire namespace
+        bool find_by_filename(const std::string & filename, Epic::DAO::Questionaire & questionaire);
+        bool find_by_id(sqlite3_int64, Epic::DAO::Questionaire & questionaire);
+        bool save(Epic::DAO::Questionaire & questionaire);
+    } // QuestionaireDAO namespace
 
-} // Test namespace
+} // Epic namespace
 
-#endif /* ndef TEST_QUESTIONAIRE_DAO_HPP */
+#endif /* ndef EPIC_DAO_QUESTIONAIRE_DAO_HPP */

@@ -1,14 +1,17 @@
-#ifndef TEST_PERSON_DAO_HPP
-#define TEST_PERSON_DAO_HPP
+#ifndef EPIC_DAO_PERSON_DAO_HPP
+#define EPIC_DAO_PERSON_DAO_HPP
 
 #include "Epic_lib.hpp"
 
-namespace Test
+namespace Epic
 {
-    namespace Person
-    {
+    namespace DAO 
+    {   
         class Person; //forward declaration
+    } // DAO namespace
 
+    namespace PersonDAO
+    {
         class DataAccess
         {
         public:
@@ -19,13 +22,13 @@ namespace Test
 
 
             // find a person given an id
-            bool find(sqlite3_int64 id, Person & person);
+            bool find(sqlite3_int64 id, Epic::DAO::Person & person);
 
             // find a person given a reference
-            bool find(const std::string & reference, Person & person);
+            bool find(const std::string & reference, Epic::DAO::Person & person);
 
             // save a person
-            bool save(Person & person);
+            bool save(Epic::DAO::Person & person);
 
         private:
             Epic::Database::PreparedStatement m_insert;
@@ -33,11 +36,11 @@ namespace Test
             Epic::Database::PreparedStatement m_find_by_id;
         };
         
-        bool find_by_reference(const std::string & reference, Person & person);
-        bool find_by_id(sqlite3_int64, Person & person);
-        bool save(Person & person);
-    } // Person namespace
+        bool find_by_reference(const std::string & reference, Epic::DAO::Person & person);
+        bool find_by_id(sqlite3_int64, Epic::DAO::Person & person);
+        bool save(Epic::DAO::Person & person);
+    } // PersonDAO namespace
 
-} // Test namespace
+} // Epic namespace
 
-#endif /* ndef TEST_PERSON_DAO_HPP */
+#endif /* ndef EPIC_DAO_PERSON_DAO_HPP */
