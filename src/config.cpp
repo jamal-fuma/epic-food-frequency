@@ -27,7 +27,7 @@ bool Epic::Config::Config::insert(const std::string & key, const std::string & v
     return true;
 }
 
-bool Epic::Config::Config::find(const std::string & key, std::string & dest)
+bool Epic::Config::Config::find(const std::string & key, std::string & dest) const
 {
     std::map<std::string,std::string>::const_iterator value = m_params.find(key);
     if(value != m_params.end())
