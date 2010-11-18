@@ -95,6 +95,11 @@ class Person
             m_meats.insert(meal,frequency_str,true);
         }
 
+        // frying fat mutators
+        void insert_frying_fat_frequency(const std::string & meal, const std::string & frequency_str) { 
+            m_ffats.insert(meal,frequency_str,true);
+        }
+
 
         // person mutators
         void set_reference(const std::string & reference) { 
@@ -118,6 +123,7 @@ class Person
         
         Epic::Config::Config    m_meals;
         Epic::Config::Config    m_meats;
+        Epic::Config::Config    m_ffats;
         
         Milk                    m_milk;
         
@@ -130,6 +136,10 @@ class Person
 
 void person_meats(Person & person, const Epic::Config::Config & cnf);
 void person_meals(Person & person, const Epic::Config::Config & cnf);
+void person_milks(Person & person, const Epic::Config::Config & cnf);
+void person_cereals(Person & person, const Epic::Config::Config & cnf);
+void person_frying_fats(Person & person, const Epic::Config::Config & cnf);
+void person_baking_fats(Person & person, const Epic::Config::Config & cnf);
 
 
 int
@@ -163,150 +173,34 @@ main(int argc, char **argv)
     load_person(cnf);
 
     Person person;
-    std::string s;
+    std::string value;
     
-    if(cnf.find("ID",s) )
+    if(cnf.find("ID",value) )
     {
-        person.set_reference(s);
+        person.set_reference(value);
     }
     
-    person_meats(person,cnf);
     person_meals(person,cnf);
-
+    person_meats(person,cnf);
+    person_milks(person,cnf);
+    person_cereals(person,cnf);
+    person_frying_fats(person,cnf);
+    person_baking_fats(person,cnf);
     
-    // milk
-    if(cnf.find("MILK",s) )
-    {
-        person.set_milk_type(s);
-    }
+    Milk        milk       = person.get_milk();
+    Cereal      cereal_1   = person.get_primary_cereal();
+    Cereal      cereal_2   = person.get_secondary_cereal();
+    BakingFat   bfat       = person.get_baking_fat();
+    FryingFat   ffat       = person.get_frying_fat();
 
-    if(cnf.find("MILK_OTHER",s) )
-    {
-        person.set_milk_food(s);
-    }
-
-    if(cnf.find("MILK_FREQUENCY",s) )
-    {
-        person.set_milk_portion(s);
-    }
-
-
-// cereal
-    if(cnf.find("CERIAL",s) )
-    {
-        person.insert_meal_frequency("CERIAL",s);
-    }
-
-    if(cnf.find("EAT_BREAKFAST",s) )
-    {
-        person.set_eat_breakfast(s);
-    }
-
-    if(cnf.find("CERIAL1",s) )
-    {
-        person.set_primary_cereal_type(s);
-    }
-
-    if(cnf.find("TYPE1",s) )
-    {
-        person.set_primary_cereal_brand(s);
-    }
-
-    if(cnf.find("CERIAL2",s) )
-    {
-        person.set_secondary_cereal_type(s);
-    }
-
-    if(cnf.find("TYPE2",s) )
-    {
-        person.set_secondary_cereal_brand(s);
-    }
-
-
-// frying fat
-    if(cnf.find("FAT_FRYING",s) )
-    {
-        person.set_frying_fat_type(s);
-    }
-
-    if(cnf.find("FAT_FRYING_TYPE",s) )
-    {
-        person.set_frying_fat_food(s);
-    }
-
-    // frying
-    if(cnf.find("CHIPS",s) )
-    {
-        person.insert_meal_frequency("CHIPS",s);
-    }
-
-    // frying
-    if(cnf.find("ROAST_POTATOES",s) )
-    {
-        person.insert_meal_frequency("ROAST_POTATOES",s);
-    }
-
-    
-    // baking fat
-    
-    if(cnf.find("FAT_BAKING",s) )
-    {
-        person.set_baking_fat_type(s);
-    }
-
-    if(cnf.find("FAT_BAKING_TYPE",s) )
-    {
-        person.set_baking_fat_food(s);
-    }
-
-    // baking
-    if(cnf.find("SAVOURY_PIES",s) )
-    {
-        person.insert_meal_frequency("SAVOURY_PIES",s);
-    }
-
-    //baking 
-    
-    if(cnf.find("HOMEBAKED_CAKE",s) )
-    {
-        person.insert_meal_frequency("HOMEBAKED_CAKE",s);
-    }
-
-    //baking 
-    
-    if(cnf.find("HOMEBAKED_BUNS",s) )
-    {
-        person.insert_meal_frequency("HOMEBAKED_BUNS",s);
-    }
-
-    //baking 
-    if(cnf.find("HOMEBAKED_FRUIT_PIES",s) )
-    {
-        person.insert_meal_frequency("HOMEBAKED_FRUIT_PIES",s);
-    }
-
-    // baking
-    if(cnf.find("HOMEBAKED_SPONGE",s) )
-    {
-        person.insert_meal_frequency("HOMEBAKED_SPONGE",s);
-    }
-
-
-    // baking
-    if(cnf.find("SAUCES",s) )
-    {
-        person.insert_meal_frequency("SAUCES",s);
-    }
-
- 
-    Milk milk = person.get_milk();
-
-    std::cout << "Milk : type (" << milk.get_type() << ") food_code (" << milk.get_food_code() << ") portion (" << milk.get_portion() << ")" << std::endl;
+    std::cout << "Milk      : type (" << milk.get_type() << ") food_code (" << milk.get_food_code() << ") portion (" << milk.get_portion() << ")" << std::endl;
+    std::cout << "Cereal 1  : type (" << cereal_1.get_type() << ") brand (" << cereal_1.get_brand() << ")" << std::endl;
+    std::cout << "Cereal 2  : type (" << cereal_2.get_type() << ") brand (" << cereal_2.get_brand() << ")" << std::endl;
+    std::cout << "BakingFat : type (" << bfat.get_type() << ") food_code (" << bfat.get_food_code() << ")" << std::endl;
+    std::cout << "FryingFat : type (" << ffat.get_type() << ") food_code (" << ffat.get_food_code() << ")" << std::endl;
 
     return EXIT_SUCCESS;
 }
-
-
 
 
 
@@ -321,21 +215,21 @@ void person_meats(Person & person, const Epic::Config::Config & cnf)
     it  = meats.begin();
     end = meats.end();
   
-    std::string s;
+    std::string value;
 
     // load all meats
     for(; it != end; ++it)
     {
-        if(cnf.find(*it,s) )
+        if(cnf.find(*it,value) )
         {
-            person.insert_meat_frequency(*it,s);
+            person.insert_meat_frequency(*it,value);
         }
     }
     
     // visible fat
-    if(cnf.find("VISIBLE_FAT",s) )
+    if(cnf.find("VISIBLE_FAT",value) )
     {
-        person.set_visible_fat(s);
+        person.set_visible_fat(value);
     }
 }
 
@@ -361,5 +255,146 @@ void person_meals(Person & person, const Epic::Config::Config & cnf)
         {
             person.insert_meal_frequency(*it,value);
         }
+    }
+}
+
+void person_milks(Person & person, const Epic::Config::Config & cnf)
+{
+    std::string value;
+
+    // milk
+    if(cnf.find("MILK",value) )
+    {
+        person.set_milk_type(value);
+    }
+
+    if(cnf.find("MILK_OTHER",value) )
+    {
+        person.set_milk_food(value);
+    }
+
+    if(cnf.find("MILK_FREQUENCY",value) )
+    {
+        person.set_milk_portion(value);
+    }
+}
+
+void person_cereals(Person & person, const Epic::Config::Config & cnf)
+{
+    std::string value;
+
+// cereal
+    if(cnf.find("CERIAL",value) )
+    {
+        person.insert_meal_frequency("CERIAL",value);
+    }
+
+    if(cnf.find("EAT_BREAKFAST",value) )
+    {
+        person.set_eat_breakfast(value);
+    }
+
+    if(cnf.find("CERIAL1",value) )
+    {
+        person.set_primary_cereal_type(value);
+    }
+
+    if(cnf.find("TYPE1",value) )
+    {
+        person.set_primary_cereal_brand(value);
+    }
+
+    if(cnf.find("CERIAL2",value) )
+    {
+        person.set_secondary_cereal_type(value);
+    }
+
+    if(cnf.find("TYPE2",value) )
+    {
+        person.set_secondary_cereal_brand(value);
+    }
+}
+
+void person_frying_fats(Person & person, const Epic::Config::Config & cnf)
+{
+    std::string value;
+    
+    // frying fat
+    if(cnf.find("FAT_FRYING",value) )
+    {
+        person.set_frying_fat_type(value);
+    }
+
+    if(cnf.find("FAT_FRYING_TYPE",value) )
+    {
+        person.set_frying_fat_food(value);
+    }
+
+    // frying
+    if(cnf.find("CHIPS",value) )
+    {
+        person.insert_frying_fat_frequency("CHIPS",value);
+    }
+
+    // frying
+    if(cnf.find("ROAST_POTATOES",value) )
+    {
+        person.insert_frying_fat_frequency("ROAST_POTATOES",value);
+    }
+}
+
+void person_baking_fats(Person & person, const Epic::Config::Config & cnf)
+{
+    std::string value;
+
+    // baking fat
+    
+    if(cnf.find("FAT_BAKING",value) )
+    {
+        person.set_baking_fat_type(value);
+    }
+
+    if(cnf.find("FAT_BAKING_TYPE",value) )
+    {
+        person.set_baking_fat_food(value);
+    }
+
+    // baking
+    if(cnf.find("SAVOURY_PIES",value) )
+    {
+        person.insert_meal_frequency("SAVOURY_PIES",value);
+    }
+
+    //baking 
+    
+    if(cnf.find("HOMEBAKED_CAKE",value) )
+    {
+        person.insert_meal_frequency("HOMEBAKED_CAKE",value);
+    }
+
+    //baking 
+    
+    if(cnf.find("HOMEBAKED_BUNS",value) )
+    {
+        person.insert_meal_frequency("HOMEBAKED_BUNS",value);
+    }
+
+    //baking 
+    if(cnf.find("HOMEBAKED_FRUIT_PIES",value) )
+    {
+        person.insert_meal_frequency("HOMEBAKED_FRUIT_PIES",value);
+    }
+
+    // baking
+    if(cnf.find("HOMEBAKED_SPONGE",value) )
+    {
+        person.insert_meal_frequency("HOMEBAKED_SPONGE",value);
+    }
+
+
+    // baking
+    if(cnf.find("SAUCES",value) )
+    {
+        person.insert_meal_frequency("SAUCES",value);
     }
 }
