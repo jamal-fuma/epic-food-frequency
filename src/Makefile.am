@@ -23,7 +23,7 @@ AM_CFLAGS =\
 	 -Wall\
 	 -g
 
-lib_LTLIBRARIES = libEpic.la
+noinst_LTLIBRARIES = libEpic.la
 libEpic_la_SOURCES = \
                 $(top_srcdir)/include/conversion/Conversion.hpp  \
                  $(top_srcdir)/include/Epic_lib.hpp  \
@@ -1289,6 +1289,9 @@ libEpic_la_SOURCES = \
 	$(top_srcdir)/include/boost/exception/detail/attribute_noreturn.hpp \
 	$(top_srcdir)/include/boost/exception/exception.hpp \
 	$(top_srcdir)/include/boost/aligned_storage.hpp \
+                                        \
+                   PersonDao.cpp	\
+                   QuestionaireDao.cpp	\
                                         \
                    application.cpp      \
                    database.cpp      	\

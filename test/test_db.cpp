@@ -1,7 +1,7 @@
 #include "Epic_lib.hpp"
 
-#include "Questionaire.hpp"
-#include "Person.hpp"
+#include "dao/Questionaire.hpp"
+#include "dao/Person.hpp"
 
 
 void test_person();

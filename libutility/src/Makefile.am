@@ -11,7 +11,7 @@ AM_CFLAGS =\
 	 -Wall\
 	 -g
 
-lib_LTLIBRARIES = libUtility.la
+noinst_LTLIBRARIES = libUtility.la
 
 
 libUtility_la_SOURCES = \

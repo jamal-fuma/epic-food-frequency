@@ -23,6 +23,8 @@ AM_MAINTAINER_MODE
 
 AC_CANONICAL_HOST
 
+# turn off shared libs
+AC_DISABLE_SHARED
 
 # Checks for header files.
 AC_HEADER_STDC

@@ -20,18 +20,12 @@ AM_CPPFLAGS 	=  -I$(top_srcdir)/libutility/src \
         -I$(top_srcdir)/include/license \
         -I$(top_srcdir)/include/cmdline \
         -I$(top_srcdir)/include/conversion \
+        -I$(top_srcdir)/dao \
 	-DDEFAULT_CONFIG_FILE="\"${confdir}/client.conf\""
 
 AM_LDFLAGS	=  $(LINK_DEPS)
 
-test_db_SOURCES = test_db.cpp \
-    		 Questionaire.hpp \
-    		 QuestionaireDao.cpp \
-    		 QuestionaireDao.hpp \
-		 \
-    		 Person.hpp \
-    		 PersonDao.cpp \
-    		 PersonDao.hpp
+test_db_SOURCES = test_db.cpp
 
 test_db_LDADD = $(LINK_DEPS)
 test_db_DEPENDENCIES = $(LINK_DEPS)
@@ -49,5 +43,6 @@ reallyclean: maintainer-clean
 	rm -f Makefile
 	rm -f Makefile.in
 	rm -f  \
+	       test_import \
 	       test_header \
 	       test_db

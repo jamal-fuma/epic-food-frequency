@@ -1,5 +1,5 @@
-#include "PersonDao.hpp"
-#include "Person.hpp"
+#include "dao/PersonDao.hpp"
+#include "dao/Person.hpp"
 
 // find a person given an id
 bool Test::Person::DataAccess::find(sqlite3_int64 id, Test::Person::Person & person)

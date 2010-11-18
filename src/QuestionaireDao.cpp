@@ -1,5 +1,5 @@
-#include "QuestionaireDao.hpp"
-#include "Questionaire.hpp"
+#include "dao/QuestionaireDao.hpp"
+#include "dao/Questionaire.hpp"
 
 // find a questionaire given an id
 bool Test::Questionaire::DataAccess::find(sqlite3_int64 id, Test::Questionaire::Questionaire & questionaire)
