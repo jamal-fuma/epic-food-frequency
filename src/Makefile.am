@@ -27,7 +27,16 @@ noinst_LTLIBRARIES = libEpic.la
 libEpic_la_SOURCES = \
                 $(top_srcdir)/include/conversion/Conversion.hpp  \
                  $(top_srcdir)/include/Epic_lib.hpp  \
-                   \
+		   \
+                   $(top_srcdir)/include/dao/NutrientDAO.hpp	\
+ 		   $(top_srcdir)/include/dao/Nutrient.hpp	\
+		   \
+                   $(top_srcdir)/include/dao/PersonDAO.hpp	\
+ 		   $(top_srcdir)/include/dao/Person.hpp		\
+		   \
+                   $(top_srcdir)/include/dao/QuestionaireDAO.hpp\
+                   $(top_srcdir)/include/dao/Questionaire.hpp	\
+		   \
                    $(top_srcdir)/include/import/MilkTypes.hpp  \
                    $(top_srcdir)/include/import/CerealTypes.hpp  \
                    $(top_srcdir)/include/import/Weight.hpp  \
@@ -1290,6 +1299,7 @@ libEpic_la_SOURCES = \
 	$(top_srcdir)/include/boost/exception/exception.hpp \
 	$(top_srcdir)/include/boost/aligned_storage.hpp \
                                         \
+                   NutrientDAO.cpp	\
                    PersonDAO.cpp	\
                    QuestionaireDAO.cpp	\
                                         \

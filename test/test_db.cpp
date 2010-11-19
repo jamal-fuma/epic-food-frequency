@@ -2,9 +2,11 @@
 
 #include "dao/Questionaire.hpp"
 #include "dao/Person.hpp"
+#include "dao/Nutrient.hpp"
 
 
 void test_person();
+void test_nutrient();
 void test_questionaire();
 
 int
@@ -34,7 +36,7 @@ main(int argc, char **argv)
 
     test_questionaire();
     test_person();
-
+    test_nutrient();
     return EXIT_SUCCESS;
 }
 
@@ -46,19 +48,19 @@ void test_person()
     person.save();
 
     std::cout << "1st " << person;
- 
+
     person.set_reference("bar");
     person.save();
 
     std::cout << "2nd " << person;
 
     Epic::DAO::Person foo = Epic::DAO::Person::find_by_reference("foo");
-    
+
     std::cout << "3rd " << foo;
 
     assert(foo.valid() && "Foo is expected to be valid");
-    
-    std::cout << "Person [ok]" << std::endl;
+
+    std::cout << "Person [ok]" << std::endl << std::endl;
 }
 
 void test_questionaire()
@@ -69,18 +71,44 @@ void test_questionaire()
     questionaire.save();
 
     std::cout << "1st " << questionaire;
- 
+
     questionaire.set_filename("bar");
     questionaire.save();
 
     std::cout << "2nd " << questionaire;
 
     Epic::DAO::Questionaire foo =  Epic::DAO::Questionaire::find_by_filename("foo");
-    
+
     std::cout << "3rd " << foo;
 
     assert(foo.valid() && "Foo is expected to be valid");
 
-    std::cout << "Questionaire [ok]" << std::endl;
+    std::cout << "Questionaire [ok]" << std::endl << std::endl;
+}
+
+
+void test_nutrient()
+{
+    Epic::DAO::Nutrient nutrient ;
+
+    nutrient.set_code(100);
+    nutrient.set_description("foo bar");
+    nutrient.set_units("grams");
+    nutrient.save();
+
+    std::cout << "1st " << nutrient;
+
+    nutrient.set_code(999);
+    nutrient.save();
+
+    std::cout << "2nd " << nutrient;
+
+    Epic::DAO::Nutrient foo = Epic::DAO::Nutrient::find_by_code(100);
+
+    std::cout << "3rd " << foo;
+
+    assert(foo.valid() && "Foo is expected to be valid");
+
+    std::cout << "Nutrient [ok]" << std::endl << std::endl;
 }
 
