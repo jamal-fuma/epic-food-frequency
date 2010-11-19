@@ -1,4 +1,4 @@
-#include "dao/QuestionaireDao.hpp"
+#include "dao/QuestionaireDAO.hpp"
 #include "dao/Questionaire.hpp"
 
 // find a questionaire given an id

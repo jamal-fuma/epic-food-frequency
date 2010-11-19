@@ -1290,8 +1290,8 @@ libEpic_la_SOURCES = \
 	$(top_srcdir)/include/boost/exception/exception.hpp \
 	$(top_srcdir)/include/boost/aligned_storage.hpp \
                                         \
-                   PersonDao.cpp	\
-                   QuestionaireDao.cpp	\
+                   PersonDAO.cpp	\
+                   QuestionaireDAO.cpp	\
                                         \
                    application.cpp      \
                    database.cpp      	\
