@@ -180,8 +180,8 @@ main(int argc, char **argv)
         person.set_reference(value);
     }
     
-    person_meals(person,cnf);
     person_meats(person,cnf);
+    person_meals(person,cnf);
     person_milks(person,cnf);
     person_cereals(person,cnf);
     person_frying_fats(person,cnf);

@@ -28,6 +28,9 @@ libEpic_la_SOURCES = \
                 $(top_srcdir)/include/conversion/Conversion.hpp  \
                  $(top_srcdir)/include/Epic_lib.hpp  \
 		   \
+                   $(top_srcdir)/include/dao/MealDAO.hpp	\
+ 		   $(top_srcdir)/include/dao/Meal.hpp		\
+		   \
                    $(top_srcdir)/include/dao/NutrientDAO.hpp	\
  		   $(top_srcdir)/include/dao/Nutrient.hpp	\
 		   \
@@ -1299,6 +1302,7 @@ libEpic_la_SOURCES = \
 	$(top_srcdir)/include/boost/exception/exception.hpp \
 	$(top_srcdir)/include/boost/aligned_storage.hpp \
                                         \
+                   MealDAO.cpp		\
                    NutrientDAO.cpp	\
                    PersonDAO.cpp	\
                    QuestionaireDAO.cpp	\
