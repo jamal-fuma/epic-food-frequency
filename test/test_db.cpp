@@ -4,12 +4,14 @@
 #include "dao/Person.hpp"
 #include "dao/Nutrient.hpp"
 #include "dao/Meal.hpp"
+#include "dao/Food.hpp"
 
 
 void test_person();
 void test_nutrient();
 void test_questionaire();
 void test_meal();
+void test_food();
 void test_questionaire_person();
 
 int
@@ -41,6 +43,7 @@ main(int argc, char **argv)
     test_questionaire();
     test_nutrient();
     test_meal();
+    test_food();
     test_questionaire_person();
     return EXIT_SUCCESS;
 }
@@ -133,6 +136,31 @@ void test_nutrient()
     assert(foo.valid() && "Foo is expected to be valid");
 
     std::cout << "Nutrient [ok]" << std::endl << std::endl;
+}
+
+void test_food()
+{
+    Epic::DAO::Food food ;
+
+    food.set_name("foo");
+    food.set_description("foo desc");
+    food.save();
+
+    std::cout << "1st " << food;
+
+    food.set_name("bar");
+    food.set_description("bar desc");
+    food.save();
+
+    std::cout << "2nd " << food;
+
+    Epic::DAO::Food foo = Epic::DAO::Food::find_by_name("foo");
+
+    std::cout << "3rd " << foo;
+
+    assert(foo.valid() && "Foo is expected to be valid");
+
+    std::cout << "Food [ok]" << std::endl << std::endl;
 }
 
 void test_meal()

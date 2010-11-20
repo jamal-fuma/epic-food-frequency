@@ -28,6 +28,9 @@ libEpic_la_SOURCES = \
                 $(top_srcdir)/include/conversion/Conversion.hpp  \
                  $(top_srcdir)/include/Epic_lib.hpp  \
 		   \
+                   $(top_srcdir)/include/dao/FoodDAO.hpp	\
+ 		   $(top_srcdir)/include/dao/Food.hpp		\
+		   \
                    $(top_srcdir)/include/dao/MealDAO.hpp	\
  		   $(top_srcdir)/include/dao/Meal.hpp		\
 		   \
@@ -1302,6 +1305,7 @@ libEpic_la_SOURCES = \
 	$(top_srcdir)/include/boost/exception/exception.hpp \
 	$(top_srcdir)/include/boost/aligned_storage.hpp \
                                         \
+                   FoodDAO.cpp		\
                    MealDAO.cpp		\
                    NutrientDAO.cpp	\
                    PersonDAO.cpp	\
@@ -1316,7 +1320,7 @@ libEpic_la_SOURCES = \
                    report.cpp           \
                    config_reader.cpp
 
-libEpic_la_LDFLAGS =  -lpthread -lrt -ldl
+libEpic_la_LDFLAGS =  -lpthread -lrt -lltdl
 
 libEpic_la_LIBADD = $(top_builddir)/libutility/src/libUtility.la
 
