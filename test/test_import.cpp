@@ -8,15 +8,15 @@ class Person
         Person() {}
 
         // accessors
-        std::string get_reference() const { 
+        std::string get_reference() const {
             return m_reference ;
         }
-     
+
 
         Milk get_milk() const {
             return m_milk;
         }
-        
+
 
         Cereal get_primary_cereal() const {
             return m_primary_cereal;
@@ -30,7 +30,7 @@ class Person
         BakingFat get_baking_fat() const {
             return m_bak_fat;
         }
-        
+
         FryingFat get_frying_fat() const {
             return m_fry_fat;
         }
@@ -52,81 +52,81 @@ class Person
         void set_secondary_cereal_type(const std::string & type) {
             m_secondary_cereal.set_type(type);
         }
-       
+
         // baking fat mutators
-        void set_baking_fat_type(const std::string & type)  { 
-            m_bak_fat.set_type(type); 
+        void set_baking_fat_type(const std::string & type)  {
+            m_bak_fat.set_type(type);
         }
-    
-        void set_baking_fat_food(const std::string & food_code)  { 
-            m_bak_fat.set_food_code(food_code); 
+
+        void set_baking_fat_food(const std::string & food_code)  {
+            m_bak_fat.set_food_code(food_code);
         }
- 
+
         // frying fat mutators
-        void set_frying_fat_type(const std::string & type)  { 
-            m_fry_fat.set_type(type); 
+        void set_frying_fat_type(const std::string & type)  {
+            m_fry_fat.set_type(type);
         }
-    
-        void set_frying_fat_food(const std::string & food_code)  { 
-            m_fry_fat.set_food_code(food_code); 
+
+        void set_frying_fat_food(const std::string & food_code)  {
+            m_fry_fat.set_food_code(food_code);
         }
 
 
         // milk mutators
-        void set_milk_type(const std::string & type)  { 
-            m_milk.set_type(type); 
-        }
-    
-        void set_milk_food(const std::string & food_code)  { 
-            m_milk.set_food_code(food_code); 
+        void set_milk_type(const std::string & type)  {
+            m_milk.set_type(type);
         }
 
-        void set_milk_portion(const std::string & portion)  { 
-            m_milk.set_portion(portion); 
+        void set_milk_food(const std::string & food_code)  {
+            m_milk.set_food_code(food_code);
+        }
+
+        void set_milk_portion(const std::string & portion)  {
+            m_milk.set_portion(portion);
         }
 
         // meal mutators
-        void insert_meal_frequency(const std::string & meal, const std::string & frequency_str) { 
+        void insert_meal_frequency(const std::string & meal, const std::string & frequency_str) {
             m_meals.insert(meal,frequency_str,true);
         }
 
         // meat mutators
-        void insert_meat_frequency(const std::string & meal, const std::string & frequency_str) { 
+        void insert_meat_frequency(const std::string & meal, const std::string & frequency_str) {
             m_meats.insert(meal,frequency_str,true);
         }
 
         // frying fat mutators
-        void insert_frying_fat_frequency(const std::string & meal, const std::string & frequency_str) { 
+        void insert_frying_fat_frequency(const std::string & meal, const std::string & frequency_str) {
             m_ffats.insert(meal,frequency_str,true);
         }
 
 
         // person mutators
-        void set_reference(const std::string & reference) { 
-            m_reference = reference; 
-        }
-        
-        void set_eat_breakfast(const std::string & eat_breakfast) { 
-            m_eat_breakfast = eat_breakfast; 
-        }
-        
-        void set_visible_fat(const std::string & visible_fat) { 
-            m_visible_fat = visible_fat; 
+        void set_reference(const std::string & reference) {
+            m_reference = reference;
         }
 
-       
+        void set_eat_breakfast(const std::string & eat_breakfast) {
+            m_eat_breakfast = eat_breakfast;
+        }
+
+        void set_visible_fat(const std::string & visible_fat) {
+            m_visible_fat = visible_fat;
+        }
+
+
     private:
         std::string             m_reference;
 
         std::string             m_visible_fat;
         std::string             m_eat_breakfast;
-        
+
         Epic::Config::Config    m_meals;
         Epic::Config::Config    m_meats;
         Epic::Config::Config    m_ffats;
-        
+
         Milk                    m_milk;
-        
+
         FryingFat               m_fry_fat;
         BakingFat               m_bak_fat;
 
@@ -174,19 +174,19 @@ main(int argc, char **argv)
 
     Person person;
     std::string value;
-    
+
     if(cnf.find("ID",value) )
     {
         person.set_reference(value);
     }
-    
+
     person_meats(person,cnf);
     person_meals(person,cnf);
     person_milks(person,cnf);
     person_cereals(person,cnf);
     person_frying_fats(person,cnf);
     person_baking_fats(person,cnf);
-    
+
     Milk        milk       = person.get_milk();
     Cereal      cereal_1   = person.get_primary_cereal();
     Cereal      cereal_2   = person.get_secondary_cereal();
@@ -214,7 +214,7 @@ void person_meats(Person & person, const Epic::Config::Config & cnf)
     std::vector< std::string >::const_iterator it,end;
     it  = meats.begin();
     end = meats.end();
-  
+
     std::string value;
 
     // load all meats
@@ -225,7 +225,7 @@ void person_meats(Person & person, const Epic::Config::Config & cnf)
             person.insert_meat_frequency(*it,value);
         }
     }
-    
+
     // visible fat
     if(cnf.find("VISIBLE_FAT",value) )
     {
@@ -236,16 +236,16 @@ void person_meats(Person & person, const Epic::Config::Config & cnf)
 
 void person_meals(Person & person, const Epic::Config::Config & cnf)
 {
-    
+
     // simple foods without any funny processing
     std::vector< std::string > simples;
     load_simple_names(simples);
-    
-    
+
+
     std::vector< std::string >::const_iterator it,end;
     it  = simples.begin();
     end = simples.end();
-    
+
     std::string value;
 
     // load all simple foods
@@ -318,7 +318,7 @@ void person_cereals(Person & person, const Epic::Config::Config & cnf)
 void person_frying_fats(Person & person, const Epic::Config::Config & cnf)
 {
     std::string value;
-    
+
     // frying fat
     if(cnf.find("FAT_FRYING",value) )
     {
@@ -348,7 +348,7 @@ void person_baking_fats(Person & person, const Epic::Config::Config & cnf)
     std::string value;
 
     // baking fat
-    
+
     if(cnf.find("FAT_BAKING",value) )
     {
         person.set_baking_fat_type(value);
@@ -365,21 +365,21 @@ void person_baking_fats(Person & person, const Epic::Config::Config & cnf)
         person.insert_meal_frequency("SAVOURY_PIES",value);
     }
 
-    //baking 
-    
+    //baking
+
     if(cnf.find("HOMEBAKED_CAKE",value) )
     {
         person.insert_meal_frequency("HOMEBAKED_CAKE",value);
     }
 
-    //baking 
-    
+    //baking
+
     if(cnf.find("HOMEBAKED_BUNS",value) )
     {
         person.insert_meal_frequency("HOMEBAKED_BUNS",value);
     }
 
-    //baking 
+    //baking
     if(cnf.find("HOMEBAKED_FRUIT_PIES",value) )
     {
         person.insert_meal_frequency("HOMEBAKED_FRUIT_PIES",value);

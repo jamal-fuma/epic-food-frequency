@@ -10,6 +10,7 @@ void test_person();
 void test_nutrient();
 void test_questionaire();
 void test_meal();
+void test_questionaire_person();
 
 int
 main(int argc, char **argv)
@@ -36,11 +37,30 @@ main(int argc, char **argv)
 
     Epic::Database::connect();
 
-    test_questionaire();
     test_person();
+    test_questionaire();
     test_nutrient();
     test_meal();
+    test_questionaire_person();
     return EXIT_SUCCESS;
+}
+
+void test_questionaire_person()
+{
+    Epic::DAO::Person       person       = Epic::DAO::Person::find_by_reference("foo");
+    Epic::DAO::Questionaire questionaire = Epic::DAO::Questionaire::find_by_filename("foo");
+
+    questionaire.attach(person);
+
+    std::vector<Epic::DAO::Person> people;
+    questionaire.find_people(people);
+
+    std::vector<Epic::DAO::Person>::const_iterator it,end;
+    it = people.begin();
+    end = people.end();
+
+    std::cout << *it ;
+
 }
 
 void test_person()

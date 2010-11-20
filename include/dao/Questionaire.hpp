@@ -2,7 +2,9 @@
 #define EPIC_DAO_QUESTIONAIRE_HPP
 
 #include "Epic_lib.hpp"
+#include "dao/Person.hpp"
 
+#include <vector>
 namespace Epic
 {
     namespace DAO
@@ -19,6 +21,8 @@ namespace Epic
                 static Questionaire find_by_id(sqlite3_int64 id) ;
 
                 bool save();
+                bool attach(Person & person);
+                bool find_people(std::vector<Person> & people);
 
                 // accessors
                 std::string get_filename() const { 

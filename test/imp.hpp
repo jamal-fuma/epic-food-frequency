@@ -11,12 +11,12 @@ public:
     Food() {}
 
     // accessors
-    std::string get_food_code() const { 
+    std::string get_food_code() const {
         return m_food_code ;
     }
 
     // mutators
-    void set_food_code(const std::string & food_code) { 
+    void set_food_code(const std::string & food_code) {
         m_food_code = food_code;
     }
 
@@ -28,13 +28,13 @@ class Cereal
 {
 public:
     Cereal() {}
-     
+
     // accessors
-    std::string get_type() const { 
+    std::string get_type() const {
         return m_type.get_food_code() ;
     }
- 
-    std::string get_brand() const { 
+
+    std::string get_brand() const {
         return m_brand.get_food_code() ;
     }
 
@@ -60,12 +60,12 @@ public:
     FoodType() {}
 
     // accessors
-    std::string get_type() const { 
+    std::string get_type() const {
         return m_type ;
     }
 
     // mutators
-    void set_type(const std::string & type) { 
+    void set_type(const std::string & type) {
         m_type = type;
     }
 
@@ -87,13 +87,31 @@ class Milk : public FoodType
         Milk() {}
 
     // accessors
-    std::string get_portion() const { 
+    std::string get_portion() const {
         return m_portion ;
     }
-    
+
     // mutators
-    void set_portion(const std::string & portion) { 
-        m_portion = portion;
+    void set_portion(const std::string & portion) {
+        if(portion == "1")
+            m_portion = "0";
+
+        else if(portion == "2")
+            m_portion = "146";
+
+        else if(portion == "3")
+            m_portion = "293";
+
+        else if(portion == "4")
+            m_portion = "439";
+
+        else if(portion == "5")
+            m_portion = "585";
+
+        else if(portion == "6")
+            m_portion = "878";
+        else
+            m_portion = portion;
     }
 private:
     std::string m_portion;

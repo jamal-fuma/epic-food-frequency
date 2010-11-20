@@ -6,7 +6,11 @@
 #include <set>
 #include <sstream>
 #include <ostream>
+#include <tr1/memory>
 
+
+#include "dao/Questionaire.hpp"
+#include "dao/Person.hpp"
 
 namespace Epic
 {
@@ -29,23 +33,21 @@ namespace Epic
         // forward declaration for child version
         // of relation
         template <  class Parent,
-                    class Child,
-                    class Relation >
+                    class Child>
         class RelationChild ;
 
         // parent version of relation
         template <  class Parent,
                     class Child,
-                    class Relation = void,
                     class Policy = SetValuesPolicy<Child*> >
         class RelationParent
         {
             typedef typename Policy::Container Container;
-            typedef typename Container::const_iterator const_iterator_t;
             typedef typename Container::iterator iterator_t;
 
-            friend class RelationChild<Parent,Child,Relation>;
+            friend class RelationChild<Parent,Child>;
         public:
+            typedef typename Container::const_iterator const_iterator_t;
 
             // iterators
             const_iterator_t
@@ -99,20 +101,22 @@ namespace Epic
         // definition for child version
         // of relation
         template <  class Parent,
-                    class Child,
-                    class Relation = void>
+                    class Child>
+
         class RelationChild
         {
             // parent version of relation
             typedef RelationParent <
                 Parent,
-                Child,
-                Relation> Relationship;
+                Child> Relationship;
         public:
             explicit
             RelationChild(Parent *parent) : m_parent(parent)
             {
-                m_parent->Relationship::attach(child());
+                if(m_parent)
+                {
+                    m_parent->Relationship::attach(child());
+                }
             }
 
             void
@@ -137,39 +141,26 @@ namespace Epic
             Parent *m_parent;
         };
 
-        struct Preceeding {};
-        struct Following {};
+        class Questionaire;
+        class Person;
 
-        class Meal;
-        class Ingredient;
-
-        typedef RelationParent<Meal,Ingredient,Preceeding> PreceedingMeal;
-        typedef RelationParent<Meal,Ingredient,Following>  FollowingMeal;
-
-        typedef RelationChild<Meal,Ingredient,Preceeding> PreceedingIngredient;
-        typedef RelationChild<Meal,Ingredient,Following>  FollowingIngredient;
-
-        class Meal :
-            public PreceedingMeal,
-            public FollowingMeal
+        class Questionaire :
+            public RelationParent<Questionaire,Person>,
+            public Epic::DAO::Questionaire
         {
         public:
-            typedef PreceedingMeal Preceeding;
-            typedef FollowingMeal  Following;
-            Meal() {}
+            Questionaire() {}
+
         };
 
-        class Ingredient :
-            public PreceedingIngredient,
-            public FollowingIngredient
+        class Person :
+            public RelationChild<Questionaire,Person>,
+            public Epic::DAO::Person
         {
         public:
-            typedef PreceedingIngredient Preceeding;
-            typedef FollowingIngredient  Following;
 
-            Ingredient(Meal *meal_prior, Meal *meal_after)
-                : Preceeding(meal_prior),
-                  Following(meal_after)
+            Person(Questionaire *questionaire)
+                : RelationChild<Questionaire,Person>(questionaire)
             {
 
             }

@@ -439,7 +439,7 @@ load_person(Epic::Config::Config & cnf)
     {
         cnf.insert(header.at(pos),row.at(pos),true);
     }
-} 
+}
 
 void load_meat_names(std::vector<std::string> & meats)
 {
