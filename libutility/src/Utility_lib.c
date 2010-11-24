@@ -598,6 +598,16 @@ utility_diff_within_delta(
 }
 
 int
+utility_same_double(
+        const double a,
+        const double b
+        )
+{
+    return utility_diff_within_delta( (a-b), 0.00005);
+}
+
+
+int
 utility_approximately_zero(
         const double v,
         const double delta

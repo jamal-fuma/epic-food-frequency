@@ -5,14 +5,42 @@
 #include "dao/Nutrient.hpp"
 #include "dao/Meal.hpp"
 #include "dao/Food.hpp"
+#include "dao/Weight.hpp"
 
 
 void test_person();
+void test_weights();
 void test_nutrient();
 void test_questionaire();
 void test_meal();
 void test_food();
 void test_questionaire_person();
+
+/* all food_codes for meats with visible fat portion scaled correctly 
+select meal_id,food,(amount+0.0) from ingredients where meal_id=1 and modifier="" 
+union select meal_id, food,(ingredients.amount * weights.amount) from ingredients,weights where weights.code=1 and ingredients.modifier="a" and ingredients.meal_id =1 
+*/
+
+
+/* MEAT meal names
+select meals.name from ingredients inner join meals on ingredients.meal_id = meals.id  where ingredients.modifier = "a";
+*/
+
+/* BAKING fat meal names
+select meals.name from ingredients inner join meals on ingredients.meal_id = meals.id  where ingredients.modifier = "b";
+*/
+
+/* CERIAL meal names
+select meals.name, meals.id from ingredients inner join meals on ingredients.meal_id = meals.id  where ingredients.modifier = "c";
+*/
+
+/* FRYING fat meal names
+select meals.name, meals.id from ingredients inner join meals on ingredients.meal_id = meals.id  where ingredients.modifier = "d";
+*/
+
+/* Simple foods
+  select meals.name,meals.id from meals where meals.id in (select meals.id from meals except select ingredients.meal_id from ingredients where ingredients.modifier in ("a","b","c","d") )  ;
+*/
 
 int
 main(int argc, char **argv)
@@ -44,6 +72,7 @@ main(int argc, char **argv)
     test_nutrient();
     test_meal();
     test_food();
+    test_weights();
     test_questionaire_person();
     return EXIT_SUCCESS;
 }
@@ -188,3 +217,42 @@ void test_meal()
     std::cout << "Meal [ok]" << std::endl << std::endl;
 }
 
+void test_weights()
+{
+    Epic::DAO::Weight weight ;
+    
+    weight.set_amount(1.0);
+    weight.save();
+    std::cout << weight;
+    
+    weight.set_amount(0.5);
+    weight.save();
+    std::cout << weight;
+ 
+    weight.set_amount(0.0);
+    weight.save();
+    std::cout << weight;
+    
+    weight.set_amount(0.0);
+    weight.save();
+    std::cout << weight;
+    
+    weight.set_amount(0.0);
+    weight.save();
+    std::cout << weight;
+
+    
+    Epic::DAO::Weight foo  = Epic::DAO::Weight::find_by_id(1);
+    assert("weight should be valid and have amount equal to 1.0" && foo.valid() && utility_same_double(foo.get_amount(),1.0));
+
+    foo  = Epic::DAO::Weight::find_by_id(2);
+    assert("weight should be valid and have amount equal to 0.5" && foo.valid() && utility_same_double(foo.get_amount(),0.5));
+
+    for(int x = 3; x<6; ++x)
+    {
+        foo  = Epic::DAO::Weight::find_by_id(x);
+        assert("weight should be valid and have amount equal to 0.0" && foo.valid() && utility_same_double(foo.get_amount(),0.0));
+        std::cout << foo ;
+    }
+    std::cout << "Weight [ok]" << std::endl << std::endl;
+}

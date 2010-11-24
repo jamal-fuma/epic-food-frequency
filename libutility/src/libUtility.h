@@ -552,6 +552,11 @@ utility_approximately_zero(
         const double v,
         const double delta
         );
+int
+utility_same_double(
+        const double a,
+        const double b
+        );
 
 int
 utility_diff_within_delta(

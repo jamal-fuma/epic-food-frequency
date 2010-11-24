@@ -756,14 +756,14 @@ utility_unixify(
     if( !s || !len || !dest)
            return NULL;
 
-    s[len-1] = '\0';
     for(i=0;  i<len && *(p=s+i); ++i)
         switch(*p)
         {
             /* squeeze tabs and spaces into single space */
             case 0x09:  *p = 0x20; /*fall through */
             case 0x20 : for(spc=0;  ((*(p+1+spc)) && isspace((*(p+1+spc)))); ++spc)
-                            (*(p+1+spc)) = '\0';
+                            /*(*(p+1+spc)) = '\0'; */
+                            ;
                         if(spc)
                             memmove(p+1,  p+1+(spc),len-(i+spc));
                         *p = 0x20;
@@ -775,7 +775,9 @@ utility_unixify(
             /* turn CR  or CR+LF into LF  stripping lines consisting of blanks */
             case 0x0D : ++cr;
                         for(spc=0;  ((*(p+1+spc)) && isspace((*(p+1+spc)))); ++spc)
-                            (*(p+1+spc)) = '\0';
+                            /*(*(p+1+spc)) = '\0'; */
+                            ;
+
                         if(spc)
                             memmove(p+1,  p+1+(spc),len-(i+spc));
                         *p = 0x0A;
@@ -787,7 +789,8 @@ utility_unixify(
             /* squeeze lines that are empty or wholely consist of control characters  */
             case 0x0A : ++lf;
                         for(spc=0;  ((*(p+1+spc)) && isspace((*(p+1+spc)))); ++spc)
-                            (*(p+1+spc)) = '\0';
+                            /*(*(p+1+spc)) = '\0'; */
+                            ;
                         if(spc)
                             memmove(p+1,  p+1+(spc),len-(i+spc));
                         *p = 0x0A;
@@ -835,12 +838,15 @@ utility_unix_ln_split(
     /*restart the search one byte in from last entry */
     argv[count] = s;
     for(search = s+1; ((found = strchr(search,0x0A)));)
+    {
         search = argv[++count] = found+1;
-
+        *found = '\0'; 
+    }
     /* terminate the array with a sentinal */
     argv[ count ] = NULL;
     *pargc = nlines;
     count = 0;
+
     /* zero-terminate all the sections */
     utility_replace_ch(s,&count,0x0A,'\0');
 
