@@ -3,10 +3,15 @@
 
 #include "Epic_lib.hpp"
 
+#include "dao/FoodNutrient.hpp"
+#include <vector>
+
 namespace Epic
 {
     namespace DAO
     {
+        class Nutrient; //forward declaration
+
         class Food 
         {
             public:
@@ -20,8 +25,13 @@ namespace Epic
 
                 static Food find_by_name(const std::string & name) ;
                 static Food find_by_id(sqlite3_int64 id) ;
+ 
+                bool attach(Nutrient & nutrient, double amount);
+                bool find_nutrients(std::vector<FoodNutrient> & nutrients);
 
                 bool save();
+
+                static bool load(const std::string &filename);
 
                 // accessors
                 sqlite3_int64 get_id() const { 
@@ -81,6 +91,7 @@ namespace Epic
                 std::string     m_description;
                 bool            m_valid;
         };
+
     } // DAO namespace
 
 } // Epic namespace

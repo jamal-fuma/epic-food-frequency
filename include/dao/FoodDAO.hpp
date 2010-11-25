@@ -2,12 +2,15 @@
 #define EPIC_DAO_FOOD_DAO_HPP
 
 #include "Epic_lib.hpp"
+#include "dao/FoodNutrient.hpp"
+#include <vector>
 
 namespace Epic
 {
     namespace DAO 
     {   
         class Food; //forward declaration
+        class Nutrient; //forward declaration
     } // DAO namespace
 
     namespace FoodDAO
@@ -17,7 +20,11 @@ namespace Epic
         public:
             DataAccess() :
                 m_insert("INSERT INTO foods (name,description) VALUES (?,?) ;"),
+                m_attach("INSERT INTO food_nutrients (food_id,nutrient_id,amount) VALUES (?,?,?) ;"),
                 m_find_by_name("SELECT id,description FROM foods WHERE name = ? ;"),
+                m_find_nutrients_by_food_id("SELECT food_nutrients.nutrient_id,food_nutrients.amount,nutrients.code "
+                                            "FROM food_nutrients INNER JOIN nutrients ON food_nutrients.nutrient_id = nutrients.id "
+                                            "WHERE food_nutrients.food_id = ? ;"),
                 m_find_by_id("SELECT name,description FROM foods WHERE id = ? ;") { }
 
 
@@ -26,13 +33,21 @@ namespace Epic
 
             // find a food given a name
             bool find_by_name(const std::string & name, Epic::DAO::Food & food);
+ 
+            // associate a food with a nutrient
+            bool attach(const Epic::DAO::Food & food, const Epic::DAO::Nutrient & nutrient, double amount) ;
+
+            // find all nutrients associated with a food
+            bool find_nutrients(const Epic::DAO::Food & food, std::vector<Epic::DAO::FoodNutrient> & nutrients);
 
             // save a food
             bool save(Epic::DAO::Food & food);
 
         private:
             Epic::Database::PreparedStatement m_insert;
+            Epic::Database::PreparedStatement m_attach;
             Epic::Database::PreparedStatement m_find_by_name;
+            Epic::Database::PreparedStatement m_find_nutrients_by_food_id;
             Epic::Database::PreparedStatement m_find_by_id;
         };
         
@@ -45,6 +60,11 @@ namespace Epic
         // save a food
         bool save(Epic::DAO::Food & food);
 
+        // associate a food with a nutrient
+        bool attach(const Epic::DAO::Food & food, const Epic::DAO::Nutrient & Nutrient, double amount) ;
+
+        // find all nutrients associated with a food
+        bool find_nutrients(const Epic::DAO::Food & food, std::vector<Epic::DAO::FoodNutrient> & nutrients);
     } // FoodDAO namespace
 
 } // Epic namespace

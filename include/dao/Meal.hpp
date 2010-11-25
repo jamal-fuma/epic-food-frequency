@@ -21,6 +21,7 @@ namespace Epic
                 static Meal find_by_name(const std::string & name) ;
                 static Meal find_by_id(sqlite3_int64 id) ;
 
+                static bool load(const std::string & filename);
                 bool save();
 
                 // accessors

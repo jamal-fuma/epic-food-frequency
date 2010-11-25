@@ -5,6 +5,20 @@
 #include "config/Global.hpp"
 #include "config/Resource.hpp"
 
+extern "C" {
+    void log_queries(void * userdata, char const * psql);
+
+    void log_queries(void * userdata, char const * psql)
+    {
+        if(psql)
+        {
+            std::string s(psql);
+            s += "\n";
+            Epic::Logging::trace(s);
+        }
+    }
+}
+    
 void Epic::Database::DBConnection::connect(const std::string & filename)
 {
     if(m_connected)
@@ -26,6 +40,11 @@ void Epic::Database::DBConnection::connect(const std::string & filename)
         m_db = NULL;
         throw std::runtime_error("Could not connect to database");
     }
+#if(0)
+    // set up query tracing
+    sqlite3_trace(m_db, log_queries, NULL);
+#endif
+
     m_connected = true;
 }
 

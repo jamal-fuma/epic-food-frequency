@@ -1,7 +1,10 @@
 ACLOCAL_AMFLAGS = -I m4
 
 noinst_PROGRAMS = \
+	       test_csv \
+	       test_dao \
 	       test_db \
+	       test_split \
 	       test_header \
 	       test_import
 
@@ -25,12 +28,24 @@ AM_CPPFLAGS 	=  -I$(top_srcdir)/libutility/src \
 
 AM_LDFLAGS	=  $(LINK_DEPS)
 
-test_db_SOURCES = test_db.cpp
+test_dao_SOURCES = test_dao.cpp
+test_dao_LDADD = $(LINK_DEPS)
+test_dao_DEPENDENCIES = $(LINK_DEPS)
 
+test_db_SOURCES = test_db.cpp
 test_db_LDADD = $(LINK_DEPS)
 test_db_DEPENDENCIES = $(LINK_DEPS)
 
-test_header_SOURCES = test_header.cpp 
+test_csv_SOURCES = test_csv.cpp
+test_csv_LDADD = $(LINK_DEPS)
+test_csv_DEPENDENCIES = $(LINK_DEPS)
+
+test_split_SOURCES = test_split.cpp
+test_split_LDADD = $(LINK_DEPS)
+test_split_DEPENDENCIES = $(LINK_DEPS)
+
+
+test_header_SOURCES = test_header.cpp
 test_header_LDADD = $(LINK_DEPS)
 test_header_DEPENDENCIES = $(LINK_DEPS)
 
@@ -45,4 +60,6 @@ reallyclean: maintainer-clean
 	rm -f  \
 	       test_import \
 	       test_header \
-	       test_db
+	       test_dao \
+	       test_db \
+	       test_csv

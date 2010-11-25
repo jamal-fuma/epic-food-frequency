@@ -1,6 +1,9 @@
 #include "dao/NutrientDAO.hpp"
 #include "dao/Nutrient.hpp"
 
+#include "conversion/Conversion.hpp"
+#include "import/Import.hpp"
+
 // find a nutrient given an id
 bool Epic::NutrientDAO::DataAccess::find_by_id(sqlite3_int64 id, Epic::DAO::Nutrient & nutrient)
 {
@@ -113,3 +116,71 @@ Epic::DAO::Nutrient Epic::DAO::Nutrient::find_by_id(sqlite3_int64 id)
     Epic::NutrientDAO::find_by_id(id,nutrient);
     return nutrient;
 }
+
+// load the model from file
+bool Epic::DAO::Nutrient::load(const std::string & filename)
+{
+    Epic::Import::CSVReader rdr;
+
+    if(!rdr.open(filename))
+    {
+        return false;
+    }
+
+    Epic::Import::str_vector_t v,h;
+    Epic::Config::Config cnf;
+    Epic::DAO::Nutrient nutrient;
+
+    Epic::Database::Transaction tr;
+    for(size_t line=0; (rdr.more_rows()); ++line)
+    {
+        if(rdr.read_row(v))
+        {
+            if(!line)
+            {
+                Epic::Import::str_vector_t expected;
+                expected.push_back("CODE");
+                expected.push_back("DESCRIPTION");
+                expected.push_back("UNITS");
+                if( Epic::Import::DBModel::same_header("nutrients",expected,v))
+                {
+                    h.swap(v);
+                    continue;
+                }
+                return false;
+            }
+
+            Epic::Import::str_vector_t::size_type end = v.size();
+            for(Epic::Import::str_vector_t::size_type pos=0; pos != end; ++pos)
+            {
+                cnf.insert(h[pos],v[pos],true);
+            }
+
+            std::string s;
+            if(cnf.find("CODE",s))
+            {
+                long code = Conversion::IntegerString(s);
+                nutrient.set_code(code);
+            }
+            if(cnf.find("DESCRIPTION",s))
+            {
+                nutrient.set_description(s);
+            }
+            if(cnf.find("UNITS",s))
+            {
+                nutrient.set_units(s);
+            }
+
+            if(!nutrient.save())
+            {
+                std::ostringstream ss;
+                ss << "Error in nutrients import file: aborting on line :" << line << std::endl;
+                Epic::Logging::error(ss.str());
+                return false;
+            }
+        }
+    }
+    tr.commit();
+    return true;
+}
+

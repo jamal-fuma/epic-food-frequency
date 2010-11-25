@@ -1,6 +1,7 @@
 #include "Epic_lib.hpp"
 #include "imp.hpp"
 
+#include "import/Import.hpp"
 
 class Person
 {
@@ -35,6 +36,26 @@ class Person
             return m_fry_fat;
         }
 
+        std::string get_frying_fat_foods(){
+            return m_fry_fat_foods;
+        }
+
+        std::string get_visible_fat() {
+            return m_visible_fat;
+        }
+
+        std::string get_baking_fat_foods(){
+            return m_bak_fat_foods;
+        }
+
+        bool get_meal_frequency(const std::string & meal, std::string & frequency_str) {
+            return m_meals.find(meal,frequency_str);
+        }
+
+        std::string get_cereal_foods(){
+            return m_cereal_foods;
+        }
+
         // cereal mutators
 
         void set_primary_cereal_brand(const std::string & brand) {
@@ -62,6 +83,11 @@ class Person
             m_bak_fat.set_food_code(food_code);
         }
 
+        void set_bak_fat_foods(const std::string & bak_fat_foods) {
+            m_bak_fat_foods = bak_fat_foods;
+        }
+
+
         // frying fat mutators
         void set_frying_fat_type(const std::string & type)  {
             m_fry_fat.set_type(type);
@@ -70,6 +96,11 @@ class Person
         void set_frying_fat_food(const std::string & food_code)  {
             m_fry_fat.set_food_code(food_code);
         }
+
+        void set_fry_fat_foods(const std::string & fry_fat_foods) {
+            m_fry_fat_foods = fry_fat_foods;
+        }
+
 
 
         // milk mutators
@@ -114,11 +145,20 @@ class Person
             m_visible_fat = visible_fat;
         }
 
+        void set_cereal_foods(const std::string & cereal_foods) {
+            m_cereal_foods = cereal_foods;
+        }
+
 
     private:
         std::string             m_reference;
 
         std::string             m_visible_fat;
+
+        std::string             m_cereal_foods;
+        std::string             m_bak_fat_foods;
+        std::string             m_fry_fat_foods;
+
         std::string             m_eat_breakfast;
 
         Epic::Config::Config    m_meals;
@@ -168,36 +208,74 @@ main(int argc, char **argv)
 
     Epic::Database::connect();
 
-    Epic::Config::Config cnf;
+    Epic::Import::CSVReader rdr;
 
-    load_person(cnf);
-
-    Person person;
-    std::string value;
-
-    if(cnf.find("ID",value) )
+    if(argc > 1)
     {
-        person.set_reference(value);
+        import = argv[1] ;
     }
 
-    person_meats(person,cnf);
-    person_meals(person,cnf);
-    person_milks(person,cnf);
-    person_cereals(person,cnf);
-    person_frying_fats(person,cnf);
-    person_baking_fats(person,cnf);
+    if(!rdr.open(import))
+    {
+        return EXIT_FAILURE;
+    }
+    Epic::Import::str_vector_t v,h;
 
-    Milk        milk       = person.get_milk();
-    Cereal      cereal_1   = person.get_primary_cereal();
-    Cereal      cereal_2   = person.get_secondary_cereal();
-    BakingFat   bfat       = person.get_baking_fat();
-    FryingFat   ffat       = person.get_frying_fat();
+    Epic::Config::Config cnf;
 
-    std::cout << "Milk      : type (" << milk.get_type() << ") food_code (" << milk.get_food_code() << ") portion (" << milk.get_portion() << ")" << std::endl;
-    std::cout << "Cereal 1  : type (" << cereal_1.get_type() << ") brand (" << cereal_1.get_brand() << ")" << std::endl;
-    std::cout << "Cereal 2  : type (" << cereal_2.get_type() << ") brand (" << cereal_2.get_brand() << ")" << std::endl;
-    std::cout << "BakingFat : type (" << bfat.get_type() << ") food_code (" << bfat.get_food_code() << ")" << std::endl;
-    std::cout << "FryingFat : type (" << ffat.get_type() << ") food_code (" << ffat.get_food_code() << ")" << std::endl;
+    for(size_t line=0; (rdr.more_rows()); ++line)
+    {
+        if(rdr.read_row(v))
+        {
+            if(!line)
+            {
+                h = v;
+                continue;
+            }
+            Epic::Import::str_vector_t::size_type end = v.size();
+            for(Epic::Import::str_vector_t::size_type pos=0; pos != end; ++pos)
+            {
+                cnf.insert(h[pos],v[pos],true);
+            }
+
+            Person person;
+            std::string value;
+
+            if(cnf.find("ID",value) )
+            {
+                person.set_reference(value);
+            }
+
+            person_meats(person,cnf);
+            person_meals(person,cnf);
+            person_milks(person,cnf);
+            person_cereals(person,cnf);
+            person_frying_fats(person,cnf);
+            person_baking_fats(person,cnf);
+
+            Milk        milk       = person.get_milk();
+            Cereal      cereal_1   = person.get_primary_cereal();
+            Cereal      cereal_2   = person.get_secondary_cereal();
+            BakingFat   bfat       = person.get_baking_fat();
+            FryingFat   ffat       = person.get_frying_fat();
+
+
+            std::cout << "Person      : ref (" << person.get_reference() << ")" << std::endl;
+            std::cout << "Visible Fat : code (" << person.get_visible_fat() << ")" << std::endl;
+            std::cout << "Milk        : type (" << milk.get_type() << ") food_code (" << milk.get_food_code() << ") portion (" << milk.get_portion() << ")" << std::endl;
+
+            if(person.get_meal_frequency("CERIAL",value))
+            {
+                std::cout << "Cereal      : frequency (" << value << ")" << std::endl;
+            }
+            std::cout << "Cereal 1    : brand (" << cereal_1.get_brand() << ") " << "type (" << cereal_1.get_type() << ")" << std::endl;
+            std::cout << "Cereal 2    : brand (" << cereal_2.get_brand() << ") " << "type (" << cereal_2.get_type() << ")" << std::endl;
+            std::cout << "Cereals     : food_codes (" << person.get_cereal_foods() << ")" << std::endl;
+            std::cout << "BakingFat   : type (" << bfat.get_type() << ") other (" << bfat.get_food_code() << ") food_code (" << person.get_frying_fat_foods() << ")" << std::endl;
+            std::cout << "FryingFat   : type (" << ffat.get_type() << ") other (" << ffat.get_food_code() << ") food_code (" << person.get_baking_fat_foods() << ")" << std::endl;
+            std::cout << std::endl <<std::endl;
+        }
+    }
 
     return EXIT_SUCCESS;
 }
@@ -268,7 +346,7 @@ void person_milks(Person & person, const Epic::Config::Config & cnf)
         person.set_milk_type(value);
     }
 
-    if(cnf.find("MILK_OTHER",value) )
+    if(cnf.find("MILK_FOOD",value) )
     {
         person.set_milk_food(value);
     }
@@ -289,6 +367,12 @@ void person_cereals(Person & person, const Epic::Config::Config & cnf)
         person.insert_meal_frequency("CERIAL",value);
     }
 
+    if(cnf.find("CERIAL_FOOD",value) )
+    {
+        person.set_cereal_foods(value);
+    }
+
+
     if(cnf.find("EAT_BREAKFAST",value) )
     {
         person.set_eat_breakfast(value);
@@ -296,22 +380,22 @@ void person_cereals(Person & person, const Epic::Config::Config & cnf)
 
     if(cnf.find("CERIAL1",value) )
     {
-        person.set_primary_cereal_type(value);
+        person.set_primary_cereal_brand(value);
     }
 
     if(cnf.find("TYPE1",value) )
     {
-        person.set_primary_cereal_brand(value);
+        person.set_primary_cereal_type(value);
     }
 
     if(cnf.find("CERIAL2",value) )
     {
-        person.set_secondary_cereal_type(value);
+        person.set_secondary_cereal_brand(value);
     }
 
     if(cnf.find("TYPE2",value) )
     {
-        person.set_secondary_cereal_brand(value);
+        person.set_secondary_cereal_type(value);
     }
 }
 
@@ -329,6 +413,12 @@ void person_frying_fats(Person & person, const Epic::Config::Config & cnf)
     {
         person.set_frying_fat_food(value);
     }
+
+    if(cnf.find("FAT_FRYING_FOOD",value) )
+    {
+        person.set_fry_fat_foods(value);
+    }
+
 
     // frying
     if(cnf.find("CHIPS",value) )
@@ -358,6 +448,12 @@ void person_baking_fats(Person & person, const Epic::Config::Config & cnf)
     {
         person.set_baking_fat_food(value);
     }
+
+    if(cnf.find("FAT_BAKING_FOOD",value) )
+    {
+        person.set_bak_fat_foods(value);
+    }
+
 
     // baking
     if(cnf.find("SAVOURY_PIES",value) )

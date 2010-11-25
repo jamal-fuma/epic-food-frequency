@@ -10,7 +10,7 @@ namespace Epic
     {
         struct Ingredient
         {
-            static const size_t fields = 3;
+            static const size_t fields = 4;
         };
 
         struct IngredientData
@@ -34,6 +34,7 @@ namespace Epic
                 expected.push_back("LINE");
                 expected.push_back("FOOD_CODE");
                 expected.push_back("PORTION");
+                expected.push_back("MODIFIER");
                 return Epic::Import::DBModel::same_header("ingredients",expected,v);
             }
 
@@ -50,14 +51,14 @@ namespace Epic
                     Conversion::IntegerString portion_quantity(v[2]);
                     long quantity = portion_quantity;
 
-                    m_statement.bind(code,v[1],quantity);
+                    m_statement.bind(code,v[1],quantity,v[3]);
                     m_statement.step();
                     m_statement.reset();
                 }
                 else
                 {
                     std::cerr << "Error in ingredients import file: ";
-                    std::cerr << "skipping line :" << line;
+                    std::cerr << "skipping line :" << line ;
                 }
                 return true;
             }

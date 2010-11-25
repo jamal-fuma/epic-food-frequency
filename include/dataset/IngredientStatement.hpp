@@ -10,14 +10,15 @@ namespace Epic
         {
         public:
             IngredientInsertStatement() :
-                PreparedStatement("INSERT INTO ingredients (meal_id,food,amount) VALUES (?,?,?) ;") { }
+                PreparedStatement("INSERT INTO ingredients (meal_id,food,amount,modifier) VALUES (?,?,?,?) ;") { }
 
             void
-            bind(sqlite3_int64 meal_id, const std::string & food_code, double quantity)
+            bind(sqlite3_int64 meal_id, const std::string & food_code, double quantity,const std::string & modifier)
             {
                 bind_int(1,meal_id);
                 bind_text(2,food_code);
                 bind_double(3,quantity);
+                bind_text(4, modifier);
             }
         };
 

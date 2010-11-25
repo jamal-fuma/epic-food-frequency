@@ -104,6 +104,81 @@ namespace Epic
             }
         };
 
+        class CSVReader
+        {
+        public:
+            CSVReader() : m_open(false) { }
+
+            CSVReader(const std::string & filename) :
+                m_filename(filename), m_open(false) {
+            }
+
+            ~CSVReader() {
+                reset();
+            }
+
+            bool open(const std::string & filename) {
+                m_filename = filename;
+                return open();
+            }
+
+            bool open() {
+                if(m_open)
+                {
+                    reset();
+                }
+
+                Epic::Import::Context::iterator_t begin(m_filename);
+                if(!begin)
+                {
+                    m_ss << "Unable to open file: " << m_filename << std::endl;
+                    Epic::Logging::error(m_ss.str());
+                    return false;
+                }
+
+                m_ctx = new Epic::Import::Context(begin, begin.make_end());
+                if(!m_ctx)
+                {
+                    m_ss << "Unable to allocate memory for parser context: " << std::endl;
+                    Epic::Logging::error(m_ss.str());
+                    return false;
+                }
+                m_open = true;
+                return true;
+            }
+
+            void close() {
+                reset();
+            }
+
+            bool more_rows() {
+                return (m_open = m_ctx->more_rows());
+            }
+
+            bool read_row(str_vector_t & row) {
+                if(!m_open)
+                    return false;
+                return m_ctx->read_row(row);
+            }
+
+            private:
+            void reset()
+            {
+                if(m_ctx)
+                {
+                    delete m_ctx;
+                    m_ctx = NULL;
+                    m_open = false;
+                    m_ss.clear();
+                }
+            }
+
+            Epic::Import::Context *m_ctx;
+            std::ostringstream     m_ss;
+            std::string            m_filename;
+            bool                   m_open;
+        };
+
 
     } // Epic::Import
 } // Epic

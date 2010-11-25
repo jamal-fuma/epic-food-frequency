@@ -23,6 +23,24 @@ CREATE TABLE nutrients (
 );
 CREATE UNIQUE INDEX index_nutrients_on_code ON nutrients(code);
 
+CREATE TABLE weights (
+        id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+        amount REAL NOT NULL
+);
+
+CREATE TABLE frequencies (
+        id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+        amount REAL NOT NULL
+);
+
+CREATE TABLE foods (
+	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+	name VARCHAR UNIQUE NOT NULL,
+	description VARCHAR NOT NULL default ""
+);
+CREATE UNIQUE INDEX index_foods_on_name ON foods(name);
+
+
 CREATE TABLE questionaire_people (
 	questionaire_id INTEGER NOT NULL,
 	person_id INTEGER NOT NULL,
@@ -30,6 +48,14 @@ CREATE TABLE questionaire_people (
 );
 
 CREATE INDEX index_questionaire_people_on_questionaire ON questionaire_people(questionaire_id);
+
+CREATE TABLE food_nutrients (
+	food_id INTEGER NOT NULL,
+	nutrient_id INTEGER NOT NULL,
+	amount float,
+        UNIQUE(food_id,nutrient_id)
+);
+CREATE INDEX index_food_nutrients_on_food ON food_nutrients(food_id);
 
 CREATE TABLE person_meals (
 	person_id INTEGER NOT NULL,
@@ -48,13 +74,6 @@ CREATE TABLE person_foods (
 CREATE INDEX index_person_foods_on_person ON person_foods(person_id);
 
 
-CREATE TABLE foods (
-	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-	name VARCHAR UNIQUE NOT NULL,
-	description text NOT NULL default ""
-);
-CREATE UNIQUE INDEX index_foods_on_name ON foods(name);
-
 CREATE TABLE meal_foods (
 	meal_id INTEGER NOT NULL,
 	food_id INTEGER NOT NULL,
@@ -62,12 +81,4 @@ CREATE TABLE meal_foods (
         UNIQUE(meal_id,food_id)
 );
 CREATE INDEX index_meal_foods_on_meal ON meal_foods(meal_id);
-
-CREATE TABLE food_nutrients (
-	food_id INTEGER NOT NULL,
-	nutrient_id INTEGER NOT NULL,
-	quantity float,
-        UNIQUE(food_id,nutrient_id)
-);
-CREATE INDEX index_food_nutrients_on_food ON food_nutrients(food_id);
 

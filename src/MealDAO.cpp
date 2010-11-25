@@ -1,5 +1,6 @@
 #include "dao/MealDAO.hpp"
 #include "dao/Meal.hpp"
+#include "import/Import.hpp"
 
 // find a meal given an id
 bool Epic::MealDAO::DataAccess::find_by_id(sqlite3_int64 id, Epic::DAO::Meal & meal)
@@ -103,3 +104,66 @@ Epic::DAO::Meal Epic::DAO::Meal::find_by_id(sqlite3_int64 id)
     Epic::MealDAO::find_by_id(id,meal);
     return meal;
 }
+
+// load the model from file
+bool Epic::DAO::Meal::load(const std::string & filename)
+{
+    Epic::Import::CSVReader rdr;
+
+    if(!rdr.open(filename))
+    {
+        return false;
+    }
+
+    Epic::Import::str_vector_t v,h;
+    Epic::Config::Config cnf;
+    Epic::DAO::Meal meal;
+
+    Epic::Database::Transaction tr;
+    for(size_t line=0; (rdr.more_rows()); ++line)
+    {
+        if(rdr.read_row(v))
+        {
+            if(!line)
+            {
+                Epic::Import::str_vector_t expected;
+                expected.push_back("LINE NUMBER");
+                expected.push_back("FFQNAME");
+                expected.push_back("SGDESC");
+                 if(Epic::Import::DBModel::same_header("meals",expected,v))
+                {
+                    h.swap(v);
+                    continue;
+                }
+                return false;
+            }
+
+            Epic::Import::str_vector_t::size_type end = v.size();
+            for(Epic::Import::str_vector_t::size_type pos=0; pos != end; ++pos)
+            {
+                cnf.insert(h[pos],v[pos],true);
+            }
+
+            std::string s;
+            if(cnf.find("FFQNAME",s))
+            {
+                meal.set_name(s);
+            }
+            if(cnf.find("SGDESC",s))
+            {
+                meal.set_description(s);
+            }
+
+            if(!meal.save())
+            {
+                std::ostringstream ss;
+                ss << "Error in meals import file: aborting on line :" << line << std::endl;
+                Epic::Logging::error(ss.str());
+                return false;
+            }
+        }
+    }
+    tr.commit();
+    return true;
+}
+

@@ -112,6 +112,22 @@ namespace Epic
             {
             }
 
+            bool more_rows()
+            {
+                return (m_begin != m_end);
+            }
+
+            bool read_row(str_vector_t & row)
+            {
+                bool rc = fieldset();
+                if(rc)
+                {
+                    row.swap(m_row);
+                    m_row.clear();
+                }
+                return rc;
+            }
+
             template <class T>
             bool
             load(T & functor)
