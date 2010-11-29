@@ -19,6 +19,7 @@ namespace Epic
                     m_amount(amount) {}
 
                 static Frequency find_by_id(sqlite3_int64 id) ;
+                static bool load(const std::string & filename);
 
                 bool save();
 

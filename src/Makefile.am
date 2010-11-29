@@ -38,7 +38,9 @@ libEpic_la_SOURCES = \
  		   $(top_srcdir)/include/dao/Food.hpp		\
  		   $(top_srcdir)/include/dao/FoodNutrient.hpp	\
 		   \
+                   $(top_srcdir)/include/dao/MealFoodDAO.hpp	\
                    $(top_srcdir)/include/dao/MealDAO.hpp	\
+ 		   $(top_srcdir)/include/dao/MealFood.hpp	\
  		   $(top_srcdir)/include/dao/Meal.hpp		\
 		   \
                    $(top_srcdir)/include/dao/NutrientDAO.hpp	\
@@ -1316,6 +1318,7 @@ libEpic_la_SOURCES = \
                    WeightDAO.cpp	\
                    FoodDAO.cpp		\
                    MealDAO.cpp		\
+                   MealFoodDAO.cpp	\
                    NutrientDAO.cpp	\
                    PersonDAO.cpp	\
                    QuestionaireDAO.cpp	\

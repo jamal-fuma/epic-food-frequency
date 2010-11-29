@@ -1,5 +1,5 @@
-#ifndef EPIC_DAO_WEIGHT_HPP
-#define EPIC_DAO_WEIGHT_HPP
+#ifndef EPIC_DAO_PORTION_HPP
+#define EPIC_DAO_PORTION_HPP
 
 #include "Epic_lib.hpp"
 #include <iomanip>
@@ -8,17 +8,17 @@ namespace Epic
 {
     namespace DAO
     {
-        class Weight
+        class Portion
         {
             public:
-                Weight() : m_id(0), m_amount(0.0F), m_valid(false) {}
+                Portion() : m_id(0), m_amount(0.0F), m_valid(false) {}
 
-                explicit Weight(double amount) :
+                explicit Portion(double amount) :
                     m_id(0),
                     m_valid(false),
                     m_amount(amount) {}
 
-                static Weight find_by_id(sqlite3_int64 id) ;
+                static Portion find_by_id(sqlite3_int64 id) ;
                 static bool load(const std::string & filename);
 
                 bool save();
@@ -50,9 +50,9 @@ namespace Epic
                     return m_valid;
                 }
 
-                friend std::ostream & operator<<(std::ostream & rhs, const Weight & weight) {
-                    rhs << "Weight: ["  << weight.get_id()           << ","
-                                        << std::setprecision(5) << std::fixed << weight.get_amount()
+                friend std::ostream & operator<<(std::ostream & rhs, const Portion & portion) {
+                    rhs << "Portion: ["  << portion.get_id()           << ","
+                                        << std::setprecision(5) << std::fixed << portion.get_amount()
                                 << "]"  << std::endl;
                     return rhs;
                 }
@@ -67,4 +67,4 @@ namespace Epic
 } // Epic namespace
 
 
-#endif /* ndef EPIC_DAO_WEIGHT_HPP */
+#endif /* ndef EPIC_DAO_PORTION_HPP */

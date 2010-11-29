@@ -1,8 +1,17 @@
 #ifndef EPIC_DATABASE_RESULTS_QUERY_STATEMENT_HPP
 #define EPIC_DATABASE_RESULTS_QUERY_STATEMENT_HPP
 
+#include "Epic_lib.hpp"
 #include "import/Import.hpp"
 #include "dataset/Statement.hpp"
+
+#include <algorithm>
+#include <vector>
+
+#include <iterator>
+#include <iostream>
+
+
 namespace Epic
 {
     namespace Database
@@ -12,30 +21,16 @@ namespace Epic
             Epic::Import::str_vector_t m_columns;
             std::string                m_delim;
 
-            const std::string & ffq_line() const {
-                return m_columns.at(0) ;
-            }
-            const std::string & food_code() const {
-                return m_columns.at(1) ;
-            }
-            const std::string & nutrient_code() const {
-                return m_columns.at(2) ;
-            }
-            const std::string & nutrient_quantity() const {
-                return m_columns.at(3) ;
-            }
-
             ResultSet(const std::string & delim=",") : m_delim(delim)
             {
             }
 
             friend std::ostream & operator <<(std::ostream & out, const ResultSet & rs)
             {
-                out << rs.ffq_line()          << rs.m_delim;
-                out << rs.food_code()         << rs.m_delim;
-                out << rs.nutrient_code()     << rs.m_delim;
-                out << rs.nutrient_quantity() << std::endl;
-                return out;
+                std::ostream_iterator< std::string > output( out, rs.m_delim.c_str() );
+
+                std::copy(rs.m_columns.begin(),rs.m_columns.end(),output);
+                return out << std::endl;
             }
         };
 

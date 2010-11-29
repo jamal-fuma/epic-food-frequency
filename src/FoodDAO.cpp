@@ -298,6 +298,7 @@ bool Epic::DAO::FoodNutrient::load(const std::string & filename)
             {
                 // quantity
                 quantity = Conversion::NutrientQuantity(s);
+                quantity /= 100.00;
             }
 
             if(!food.attach(nutrient,quantity))

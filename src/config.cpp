@@ -156,9 +156,11 @@ bool Epic::Config::Quantity::find(const std::string & key, std::string & dest)
         bool ret = Epic::Pattern::Singleton< Quantity::QuantityConfig >::instance().find(key,dest);
         if(ret)
         {
+#if(0)
             std::ostringstream ss;
             ss << "Mapped value for '" << key << "' as " << dest << "\n" ;
             Epic::Logging::note(ss.str());
+#endif
         }
         return ret;
     }

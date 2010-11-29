@@ -68,6 +68,12 @@ namespace Epic
             {
 		return sqlite3_bind_double(m_statement,row,value);
             }
+            
+            int
+            bind_null(sqlite3_int64 row)
+            {
+		return sqlite3_bind_null(m_statement,row);
+            }
 
             std::string
             column_text(sqlite3_int64 row)
@@ -174,6 +180,16 @@ namespace Epic
             bind_double(sqlite3_int64 row, double value)
             {
                 int rc = m_sql.bind_double(row,value);
+                if(SQLITE_OK == rc)
+                    m_bound = true;
+
+                return rc;
+            }
+
+            int
+            bind_null(sqlite3_int64 row)
+            {
+                int rc = m_sql.bind_null(row);
                 if(SQLITE_OK == rc)
                     m_bound = true;
 

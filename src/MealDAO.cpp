@@ -1,5 +1,7 @@
 #include "dao/MealDAO.hpp"
+#include "dao/MealFoodDAO.hpp"
 #include "dao/Meal.hpp"
+#include "dao/MealFood.hpp"
 #include "import/Import.hpp"
 
 // find a meal given an id
@@ -32,6 +34,52 @@ bool Epic::MealDAO::DataAccess::find_by_name(const std::string & name, Epic::DAO
     }
     m_find_by_name.reset();
     return rc;
+}
+
+ // find all meals of the given type
+bool Epic::MealDAO::DataAccess::find_all_by_type(Epic::DAO::MealFood::Types type, std::vector<Epic::DAO::Meal> & meals)
+{
+    bool rc = false;
+    m_find_all_by_type.bind_int(1,type);
+    Epic::DAO::Meal meal;
+    rc = (SQLITE_ROW == m_find_all_by_type.step());
+    if(!rc)
+        return false;
+
+    while(rc)
+    {
+        meal.set_id(m_find_all_by_type.column_int64(0));
+        meal.set_name(m_find_all_by_type.column_text(1));
+        meal.set_description(m_find_all_by_type.column_text(2));
+        meals.push_back(meal);
+        rc = (SQLITE_ROW == m_find_all_by_type.step());
+    }
+    m_find_all_by_type.reset();
+    return true;
+}
+
+// find all meals of the given type
+bool Epic::MealDAO::DataAccess::find_all_without_modifier(std::vector<Epic::DAO::Meal> & meals)
+{
+    bool rc = false;
+    m_find_all_without_modifier.bind_int(1,Epic::DAO::MealFood::FryingFat);
+    m_find_all_without_modifier.bind_int(2,Epic::DAO::MealFood::BakingFat);
+    m_find_all_without_modifier.bind_int(3,Epic::DAO::MealFood::VisibleFat);
+    m_find_all_without_modifier.bind_int(4,Epic::DAO::MealFood::Cereal);
+
+    rc = (SQLITE_ROW == m_find_all_without_modifier.step());
+    if(!rc)
+        return false;
+
+    for(Epic::DAO::Meal meal; (rc); rc = (SQLITE_ROW == m_find_all_without_modifier.step()))
+    {
+        meal.set_id(m_find_all_without_modifier.column_int64(0));
+        meal.set_name(m_find_all_without_modifier.column_text(1));
+        meal.set_description(m_find_all_without_modifier.column_text(2));
+        meals.push_back(meal);
+    }
+    m_find_all_without_modifier.reset();
+    return true;
 }
 
 // save a meal
@@ -83,6 +131,21 @@ bool Epic::MealDAO::save(Epic::DAO::Meal & meal)
     return Epic::Pattern::Singleton< Epic::MealDAO::DataAccess >::instance().save(meal);
 }
 
+ // find all meals of the given type
+bool Epic::MealDAO::find_all_by_type(Epic::DAO::MealFood::Types type, std::vector<Epic::DAO::Meal> & meals)
+{
+    if(Epic::DAO::MealFood::Simple)
+        return find_all_without_modifier(meals);
+
+    return Epic::Pattern::Singleton< Epic::MealDAO::DataAccess >::instance().find_all_by_type(type,meals);
+}
+
+// find all meals of the given type
+bool Epic::MealDAO::find_all_without_modifier(std::vector<Epic::DAO::Meal> & meals)
+{
+    return Epic::Pattern::Singleton< Epic::MealDAO::DataAccess >::instance().find_all_without_modifier(meals);
+}
+
 // wire up saving the model to the DAO
 bool Epic::DAO::Meal::save()
 {   
@@ -104,6 +167,43 @@ Epic::DAO::Meal Epic::DAO::Meal::find_by_id(sqlite3_int64 id)
     Epic::MealDAO::find_by_id(id,meal);
     return meal;
 }
+
+// find all meals of the given type
+bool Epic::DAO::Meal::find_all_with_visible_fat(std::vector<Epic::DAO::Meal> & meals)
+{
+    return Epic::MealDAO::find_all_by_type(Epic::DAO::MealFood::VisibleFat,meals);
+}
+
+// find all meals of the given type
+bool Epic::DAO::Meal::find_all_with_baking_fat(std::vector<Epic::DAO::Meal> & meals)
+{
+    return Epic::MealDAO::find_all_by_type(Epic::DAO::MealFood::BakingFat,meals);
+}
+
+// find all meals of the given type
+bool Epic::DAO::Meal::find_all_with_cereal(std::vector<Epic::DAO::Meal> & meals)
+{
+    return Epic::MealDAO::find_all_by_type(Epic::DAO::MealFood::Cereal,meals);
+}
+
+// find all meals of the given type
+bool Epic::DAO::Meal::find_all_with_frying_fat(std::vector<Epic::DAO::Meal> & meals)
+{
+    return Epic::MealDAO::find_all_by_type(Epic::DAO::MealFood::FryingFat,meals);
+}
+
+// find all meals of the given type
+bool Epic::DAO::Meal::find_all_without_modifier(std::vector<Epic::DAO::Meal> & meals)
+{
+    return Epic::MealDAO::find_all_without_modifier(meals);
+}
+
+// find all meals of the given type
+bool Epic::DAO::Meal::find_all_foods(std::vector<Epic::DAO::MealFood> & meal_foods) const
+{
+    return Epic::MealFoodDAO::find_all_by_meal_id(this->get_id(),meal_foods);
+}
+
 
 // load the model from file
 bool Epic::DAO::Meal::load(const std::string & filename)

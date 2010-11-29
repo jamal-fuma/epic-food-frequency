@@ -7,6 +7,7 @@
 #include "dao/Food.hpp"
 #include "dao/Weight.hpp"
 #include "dao/Frequency.hpp"
+#include "dao/MealFood.hpp"
 
 
 void test_person();
@@ -18,6 +19,7 @@ void test_food();
 void test_frequencies();
 void test_questionaire_person();
 void test_food_nutrient();
+void test_meal_foods();
 
 /* all food_codes for meats with visible fat portion scaled correctly 
 select meal_id,food,(amount+0.0) from ingredients where meal_id=1 and modifier="" 
@@ -79,6 +81,7 @@ main(int argc, char **argv)
     test_frequencies();
     test_questionaire_person();
     test_food_nutrient();
+    test_meal_foods();
 
     return EXIT_SUCCESS;
 }
@@ -352,4 +355,16 @@ void test_frequencies()
     assert("frequency should be valid and have amount equal to 0.43" && foo.valid() && utility_same_double(foo.get_amount(),0.43));
  
     std::cout << "Frequency [ok]" << std::endl << std::endl;
+}
+
+void test_meal_foods()
+{
+    Epic::DAO::MealFood meal_food;
+
+    meal_food.set_meal_id(Epic::DAO::Meal::find_by_name("foo").get_id());
+    meal_food.set_modifier("a");
+    meal_food.save();
+    assert("meal_food should be invalid" && !meal_food.valid());
+
+    std::cout << "1st " << meal_food;
 }

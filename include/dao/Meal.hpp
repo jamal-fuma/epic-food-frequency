@@ -2,6 +2,8 @@
 #define EPIC_DAO_MEAL_HPP
 
 #include "Epic_lib.hpp"
+#include <vector>
+#include "dao/MealFood.hpp"
 
 namespace Epic
 {
@@ -21,8 +23,25 @@ namespace Epic
                 static Meal find_by_name(const std::string & name) ;
                 static Meal find_by_id(sqlite3_int64 id) ;
 
+                // find all meals with visible fat
+                static bool find_all_with_visible_fat(std::vector<Epic::DAO::Meal> & meals);
+
+                // find all meals with baking fat
+                static bool find_all_with_baking_fat(std::vector<Epic::DAO::Meal> & meals);
+
+                // find all meals with cereal process
+                static bool find_all_with_cereal(std::vector<Epic::DAO::Meal> & meals);
+
+                // find all meals with frying fat
+                static bool find_all_with_frying_fat(std::vector<Epic::DAO::Meal> & meals);
+
+                // find all meals with simple processing
+                static bool find_all_without_modifier(std::vector<Epic::DAO::Meal> & meals);
+
                 static bool load(const std::string & filename);
                 bool save();
+
+                bool find_all_foods(std::vector<Epic::DAO::MealFood> & meal_foods) const; 
 
                 // accessors
                 sqlite3_int64 get_id() const { 
