@@ -36,24 +36,15 @@ sql_DATA = \
 # application data imports
 importdir = ${pkgsysconfdir}/import
 import_DATA = \
-	import/groups.csv \
-	import/milk_types.csv \
-	import/foods.csv \
-	import/question_types.csv \
-	import/cereal_brands_alt.csv \
-	import/ingredients.csv \
-	import/baking_fats.csv \
-	import/cereal_types.csv \
-	import/cereal_brands.csv \
+	import/model/foods.csv \
+	import/model/food_nutrients.csv \
+	import/model/meal_foods.csv \
+	import/model/portions.csv \
+	import/model/cereals.csv \
 	import/meals.csv \
 	import/nutrients.csv \
 	import/frequencies.csv \
-	import/milk_types_alt.csv \
-	import/weights.csv \
-	import/frying_fats.csv \
-	import/visible_fats.csv \
-	import/cereal_types_alt.csv \
-	import/cereals.csv
+	import/weights.csv
 
 # docs and LICENSE
 epic_ffqdocdir  = ${prefix}/doc/epic_ffq

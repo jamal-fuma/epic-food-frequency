@@ -34,6 +34,15 @@ libEpic_la_SOURCES = \
                    $(top_srcdir)/include/dao/WeightDAO.hpp	\
  		   $(top_srcdir)/include/dao/Weight.hpp		\
 		   \
+                   $(top_srcdir)/include/dao/MilkDAO.hpp	\
+ 		   $(top_srcdir)/include/dao/Milk.hpp		\
+		   \
+                   $(top_srcdir)/include/dao/CerealDAO.hpp	\
+ 		   $(top_srcdir)/include/dao/Cereal.hpp		\
+		   \
+                   $(top_srcdir)/include/dao/PortionDAO.hpp	\
+ 		   $(top_srcdir)/include/dao/Portion.hpp	\
+		   \
                    $(top_srcdir)/include/dao/FoodDAO.hpp	\
  		   $(top_srcdir)/include/dao/Food.hpp		\
  		   $(top_srcdir)/include/dao/FoodNutrient.hpp	\
@@ -1317,10 +1326,13 @@ libEpic_la_SOURCES = \
 		   FrequencyDAO.cpp	\
                    WeightDAO.cpp	\
                    FoodDAO.cpp		\
+                   CerealDAO.cpp	\
                    MealDAO.cpp		\
+                   MilkDAO.cpp		\
                    MealFoodDAO.cpp	\
                    NutrientDAO.cpp	\
                    PersonDAO.cpp	\
+                   PortionDAO.cpp	\
                    QuestionaireDAO.cpp	\
                                         \
                    application.cpp      \

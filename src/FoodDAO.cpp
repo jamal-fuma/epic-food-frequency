@@ -93,9 +93,10 @@ bool Epic::FoodDAO::DataAccess::find_nutrients(const Epic::DAO::Food & food, std
 
     m_find_nutrients_by_food_id.bind_int64(1,food.get_id());
     bool rc = (SQLITE_ROW == m_find_nutrients_by_food_id.step());
-    
+    std::vector<Epic::DAO::FoodNutrient> tmp;
     if(rc)
     {
+        tmp.swap(nutrients);
         Epic::DAO::FoodNutrient nutrient;
         for(sqlite3_int64 id = food.get_id(); rc; )
         {

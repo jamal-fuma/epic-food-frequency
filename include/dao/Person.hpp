@@ -7,6 +7,14 @@ namespace Epic
 {
     namespace DAO
     {
+        class Weight;       // forward declaration
+        class Food;         // forward declaration
+        class Cereal;       // forward declaration
+        class Milk;         // forward declaration
+        class Portion;      // forward declaration
+        class Meal;         // forward declaration
+        class Frequency;    // forward declaration
+
         class Person 
         {
             public:
@@ -17,6 +25,24 @@ namespace Epic
 
                 static Person find_by_reference(const std::string & reference) ;
                 static Person find_by_id(sqlite3_int64 id) ;
+
+                // visible fat weighting
+                bool attach_visible_fat(const Epic::DAO::Weight & weight);
+                
+                // frying fat food code
+                bool attach_frying_fat(const Epic::DAO::Food & food);
+
+                // baking fat food code
+                bool attach_baking_fat(const Epic::DAO::Food & food);
+
+                // cereal
+                bool attach_cereal(const Epic::DAO::Cereal & cereal);
+                
+                // associate a person with a milk food code and portion
+                bool attach_milk(const Epic::DAO::Milk & milk, const Epic::DAO::Portion & portion);
+
+                // associate a person with a meal frequency
+                bool attach_meal(const Epic::DAO::Meal & meal, const Epic::DAO::Frequency & frequency);
 
                 bool save();
 

@@ -8,6 +8,8 @@
 #include "dao/Weight.hpp"
 #include "dao/Frequency.hpp"
 #include "dao/MealFood.hpp"
+#include "dao/Portion.hpp"
+#include "dao/Cereal.hpp"
 
 
 void test_person();
@@ -20,32 +22,8 @@ void test_frequencies();
 void test_questionaire_person();
 void test_food_nutrient();
 void test_meal_foods();
-
-/* all food_codes for meats with visible fat portion scaled correctly 
-select meal_id,food,(amount+0.0) from ingredients where meal_id=1 and modifier="" 
-union select meal_id, food,(ingredients.amount * weights.amount) from ingredients,weights where weights.code=1 and ingredients.modifier="a" and ingredients.meal_id =1 
-*/
-
-
-/* MEAT meal names
-select meals.name from ingredients inner join meals on ingredients.meal_id = meals.id  where ingredients.modifier = "a";
-*/
-
-/* BAKING fat meal names
-select meals.name from ingredients inner join meals on ingredients.meal_id = meals.id  where ingredients.modifier = "b";
-*/
-
-/* CERIAL meal names
-select meals.name, meals.id from ingredients inner join meals on ingredients.meal_id = meals.id  where ingredients.modifier = "c";
-*/
-
-/* FRYING fat meal names
-select meals.name, meals.id from ingredients inner join meals on ingredients.meal_id = meals.id  where ingredients.modifier = "d";
-*/
-
-/* Simple foods
-  select meals.name,meals.id from meals where meals.id in (select meals.id from meals except select ingredients.meal_id from ingredients where ingredients.modifier in ("a","b","c","d") )  ;
-*/
+void test_portions();
+void test_cereals();
 
 int
 main(int argc, char **argv)
@@ -72,16 +50,17 @@ main(int argc, char **argv)
 
     Epic::Database::connect();
 
-    test_person();
     test_questionaire();
     test_nutrient();
     test_meal();
     test_food();
     test_weights();
+    test_person();
     test_frequencies();
     test_questionaire_person();
     test_food_nutrient();
     test_meal_foods();
+    test_portions();
 
     return EXIT_SUCCESS;
 }
@@ -150,6 +129,12 @@ void test_person()
     person.set_reference("bar");
     person.save();
 
+    Epic::DAO::Weight weight; 
+    weight.set_amount(55.0);
+    weight.save();
+
+    person.attach_visible_fat(weight);
+
     std::cout << "2nd " << person;
 
     Epic::DAO::Person foo = Epic::DAO::Person::find_by_reference("foo");
@@ -159,6 +144,7 @@ void test_person()
     assert(foo.valid() && "Foo is expected to be valid");
 
     std::cout << "Person [ok]" << std::endl << std::endl;
+
 }
 
 void test_questionaire()
@@ -367,4 +353,57 @@ void test_meal_foods()
     assert("meal_food should be invalid" && !meal_food.valid());
 
     std::cout << "1st " << meal_food;
+    
+    std::cout << "MealFood [ok]" << std::endl << std::endl;
 }
+
+void test_portions()
+{
+    Epic::DAO::Portion portion ;
+    
+    portion.set_amount(1.0);
+    portion.save();
+    std::cout << portion;
+    
+    portion.set_amount(0.5);
+    portion.save();
+    std::cout << portion;
+}
+ 
+void test_cereals()
+{
+    Epic::DAO::Cereal cereal;
+    Epic::DAO::Person person;
+    Epic::DAO::Food food ;
+    
+    person.set_reference("Fred");
+    person.save();
+    
+    sqlite3_int64 food_ids[] = {0,0};
+
+    food.set_name("11136");
+    food.set_description("Frosties");
+    food.save();
+    food_ids[0] = food.get_id();
+    
+    food.set_name("11137");
+    food.set_description("Museli");
+    food.save();
+    food_ids[1] = food.get_id();
+
+
+    cereal.set_food_id(food_ids[0]);
+    cereal.set_weight_id(1);
+    cereal.save();
+
+    person.attach_cereal(cereal);
+
+    cereal.set_food_id(food_ids[1]);
+    cereal.set_weight_id(2);
+    cereal.save();
+
+    person.attach_cereal(cereal);
+
+    std::cout << "Cereal [ok]" << std::endl << std::endl;
+}
+ 

@@ -33,6 +33,12 @@ CREATE TABLE frequencies (
         amount REAL NOT NULL
 );
 
+CREATE TABLE portions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+        amount FLOAT NOT NULL
+);
+
+
 CREATE TABLE foods (
 	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 	name VARCHAR UNIQUE NOT NULL,
@@ -79,12 +85,6 @@ CREATE TABLE milks (
 	food_id     INTEGER NOT NULL
 );
 
-CREATE TABLE portions (
-        id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-        amount FLOAT NOT NULL
-);
-
-
 CREATE TABLE person_fats (
         id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 	person_id   INTEGER NOT NULL,
@@ -130,6 +130,7 @@ CREATE TABLE person_foods (
         portion_id INTEGER NOT NULL
 );
 CREATE INDEX index_person_foods_on_person ON person_foods(person_id);
+CREATE INDEX index_person_foods_on_frequency_id_and_portion_id ON person_foods(frequency_id,portion_id);
 
 
 CREATE VIEW person_fat_totals AS SELECT 
@@ -228,6 +229,21 @@ WHERE
 ORDER BY
     person_weights.person_id;
 
+/* dirty hack to allow combining with meal reporting  */
+CREATE VIEW person_milk_foods AS SELECT 
+    person_foods.person_id, 
+    0 AS meal_id,
+    person_foods.food_id, 
+    (portions.amount * frequencies.amount) AS amount
+FROM
+    person_foods,
+    frequencies,
+    portions
+WHERE 
+    person_foods.frequency_id   = frequencies.id
+    AND person_foods.portion_id     = portions.id
+ORDER BY
+    person_foods.person_id;
 
 CREATE VIEW person_simple_foods AS SELECT 
     person_meals.person_id, 
@@ -253,6 +269,8 @@ UNION SELECT
     person_id,meal_id,food_id,amount FROM person_meat_foods
 UNION SELECT 
     person_id,meal_id,food_id,amount FROM person_simple_foods
+UNION SELECT 
+    person_id,meal_id,food_id,amount FROM person_milk_foods
 ORDER BY person_id,meal_id,food_id;
 
 CREATE VIEW food_nutrient_vw AS SELECT 
@@ -284,3 +302,25 @@ WHERE
     person_food_vw.food_id = food_nutrient_vw.food_id
 ORDER BY person_id,meal_id;
 
+CREATE VIEW person_meal_nutrient_vw AS SELECT 
+    person_id,
+    meal_id,
+    sum(amount) AS amount,
+    code,
+    sum(quantity) AS quantity 
+FROM 
+    person_food_nutrient_vw 
+GROUP BY 
+    person_id,
+    meal_id,
+    code ;
+
+CREATE VIEW person_nutrient_vw AS SELECT 
+    person_id,
+    code,
+    sum(quantity) AS quantity 
+FROM 
+    person_meal_nutrient_vw 
+GROUP BY 
+    person_id,
+    code ;
