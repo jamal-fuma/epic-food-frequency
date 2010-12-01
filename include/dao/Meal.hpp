@@ -38,6 +38,8 @@ namespace Epic
                 // find all meals with simple processing
                 static bool find_all_without_modifier(std::vector<Epic::DAO::Meal> & meals);
 
+                static bool find_all(std::vector<Epic::DAO::Meal> & meals);
+
                 static bool load(const std::string & filename);
                 bool save();
 

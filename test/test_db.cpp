@@ -58,7 +58,7 @@ main(int argc, char **argv)
 
     // find all meals with visible fat
     std::vector<Epic::DAO::Meal> meals; 
-    if(Epic::DAO::Meal::find_all_with_visible_fat(meals))
+    if(Epic::DAO::Meal::find_all(meals))
     {
         std::vector<Epic::DAO::Meal>::const_iterator ci,end;
         end = meals.end();

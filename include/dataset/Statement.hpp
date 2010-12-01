@@ -132,15 +132,16 @@ namespace Epic
 
         class PreparedStatement
         {
-            bool      m_bound;
-            Statement m_sql;
-
             public:
             PreparedStatement(const std::string & sql) :
                 m_bound(false),
                 m_sql(sql)
             {
+                /* skip the binding logic if there are no paramters to bind */
+                m_bindable = (sql.find('?') != std::string::npos);
+                m_bound = (!m_bindable);
             }
+
 
             template<class T> void
             bind_statement(T & binder)
@@ -239,9 +240,13 @@ namespace Epic
                 if(m_bound)
                 {
                     m_sql.reset();
-                    m_bound = false;
+                    m_bound = (!m_bindable);
                 }
             }
+        private:
+            bool      m_bindable; // are there arguments to substitute into statement
+            bool      m_bound;    // have all arguments been bound to statement
+            Statement m_sql;
         };
 
     } // Epic::Database

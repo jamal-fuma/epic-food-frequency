@@ -26,6 +26,7 @@ namespace Epic
                                   "FROM meal_foods WHERE modifier in (?,?,?,?) ) ;"),
 
                 m_find_all_by_type("SELECT meals.id, meals.name, meals.description FROM meals INNER JOIN meal_foods ON meal_foods.meal_id = meals.id WHERE meal_foods.modifier = ? ;"),
+                m_find_all("SELECT meals.id, meals.name, meals.description FROM meals ;"),
 
                 m_find_by_id("SELECT name,description FROM meals WHERE id = ? ;") { }
 
@@ -38,6 +39,9 @@ namespace Epic
             // find all meals of the given type
             bool find_all_by_type(Epic::DAO::MealFood::Types type, std::vector<Epic::DAO::Meal> & meals);
  
+            // find all meals
+            bool find_all(std::vector<Epic::DAO::Meal> & meals);
+ 
             // find all meals without modifiers
             bool find_all_without_modifier(std::vector<Epic::DAO::Meal> & meals);
 
@@ -49,6 +53,7 @@ namespace Epic
             Epic::Database::PreparedStatement m_find_by_name;
             Epic::Database::PreparedStatement m_find_by_id;
             Epic::Database::PreparedStatement m_find_all_by_type;
+            Epic::Database::PreparedStatement m_find_all;
             Epic::Database::PreparedStatement m_find_all_without_modifier;
         };
         
@@ -66,6 +71,9 @@ namespace Epic
 
         // find all meals without modifiers
         bool find_all_without_modifier(std::vector<Epic::DAO::Meal> & meals);
+        
+        // find all meals
+        bool find_all(std::vector<Epic::DAO::Meal> & meals);
 
     } // MealDAO namespace
 

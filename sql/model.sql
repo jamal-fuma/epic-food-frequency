@@ -75,7 +75,7 @@ CREATE INDEX index_meal_foods_on_meal_and_modifier ON meal_foods(meal_id,modifie
 
 CREATE TABLE cereals (
         id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-	food_id     INTEGER NOT NULL,
+	food_id     INTEGER UNIQUE NOT NULL,
         weight_id   INTEGER NOT NULL
 );
 
@@ -133,7 +133,7 @@ CREATE INDEX index_person_foods_on_person ON person_foods(person_id);
 CREATE INDEX index_person_foods_on_frequency_id_and_portion_id ON person_foods(frequency_id,portion_id);
 
 
-CREATE VIEW person_fat_totals AS SELECT 
+CREATE VIEW person_fat_totals_vw AS SELECT 
     person_id,
     count(person_id) AS entries, 
     modifier 
@@ -143,7 +143,7 @@ GROUP BY
     person_id,
     modifier ;
 
-CREATE VIEW person_cereal_totals AS SELECT 
+CREATE VIEW person_cereal_totals_vw AS SELECT 
     person_id,
     count(person_id) AS entries, 
     modifier 
@@ -153,29 +153,33 @@ GROUP BY
     person_id,
     modifier ;
 
-CREATE VIEW person_fat_foods AS SELECT 
+CREATE VIEW person_milk_totals_vw AS SELECT 
+    person_id,
+    count(person_id) AS entries
+FROM 
+    person_foods 
+GROUP BY 
+    person_id;
+
+
+CREATE VIEW person_fat_foods_vw AS SELECT 
     person_meals.person_id, 
     person_meals.meal_id,
     person_fats.food_id, 
-    ((meal_foods.amount / ( SELECT 
-                           entries 
-                           FROM 
-                                person_fat_totals 
-                          WHERE 
-                                person_fat_totals.person_id = person_fats.person_id
-                                AND 
-                                person_fat_totals.modifier = person_fats.modifier
-                        )) * frequencies.amount) AS amount
+    ( (frequencies.amount) * (meal_foods.amount / person_fat_totals_vw.entries)) AS amount
 FROM 
     person_fats,
     person_meals,
+    person_fat_totals_vw,
     frequencies,
     meal_foods 
 WHERE 
-    person_fats.person_id           = person_meals.person_id 
-    AND person_fats.modifier        = meal_foods.modifier
-    AND person_meals.frequency_id   = frequencies.id
-    AND meal_foods.meal_id          = person_meals.meal_id
+    person_fats.person_id               = person_meals.person_id 
+    AND person_fats.modifier            = meal_foods.modifier
+    AND person_meals.frequency_id       = frequencies.id
+    AND meal_foods.meal_id              = person_meals.meal_id
+    AND person_fat_totals_vw.person_id  = person_fats.person_id
+    AND person_fat_totals_vw.modifier   = person_fats.modifier
 ORDER BY
     person_fats.person_id;
 
@@ -184,32 +188,27 @@ CREATE VIEW person_cereal_foods AS SELECT
     person_cereals.person_id, 
     meal_foods.meal_id,
     person_cereals.food_id, 
-    (((meal_foods.amount / ( SELECT 
-                           entries 
-                           FROM 
-                                person_cereal_totals 
-                          WHERE 
-                                person_cereal_totals.person_id = person_cereals.person_id
-                                AND 
-                                person_cereal_totals.modifier = person_cereals.modifier
-                        )) / weights.amount) * frequencies.amount) AS amount
+    ( (frequencies.amount) * ((meal_foods.amount / person_cereal_totals_vw.entries) / weights.amount) ) AS amount
 FROM 
     person_meals,
     person_cereals,
+    person_cereal_totals_vw,
     frequencies,
     weights,
     meal_foods
 WHERE 
-    person_cereals.person_id        = person_meals.person_id 
-    AND person_cereals.modifier     = meal_foods.modifier
-    AND person_cereals.weight_id    = weights.id
-    AND person_meals.frequency_id   = frequencies.id
-    AND meal_foods.meal_id          = person_meals.meal_id
+    person_cereals.person_id             = person_meals.person_id 
+    AND person_cereals.modifier          = meal_foods.modifier
+    AND person_cereals.weight_id         = weights.id
+    AND person_meals.frequency_id        = frequencies.id
+    AND meal_foods.meal_id               = person_meals.meal_id
+    AND person_cereals.person_id         = person_cereal_totals_vw.person_id 
+    AND person_cereal_totals_vw.modifier = person_cereals.modifier
 ORDER BY
     person_meals.person_id;
 
 
-CREATE VIEW person_meat_foods AS SELECT 
+CREATE VIEW person_meat_foods_vw AS SELECT 
     person_weights.person_id, 
     meal_foods.meal_id,
     meal_foods.food_id, 
@@ -230,22 +229,24 @@ ORDER BY
     person_weights.person_id;
 
 /* dirty hack to allow combining with meal reporting  */
-CREATE VIEW person_milk_foods AS SELECT 
+CREATE VIEW person_milk_foods_vw AS SELECT 
     person_foods.person_id, 
     0 AS meal_id,
     person_foods.food_id, 
-    (portions.amount * frequencies.amount) AS amount
+    ((portions.amount * frequencies.amount) / person_milk_totals_vw.entries) AS amount
 FROM
     person_foods,
     frequencies,
-    portions
+    portions,
+    person_milk_totals_vw
 WHERE 
     person_foods.frequency_id   = frequencies.id
-    AND person_foods.portion_id     = portions.id
+    AND person_foods.portion_id = portions.id
+    AND person_foods.person_id  = person_milk_totals_vw.person_id
 ORDER BY
     person_foods.person_id;
 
-CREATE VIEW person_simple_foods AS SELECT 
+CREATE VIEW person_simple_foods_vw AS SELECT 
     person_meals.person_id, 
     meal_foods.meal_id,
     meal_foods.food_id, 
@@ -262,15 +263,15 @@ ORDER BY
     person_meals.person_id;
 
 CREATE VIEW person_food_vw AS SELECT 
-    person_id,meal_id,food_id,amount FROM person_fat_foods 
+    person_id,meal_id,food_id,amount FROM person_fat_foods_vw 
 UNION SELECT 
     person_id,meal_id,food_id,amount FROM person_cereal_foods
 UNION SELECT 
-    person_id,meal_id,food_id,amount FROM person_meat_foods
+    person_id,meal_id,food_id,amount FROM person_meat_foods_vw
 UNION SELECT 
-    person_id,meal_id,food_id,amount FROM person_simple_foods
+    person_id,meal_id,food_id,amount FROM person_simple_foods_vw
 UNION SELECT 
-    person_id,meal_id,food_id,amount FROM person_milk_foods
+    person_id,meal_id,food_id,amount FROM person_milk_foods_vw
 ORDER BY person_id,meal_id,food_id;
 
 CREATE VIEW food_nutrient_vw AS SELECT 

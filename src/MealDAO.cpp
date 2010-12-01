@@ -36,6 +36,28 @@ bool Epic::MealDAO::DataAccess::find_by_name(const std::string & name, Epic::DAO
     return rc;
 }
 
+// find all meals
+bool Epic::MealDAO::DataAccess::find_all(std::vector<Epic::DAO::Meal> & meals)
+{
+    bool rc = false;
+    Epic::DAO::Meal meal;
+    rc = (SQLITE_ROW == m_find_all.step());
+    if(!rc)
+        return false;
+
+    while(rc)
+    {
+        meal.set_id(m_find_all.column_int64(0));
+        meal.set_name(m_find_all.column_text(1));
+        meal.set_description(m_find_all.column_text(2));
+        meals.push_back(meal);
+        rc = (SQLITE_ROW == m_find_all.step());
+    }
+    m_find_all.reset();
+    return true;
+}
+
+
  // find all meals of the given type
 bool Epic::MealDAO::DataAccess::find_all_by_type(Epic::DAO::MealFood::Types type, std::vector<Epic::DAO::Meal> & meals)
 {
@@ -131,6 +153,13 @@ bool Epic::MealDAO::save(Epic::DAO::Meal & meal)
     return Epic::Pattern::Singleton< Epic::MealDAO::DataAccess >::instance().save(meal);
 }
 
+// find all meals
+bool Epic::MealDAO::find_all(std::vector<Epic::DAO::Meal> & meals)
+{
+    return Epic::Pattern::Singleton< Epic::MealDAO::DataAccess >::instance().find_all(meals);
+}
+
+
  // find all meals of the given type
 bool Epic::MealDAO::find_all_by_type(Epic::DAO::MealFood::Types type, std::vector<Epic::DAO::Meal> & meals)
 {
@@ -204,6 +233,11 @@ bool Epic::DAO::Meal::find_all_foods(std::vector<Epic::DAO::MealFood> & meal_foo
     return Epic::MealFoodDAO::find_all_by_meal_id(this->get_id(),meal_foods);
 }
 
+// find all meals of the given type
+bool Epic::DAO::Meal::find_all(std::vector<Epic::DAO::Meal> & meals)
+{
+    return Epic::MealDAO::find_all(meals);
+}
 
 // load the model from file
 bool Epic::DAO::Meal::load(const std::string & filename)
