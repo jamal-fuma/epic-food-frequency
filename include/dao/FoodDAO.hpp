@@ -25,7 +25,7 @@ namespace Epic
                 m_find_by_name("SELECT id,description FROM foods WHERE name = ? ;"),
                 m_find_nutrients_by_food_id("SELECT food_nutrients.nutrient_id,food_nutrients.amount,nutrients.code "
                                             "FROM food_nutrients INNER JOIN nutrients ON food_nutrients.nutrient_id = nutrients.id "
-                                            "WHERE food_nutrients.food_id = ? ;"),
+                                            "WHERE food_nutrients.food_id = ? and food_nutrients.amount > 0;"),
                 m_find_by_id("SELECT name,description FROM foods WHERE id = ? ;") { }
 
 
@@ -39,7 +39,7 @@ namespace Epic
             bool attach(const Epic::DAO::Food & food, const Epic::DAO::Nutrient & nutrient, double amount) ;
 
             // find all nutrients associated with a food
-            bool find_nutrients(const Epic::DAO::Food & food, std::vector<Epic::DAO::FoodNutrient> & nutrients);
+            bool find_nutrients(const Epic::DAO::Food & food, std::vector<Epic::DAO::FoodNutrient> & nutrients) ;
  
             // find all foods
             bool find_all(std::vector<Epic::DAO::Food> & foods);
@@ -72,7 +72,7 @@ namespace Epic
         bool attach(const Epic::DAO::Food & food, const Epic::DAO::Nutrient & Nutrient, double amount) ;
 
         // find all nutrients associated with a food
-        bool find_nutrients(const Epic::DAO::Food & food, std::vector<Epic::DAO::FoodNutrient> & nutrients);
+        bool find_nutrients(const Epic::DAO::Food & food, std::vector<Epic::DAO::FoodNutrient> & nutrients) ;
     } // FoodDAO namespace
 
 } // Epic namespace

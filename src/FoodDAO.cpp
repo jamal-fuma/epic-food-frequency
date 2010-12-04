@@ -216,7 +216,7 @@ bool Epic::DAO::Food::attach( Epic::DAO::Nutrient & nutrient, double amount)
 }
 
 // wire up retrieving nutrients for this food
-bool Epic::DAO::Food::find_nutrients(std::vector<FoodNutrient> & nutrients)
+bool Epic::DAO::Food::find_nutrients(std::vector<FoodNutrient> & nutrients) const
 {
     return  Epic::FoodDAO::find_nutrients(*this,nutrients);
 }

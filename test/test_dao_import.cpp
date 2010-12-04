@@ -89,6 +89,7 @@ main(int argc, char **argv)
     Epic::DAO::Weight::find_bounds(weight_upper,weight_lower);
 
     
+
     std::map<sqlite3_int64,Epic::DAO::Frequency> frequency_by_id;
     std::map<sqlite3_int64,Epic::DAO::Weight>    weight_by_id;
     std::map<std::string,Epic::DAO::Cereal>      cereal_by_food_code;
@@ -102,6 +103,29 @@ main(int argc, char **argv)
         ss.str(std::string());
         return EXIT_FAILURE;
     }
+ 
+    // find all foods
+    std::vector<Epic::DAO::Food> foods;
+    if(!Epic::DAO::Food::find_all(foods))
+    {
+        ss << "Unable to load foods from db\n";
+        Epic::Logging::error(ss.str());
+        ss.str(std::string());
+        return EXIT_FAILURE;
+    }
+    
+    std::map< sqlite3_int64, std::vector<Epic::DAO::FoodNutrient> > nutrients_by_food_id;
+    
+    // find nutrients for foods
+    for( std::vector<Epic::DAO::Food>::const_iterator food_it = foods.begin(), food_end = foods.end(); food_it != food_end; ++food_it)
+    {
+        std::vector<Epic::DAO::FoodNutrient> nutrients;
+        if(food_it->find_nutrients(nutrients))
+        {
+            nutrients_by_food_id[food_it->get_id()] = nutrients;
+        }
+    }
+
 
     Epic::Database::Transaction tr;
     
@@ -285,25 +309,26 @@ main(int argc, char **argv)
                 
                 double amount = sql.column_double(2);  // food_amount
                 
-#if(0)
+                Epic::DAO::Food food = foods.at(sql.column_int64(1) -1 ); // food_id;
+                
                 // skip foods with zero consumption
-                Epic::DAO::Food food = Epic::DAO::Food::find_by_id(sql.column_int64(1) ); // food_id;
+//              Epic::DAO::Food food = Epic::DAO::Food::find_by_id(sql.column_int64(1) ); // food_id;
 
                 ss << food.get_name() << "," << amount << "," ;
 
-                std::vector<Epic::DAO::FoodNutrient> nutrients;
-                if(food.find_nutrients(nutrients))
+                std::map< sqlite3_int64, std::vector<Epic::DAO::FoodNutrient> >::const_iterator map_itr;
+                
+                if((map_itr = nutrients_by_food_id.find(food.get_id())) != nutrients_by_food_id.end())
                 {
                     std::string line = ss.str();
 
                     // list scaled nutrients for food
-                    for(std::vector<Epic::DAO::FoodNutrient>::const_iterator nutrient_it = nutrients.begin(), nutrient_end = nutrients.end(); nutrient_it != nutrient_end; ++nutrient_it)
+                    for(std::vector<Epic::DAO::FoodNutrient>::const_iterator nutrient_it = map_itr->second.begin(), nutrient_end = map_itr->second.end(); nutrient_it != nutrient_end; ++nutrient_it)
                     {
                         std::cout  << line << nutrient_it->get_nutrient_code() << "," << nutrient_it->get_scaled_amount(amount) << "," << "\n";
                     }
                 }
 
-#endif
                 ss.str(std::string());
             }
             sql.reset();

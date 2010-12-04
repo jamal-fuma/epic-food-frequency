@@ -31,7 +31,7 @@ namespace Epic
 
  
                 bool attach(Nutrient & nutrient, double amount);
-                bool find_nutrients(std::vector<FoodNutrient> & nutrients);
+                bool find_nutrients(std::vector<FoodNutrient> & nutrients) const;
 
                 bool save();
 
