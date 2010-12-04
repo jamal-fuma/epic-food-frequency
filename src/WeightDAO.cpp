@@ -18,6 +18,42 @@ bool Epic::WeightDAO::DataAccess::find_by_id(sqlite3_int64 id, Epic::DAO::Weight
     return rc;
 }
 
+// find the upper and lower bounds of the weight range
+bool Epic::WeightDAO::DataAccess::find_bounds(sqlite3_int64 & upper, sqlite3_int64 & lower)
+{
+    bool rc = false;
+    if(SQLITE_ROW == m_find_bounds.step())
+    {
+        lower = m_find_bounds.column_int64(0);
+        upper = m_find_bounds.column_int64(1);
+        rc = true;
+    }
+    m_find_bounds.reset();
+    return rc;
+}
+
+// find all weights
+bool Epic::WeightDAO::DataAccess::find_all(std::vector<Epic::DAO::Weight> & weights)
+{
+    bool rc = false;
+    Epic::DAO::Weight weight;
+    rc = (SQLITE_ROW == m_find_all.step());
+    if(!rc)
+        return false;
+
+    while(rc)
+    {
+        weight.set_id(m_find_all.column_int64(0));
+        weight.set_amount(m_find_all.column_double(1));
+        weight.validate();
+        weights.push_back(weight);
+        rc = (SQLITE_ROW == m_find_all.step());
+    }
+    m_find_all.reset();
+    return true;
+}
+
+
 // save a weight
 bool Epic::WeightDAO::DataAccess::save(Epic::DAO::Weight & weight)
 {
@@ -40,6 +76,18 @@ bool Epic::WeightDAO::find_by_id(sqlite3_int64 id, Epic::DAO::Weight & weight)
     return Epic::Pattern::Singleton< Epic::WeightDAO::DataAccess >::instance().find_by_id(id,weight);
 }
 
+// find the upper and lower bounds of the weight range
+bool Epic::WeightDAO::find_bounds(sqlite3_int64 & upper, sqlite3_int64 & lower)
+{
+    return Epic::Pattern::Singleton< Epic::WeightDAO::DataAccess >::instance().find_bounds(upper,lower);
+}
+
+// find all weights
+bool Epic::WeightDAO::find_all(std::vector<Epic::DAO::Weight> & weights)
+{
+    return Epic::Pattern::Singleton< Epic::WeightDAO::DataAccess >::instance().find_all(weights);
+}
+
 // save a weight
 bool Epic::WeightDAO::save(Epic::DAO::Weight & weight)
 {
@@ -58,6 +106,12 @@ Epic::DAO::Weight Epic::DAO::Weight::find_by_id(sqlite3_int64 id)
     Epic::DAO::Weight weight;
     Epic::WeightDAO::find_by_id(id,weight);
     return weight;
+}
+
+// wire up finding the upper and lower bounds of the weight range to the model
+bool Epic::DAO::Weight::find_bounds(sqlite3_int64 & upper, sqlite3_int64 & lower)
+{
+    return Epic::WeightDAO::find_bounds(upper,lower);
 }
 
 // load the model from file

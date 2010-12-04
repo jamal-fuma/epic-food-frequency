@@ -3,13 +3,13 @@
 
 #include "Epic_lib.hpp"
 #include "dao/FoodNutrient.hpp"
+#include "dao/Food.hpp"
 #include <vector>
 
 namespace Epic
 {
     namespace DAO 
     {   
-        class Food; //forward declaration
         class Nutrient; //forward declaration
     } // DAO namespace
 
@@ -20,6 +20,7 @@ namespace Epic
         public:
             DataAccess() :
                 m_insert("INSERT INTO foods (name,description) VALUES (?,?) ;"),
+                m_find_all("SELECT id,name,description from foods ;"),
                 m_attach("INSERT INTO food_nutrients (food_id,nutrient_id,amount) VALUES (?,?,?) ;"),
                 m_find_by_name("SELECT id,description FROM foods WHERE name = ? ;"),
                 m_find_nutrients_by_food_id("SELECT food_nutrients.nutrient_id,food_nutrients.amount,nutrients.code "
@@ -39,6 +40,9 @@ namespace Epic
 
             // find all nutrients associated with a food
             bool find_nutrients(const Epic::DAO::Food & food, std::vector<Epic::DAO::FoodNutrient> & nutrients);
+ 
+            // find all foods
+            bool find_all(std::vector<Epic::DAO::Food> & foods);
 
             // save a food
             bool save(Epic::DAO::Food & food);
@@ -46,6 +50,7 @@ namespace Epic
         private:
             Epic::Database::PreparedStatement m_insert;
             Epic::Database::PreparedStatement m_attach;
+            Epic::Database::PreparedStatement m_find_all;
             Epic::Database::PreparedStatement m_find_by_name;
             Epic::Database::PreparedStatement m_find_nutrients_by_food_id;
             Epic::Database::PreparedStatement m_find_by_id;
@@ -56,6 +61,9 @@ namespace Epic
 
         // find a food given a name
         bool find_by_name(const std::string & name, Epic::DAO::Food & food);
+
+        // find all foods
+        bool find_all(std::vector<Epic::DAO::Food> & foods);
 
         // save a food
         bool save(Epic::DAO::Food & food);

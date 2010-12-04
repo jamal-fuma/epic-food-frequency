@@ -37,6 +37,30 @@ bool Epic::FoodDAO::DataAccess::find_by_name(const std::string & name, Epic::DAO
     return rc;
 }
 
+// find all foods
+bool Epic::FoodDAO::DataAccess::find_all(std::vector<Epic::DAO::Food> & foods)
+{
+    bool rc = false;
+    Epic::DAO::Food food;
+    rc = (SQLITE_ROW == m_find_all.step());
+    if(!rc)
+        return false;
+
+    while(rc)
+    {
+        food.set_id(m_find_all.column_int64(0));
+        food.set_name(m_find_all.column_text(1));
+        food.set_description(m_find_all.column_text(2));
+        food.validate();
+        foods.push_back(food);
+        rc = (SQLITE_ROW == m_find_all.step());
+    }
+    m_find_all.reset();
+    return true;
+}
+
+
+
 // save a food
 bool Epic::FoodDAO::DataAccess::save(Epic::DAO::Food & food)
 {
@@ -140,6 +164,12 @@ bool Epic::FoodDAO::find_by_name(const std::string & name, Epic::DAO::Food & foo
     return Epic::Pattern::Singleton< Epic::FoodDAO::DataAccess >::instance().find_by_name(name,food);
 }
 
+// find all foods
+bool Epic::FoodDAO::find_all(std::vector<Epic::DAO::Food> & foods)
+{
+    return Epic::Pattern::Singleton< Epic::FoodDAO::DataAccess >::instance().find_all(foods);
+}
+
 // save a food
 bool Epic::FoodDAO::save(Epic::DAO::Food & food)
 {
@@ -156,8 +186,19 @@ bool Epic::DAO::Food::save()
 Epic::DAO::Food Epic::DAO::Food::find_by_name(const std::string & name)
 {
     Epic::DAO::Food food;
-    Epic::FoodDAO::find_by_name(name,food);
+    Epic::FoodDAO::find_by_name(Epic::Util::c_trim(name),food);
+    if(!food.valid())
+    {
+        std::cerr << "searched for invalid food (code) = " << name << " returned " << food;
+    }
+
     return food;
+}
+
+// find all foods
+bool Epic::DAO::Food::find_all(std::vector<Epic::DAO::Food> & foods)
+{
+    return Epic::FoodDAO::find_all(foods);
 }
 
 // wire up finding the model using the DAO and an id

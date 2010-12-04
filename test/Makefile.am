@@ -6,6 +6,7 @@ noinst_PROGRAMS = \
 	       test_db \
 	       test_split \
 	       test_header \
+	       test_dao_import \
 	       test_import
 
 BUILD_DEFS	=  -ggdb -O0
@@ -53,12 +54,16 @@ test_import_SOURCES = test_import.cpp imp.cpp imp.hpp
 test_import_LDADD = $(LINK_DEPS)
 test_import_DEPENDENCIES = $(LINK_DEPS)
 
+test_dao_import_SOURCES = test_dao_import.cpp imp.cpp imp.hpp
+test_dao_import_LDADD = $(LINK_DEPS)
+test_dao_import_DEPENDENCIES = $(LINK_DEPS)
 
 reallyclean: maintainer-clean
 	rm -f Makefile
 	rm -f Makefile.in
 	rm -f  \
 	       test_import \
+	       test_dao_import \
 	       test_header \
 	       test_dao \
 	       test_db \

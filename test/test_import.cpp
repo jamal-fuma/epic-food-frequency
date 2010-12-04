@@ -1,185 +1,19 @@
 #include "Epic_lib.hpp"
 #include "imp.hpp"
 
+#include "dao/Meal.hpp"
+#include "dao/Frequency.hpp"
+#include "dao/Weight.hpp"
+
 #include "import/Import.hpp"
+#include "conversion/Conversion.hpp"
 
-class Person
+struct response
 {
-    public:
-        Person() {}
-
-        // accessors
-        std::string get_reference() const {
-            return m_reference ;
-        }
-
-
-        Milk get_milk() const {
-            return m_milk;
-        }
-
-
-        Cereal get_primary_cereal() const {
-            return m_primary_cereal;
-        }
-
-        Cereal get_secondary_cereal() const {
-            return m_secondary_cereal;
-        }
-
-
-        BakingFat get_baking_fat() const {
-            return m_bak_fat;
-        }
-
-        FryingFat get_frying_fat() const {
-            return m_fry_fat;
-        }
-
-        std::string get_frying_fat_foods(){
-            return m_fry_fat_foods;
-        }
-
-        std::string get_visible_fat() {
-            return m_visible_fat;
-        }
-
-        std::string get_baking_fat_foods(){
-            return m_bak_fat_foods;
-        }
-
-        bool get_meal_frequency(const std::string & meal, std::string & frequency_str) {
-            return m_meals.find(meal,frequency_str);
-        }
-
-        std::string get_cereal_foods(){
-            return m_cereal_foods;
-        }
-
-        // cereal mutators
-
-        void set_primary_cereal_brand(const std::string & brand) {
-            m_primary_cereal.set_brand(brand);
-        }
-
-        void set_primary_cereal_type(const std::string & type) {
-            m_primary_cereal.set_type(type);
-        }
-
-        void set_secondary_cereal_brand(const std::string & brand) {
-            m_secondary_cereal.set_brand(brand);
-        }
-
-        void set_secondary_cereal_type(const std::string & type) {
-            m_secondary_cereal.set_type(type);
-        }
-
-        // baking fat mutators
-        void set_baking_fat_type(const std::string & type)  {
-            m_bak_fat.set_type(type);
-        }
-
-        void set_baking_fat_food(const std::string & food_code)  {
-            m_bak_fat.set_food_code(food_code);
-        }
-
-        void set_bak_fat_foods(const std::string & bak_fat_foods) {
-            m_bak_fat_foods = bak_fat_foods;
-        }
-
-
-        // frying fat mutators
-        void set_frying_fat_type(const std::string & type)  {
-            m_fry_fat.set_type(type);
-        }
-
-        void set_frying_fat_food(const std::string & food_code)  {
-            m_fry_fat.set_food_code(food_code);
-        }
-
-        void set_fry_fat_foods(const std::string & fry_fat_foods) {
-            m_fry_fat_foods = fry_fat_foods;
-        }
-
-
-
-        // milk mutators
-        void set_milk_type(const std::string & type)  {
-            m_milk.set_type(type);
-        }
-
-        void set_milk_food(const std::string & food_code)  {
-            m_milk.set_food_code(food_code);
-        }
-
-        void set_milk_portion(const std::string & portion)  {
-            m_milk.set_portion(portion);
-        }
-
-        // meal mutators
-        void insert_meal_frequency(const std::string & meal, const std::string & frequency_str) {
-            m_meals.insert(meal,frequency_str,true);
-        }
-
-        // meat mutators
-        void insert_meat_frequency(const std::string & meal, const std::string & frequency_str) {
-            m_meats.insert(meal,frequency_str,true);
-        }
-
-        // frying fat mutators
-        void insert_frying_fat_frequency(const std::string & meal, const std::string & frequency_str) {
-            m_ffats.insert(meal,frequency_str,true);
-        }
-
-
-        // person mutators
-        void set_reference(const std::string & reference) {
-            m_reference = reference;
-        }
-
-        void set_eat_breakfast(const std::string & eat_breakfast) {
-            m_eat_breakfast = eat_breakfast;
-        }
-
-        void set_visible_fat(const std::string & visible_fat) {
-            m_visible_fat = visible_fat;
-        }
-
-        void set_cereal_foods(const std::string & cereal_foods) {
-            m_cereal_foods = cereal_foods;
-        }
-
-
-    private:
-        std::string             m_reference;
-
-        std::string             m_visible_fat;
-
-        std::string             m_cereal_foods;
-        std::string             m_bak_fat_foods;
-        std::string             m_fry_fat_foods;
-
-        std::string             m_eat_breakfast;
-
-        Epic::Config::Config    m_meals;
-        Epic::Config::Config    m_meats;
-        Epic::Config::Config    m_ffats;
-
-        Milk                    m_milk;
-
-        FryingFat               m_fry_fat;
-        BakingFat               m_bak_fat;
-
-        Cereal                  m_primary_cereal;
-        Cereal                  m_secondary_cereal;
+    size_t        line;
+    sqlite3_int64 meal_id;
+    sqlite3_int64 frequency_id;
 };
-
-void person_meats(Person & person, const Epic::Config::Config & cnf);
-void person_meals(Person & person, const Epic::Config::Config & cnf);
-void person_milks(Person & person, const Epic::Config::Config & cnf);
-void person_cereals(Person & person, const Epic::Config::Config & cnf);
-void person_frying_fats(Person & person, const Epic::Config::Config & cnf);
-void person_baking_fats(Person & person, const Epic::Config::Config & cnf);
 
 
 int
@@ -190,6 +24,7 @@ main(int argc, char **argv)
     std::string dbase   = "/home/me/workspace/clone/epic-food-frequency-0.0.1/build/test/foods.db" ;
     std::string import  = "/home/me/workspace/clone/epic-food-frequency-0.0.1/test/test.csv" ;
 
+    Epic::Logging::open("error.log");
     if(!Epic::Config::load(conf))
     {
         std::ostringstream ss;
@@ -214,7 +49,7 @@ main(int argc, char **argv)
     {
         import = argv[1] ;
     }
-
+    
     if(!rdr.open(import))
     {
         return EXIT_FAILURE;
@@ -223,6 +58,29 @@ main(int argc, char **argv)
 
     Epic::Config::Config cnf;
 
+    
+    std::vector<response> responses;
+    sqlite3_int64 frequency_upper,frequency_lower;
+    sqlite3_int64 weight_upper,weight_lower;
+    
+    Epic::DAO::Frequency::find_bounds(frequency_upper,frequency_lower);
+    Epic::DAO::Weight::find_bounds(weight_upper,weight_lower);
+
+    std::ostringstream ss;
+    
+    std::map<sqlite3_int64,Epic::DAO::Frequency> frequency_by_id;
+    std::map<sqlite3_int64,Epic::DAO::Weight>    weight_by_id;
+    
+    // find all meals
+    std::vector<Epic::DAO::Meal> meals; 
+    if(!Epic::DAO::Meal::find_all(meals))
+    {
+        ss << "Unable to load meals from db\n";
+        Epic::Logging::error(ss.str());
+        ss.str("");
+        return EXIT_FAILURE;
+    }
+            
     for(size_t line=0; (rdr.more_rows()); ++line)
     {
         if(rdr.read_row(v))
@@ -232,8 +90,8 @@ main(int argc, char **argv)
                 h = v;
                 continue;
             }
-            Epic::Import::str_vector_t::size_type end = v.size();
-            for(Epic::Import::str_vector_t::size_type pos=0; pos != end; ++pos)
+            Epic::Import::str_vector_t::size_type size = v.size();
+            for(Epic::Import::str_vector_t::size_type pos=0; pos != size; ++pos)
             {
                 cnf.insert(h[pos],v[pos],true);
             }
@@ -244,6 +102,31 @@ main(int argc, char **argv)
             if(cnf.find("ID",value) )
             {
                 person.set_reference(value);
+            }
+            
+            // find all the meal frequencies
+            std::vector<Epic::DAO::Meal>::const_iterator ci,end;
+            end = meals.end();
+            for(ci  = meals.begin(); ci != end; ++ci)
+            {
+                response resp;
+                if(cnf.find(ci->get_name(),value))
+                {
+                    resp.line           = line;
+                    resp.meal_id        = ci->get_id();
+
+                    // need to validate frequency 
+                    resp.frequency_id   = Epic::Conversion::IntegerString(value);
+                    if(resp.frequency_id >= frequency_lower && resp.frequency_id <= frequency_upper)
+                        responses.push_back(resp);
+                    else
+                    {
+                        ss << "Respondent: " << person.get_reference() << " supplied ";
+                        ss << "invalid frequency:  " << value << " for meal: " << ci->get_name() << std::endl; 
+                        Epic::Logging::error(ss.str());
+                        ss.str("");
+                    }
+                }
             }
 
             person_meats(person,cnf);

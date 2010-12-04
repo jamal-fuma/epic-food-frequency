@@ -50,6 +50,7 @@ bool Epic::MealDAO::DataAccess::find_all(std::vector<Epic::DAO::Meal> & meals)
         meal.set_id(m_find_all.column_int64(0));
         meal.set_name(m_find_all.column_text(1));
         meal.set_description(m_find_all.column_text(2));
+        meal.validate();
         meals.push_back(meal);
         rc = (SQLITE_ROW == m_find_all.step());
     }

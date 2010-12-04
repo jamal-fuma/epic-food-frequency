@@ -149,21 +149,28 @@ bool Epic::PersonDAO::DataAccess::attach_milk(const Epic::DAO::Person & person,c
 // associate a person with a meal frequency
 bool Epic::PersonDAO::DataAccess::attach_meal(const Epic::DAO::Person & person,const Epic::DAO::Meal & meal, const Epic::DAO::Frequency & frequency)
 {
-    if(!meal.valid() || !frequency.valid() || !person.valid())
+    std::ostringstream ss;
+    if(!meal.valid())
+        ss << "Cant attach a meal frequency to a person as meal is invalid\n" ;
+    else if(!frequency.valid())
+        ss << "Cant attach a meal frequency to a person as frequency is invalid\n" ;
+    else if(!person.valid())
+        ss << "Cant attach a meal frequency to a person as person is invalid\n" ;
+
+    else
     {
-        std::ostringstream ss;
-        ss << "Cant attach a meal frequency to a person unless person and meal and frequency are valid()\n";
-        Epic::Logging::error(ss.str());
-        throw std::runtime_error(ss.str());
+        bool rc = false;
+        m_attach_frequency.bind_int64(1,person.get_id());
+        m_attach_frequency.bind_int64(2,meal.get_id());
+        m_attach_frequency.bind_int64(3,frequency.get_id());
+        rc = (SQLITE_DONE == m_attach_frequency.step());
+        m_attach_frequency.reset();
+        return rc;
     }
 
-    bool rc = false;
-    m_attach_frequency.bind_int64(1,person.get_id());
-    m_attach_frequency.bind_int64(2,meal.get_id());
-    m_attach_frequency.bind_int64(3,frequency.get_id());
-    rc = (SQLITE_DONE == m_attach_frequency.step());
-    m_attach_frequency.reset();
-    return rc;
+    Epic::Logging::error(ss.str());
+    throw std::runtime_error(ss.str());
+
 }
 
 

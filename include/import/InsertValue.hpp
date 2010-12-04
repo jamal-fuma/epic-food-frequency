@@ -26,6 +26,13 @@ namespace Epic
         inline std::string & trim(std::string & s) {
             return ltrim(rtrim(s));
         }
+        
+        // return copyfront and back
+        inline std::string c_trim(const std::string & s) {
+            std::string cpy(s);
+            return trim(cpy);
+        }
+
 
         class Token
         {

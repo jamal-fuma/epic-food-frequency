@@ -20,6 +20,9 @@ namespace Epic
 
                 static Frequency find_by_id(sqlite3_int64 id) ;
                 static bool load(const std::string & filename);
+                
+                // find the upper and lower bounds of the frequency range
+                static bool find_bounds(sqlite3_int64 & upper, sqlite3_int64 & lower);
 
                 bool save();
 

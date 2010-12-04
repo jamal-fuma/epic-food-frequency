@@ -84,6 +84,10 @@ Epic::DAO::Cereal Epic::DAO::Cereal::find_by_food_id(sqlite3_int64 food_id)
 {
     Epic::DAO::Cereal cereal;
     Epic::CerealDAO::find_by_food_id(food_id,cereal);
+    if(!cereal.valid())
+    {
+        std::cerr << "invalid cereal " << cereal;
+    }
     return cereal;
 }
 

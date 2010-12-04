@@ -168,18 +168,18 @@ CREATE VIEW person_fat_foods_vw AS SELECT
     person_fats.food_id, 
     ( (frequencies.amount) * (meal_foods.amount / person_fat_totals_vw.entries)) AS amount
 FROM 
-    person_fats,
     person_meals,
+    meal_foods,
+    person_fats,
     person_fat_totals_vw,
-    frequencies,
-    meal_foods 
+    frequencies
 WHERE 
-    person_fats.person_id               = person_meals.person_id 
-    AND person_fats.modifier            = meal_foods.modifier
+    person_fats.person_id               = person_fat_totals_vw.person_id
+    AND person_fats.modifier            = person_fat_totals_vw.modifier
+    AND person_meals.person_id          = person_fats.person_id
+    AND person_meals.meal_id            = meal_foods.meal_id
     AND person_meals.frequency_id       = frequencies.id
-    AND meal_foods.meal_id              = person_meals.meal_id
-    AND person_fat_totals_vw.person_id  = person_fats.person_id
-    AND person_fat_totals_vw.modifier   = person_fats.modifier
+    AND person_fats.modifier            = meal_foods.modifier
 ORDER BY
     person_fats.person_id;
 
@@ -263,65 +263,39 @@ ORDER BY
     person_meals.person_id;
 
 CREATE VIEW person_food_vw AS SELECT 
-    person_id,meal_id,food_id,amount FROM person_fat_foods_vw 
-UNION SELECT 
+    person_id,meal_id,food_id,amount FROM person_fat_foods_vw
+WHERE
+    amount > 0
+UNION ALL SELECT 
     person_id,meal_id,food_id,amount FROM person_cereal_foods
-UNION SELECT 
+WHERE
+    amount > 0
+UNION ALL SELECT 
     person_id,meal_id,food_id,amount FROM person_meat_foods_vw
-UNION SELECT 
+WHERE
+    amount > 0
+UNION ALL SELECT 
     person_id,meal_id,food_id,amount FROM person_simple_foods_vw
-UNION SELECT 
+WHERE
+    amount > 0
+UNION ALL SELECT 
     person_id,meal_id,food_id,amount FROM person_milk_foods_vw
+WHERE
+    amount > 0
 ORDER BY person_id,meal_id,food_id;
 
-CREATE VIEW food_nutrient_vw AS SELECT 
-    foods.name,
-    food_nutrients.food_id,
-    nutrients.code,
-    food_nutrients.amount AS quantity
-FROM 
-    food_nutrients,
-    foods,
-    nutrients
-WHERE 
-    food_nutrients.food_id = foods.id
-    AND food_nutrients.nutrient_id = nutrients.id
-    AND quantity > 0
-ORDER BY food_id,nutrient_id;
+CREATE TRIGGER trigger_questionaire_clean AFTER DELETE ON questionaires
+BEGIN 
+    DELETE FROM questionaire_people WHERE questionaire_id = OLD.id; 
+END;
 
-CREATE VIEW person_food_nutrient_vw AS SELECT 
-    person_food_vw.person_id,
-    person_food_vw.meal_id,
-    food_nutrient_vw.name,
-    person_food_vw.amount,
-    food_nutrient_vw.code,
-    (person_food_vw.amount * food_nutrient_vw.quantity) AS quantity
-FROM 
-    person_food_vw,
-    food_nutrient_vw
-WHERE
-    person_food_vw.food_id = food_nutrient_vw.food_id
-ORDER BY person_id,meal_id;
-
-CREATE VIEW person_meal_nutrient_vw AS SELECT 
-    person_id,
-    meal_id,
-    sum(amount) AS amount,
-    code,
-    sum(quantity) AS quantity 
-FROM 
-    person_food_nutrient_vw 
-GROUP BY 
-    person_id,
-    meal_id,
-    code ;
-
-CREATE VIEW person_nutrient_vw AS SELECT 
-    person_id,
-    code,
-    sum(quantity) AS quantity 
-FROM 
-    person_meal_nutrient_vw 
-GROUP BY 
-    person_id,
-    code ;
+CREATE TRIGGER trigger_questionaire_people_clean AFTER DELETE ON questionaire_people
+BEGIN
+    DELETE FROM people              WHERE id        = OLD.person_id;
+    DELETE FROM questionaire_people WHERE person_id = OLD.person_id;
+    DELETE FROM person_meals        WHERE person_id = OLD.person_id;
+    DELETE FROM person_fats         WHERE person_id = OLD.person_id;
+    DELETE FROM person_foods        WHERE person_id = OLD.person_id;
+    DELETE FROM person_cereals      WHERE person_id = OLD.person_id;
+    DELETE FROM person_weights      WHERE person_id = OLD.person_id;
+END;

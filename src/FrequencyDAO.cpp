@@ -19,6 +19,20 @@ bool Epic::FrequencyDAO::DataAccess::find_by_id(sqlite3_int64 id, Epic::DAO::Fre
     return rc;
 }
 
+// find the upper and lower bounds of the frequency range
+bool Epic::FrequencyDAO::DataAccess::find_bounds(sqlite3_int64 & upper, sqlite3_int64 & lower)
+{
+    bool rc = false;
+    if(SQLITE_ROW == m_find_bounds.step())
+    {
+        lower = m_find_bounds.column_int64(0);
+        upper = m_find_bounds.column_int64(1);
+        rc = true;
+    }
+    m_find_bounds.reset();
+    return rc;
+}
+
 // save a frequency
 bool Epic::FrequencyDAO::DataAccess::save(Epic::DAO::Frequency & frequency)
 {
@@ -47,6 +61,12 @@ bool Epic::FrequencyDAO::save(Epic::DAO::Frequency & frequency)
     return Epic::Pattern::Singleton< Epic::FrequencyDAO::DataAccess >::instance().save(frequency);
 }
 
+// find the upper and lower bounds of the frequency range
+bool Epic::FrequencyDAO::find_bounds(sqlite3_int64 & upper, sqlite3_int64 & lower)
+{
+    return Epic::Pattern::Singleton< Epic::FrequencyDAO::DataAccess >::instance().find_bounds(upper,lower);
+}
+
 // wire up saving the model to the DAO
 bool Epic::DAO::Frequency::save()
 {
@@ -59,6 +79,12 @@ Epic::DAO::Frequency Epic::DAO::Frequency::find_by_id(sqlite3_int64 id)
     Epic::DAO::Frequency frequency;
     Epic::FrequencyDAO::find_by_id(id,frequency);
     return frequency;
+}
+
+// wire up finding the upper and lower bounds of the frequency range to the model
+bool Epic::DAO::Frequency::find_bounds(sqlite3_int64 & upper, sqlite3_int64 & lower)
+{
+    return Epic::FrequencyDAO::find_bounds(upper,lower);
 }
 
 // load the model from file

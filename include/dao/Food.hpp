@@ -25,6 +25,10 @@ namespace Epic
 
                 static Food find_by_name(const std::string & name) ;
                 static Food find_by_id(sqlite3_int64 id) ;
+
+                // find all foods
+                static bool find_all(std::vector<Epic::DAO::Food> & foods);
+
  
                 bool attach(Nutrient & nutrient, double amount);
                 bool find_nutrients(std::vector<FoodNutrient> & nutrients);

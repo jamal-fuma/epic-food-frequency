@@ -283,6 +283,13 @@ void test_weights()
         assert("weight should be valid and have amount equal to 0.0" && foo.valid() && utility_same_double(foo.get_amount(),0.0));
         std::cout << foo ;
     }
+
+    sqlite3_int64 upper,lower;
+    Epic::DAO::Weight::find_bounds(upper,lower);
+    assert("weight upper bounds should be == 5 " && upper == 5);
+    assert("weight lower bounds should be == 1 " && lower == 1);
+
+
     std::cout << "Weight [ok]" << std::endl << std::endl;
 }
 
@@ -340,6 +347,12 @@ void test_frequencies()
     foo  = Epic::DAO::Frequency::find_by_id(4);
     assert("frequency should be valid and have amount equal to 0.43" && foo.valid() && utility_same_double(foo.get_amount(),0.43));
  
+    sqlite3_int64 upper,lower;
+    
+    Epic::DAO::Frequency::find_bounds(upper,lower);
+    assert("frequency upper bounds should be == 9 " && upper == 9);
+    assert("frequency lower bounds should be == 1 " && lower == 1);
+
     std::cout << "Frequency [ok]" << std::endl << std::endl;
 }
 
