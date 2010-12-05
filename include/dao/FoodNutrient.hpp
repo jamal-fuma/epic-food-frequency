@@ -37,7 +37,7 @@ namespace Epic
                 }
                 
                 double get_scaled_amount(double scalar ) const {
-                    return (m_amount * scalar);
+                    return ( (m_amount / 100.00) * scalar);
                 }
                 
                 void set_nutrient_code(int nutrient_code) {

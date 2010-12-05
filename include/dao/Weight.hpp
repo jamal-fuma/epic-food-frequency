@@ -14,11 +14,6 @@ namespace Epic
             public:
                 Weight() : m_id(0), m_amount(0.0F), m_valid(false) {}
 
-                explicit Weight(double amount) :
-                    m_id(0),
-                    m_valid(false),
-                    m_amount(amount) {}
-
                 static Weight find_by_id(sqlite3_int64 id) ;
                 static bool load(const std::string & filename);
         

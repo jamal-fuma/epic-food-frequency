@@ -3,7 +3,6 @@
 #include "conversion/Conversion.hpp"
 #include "import/Import.hpp"
 
-
 // find a frequency given an id
 bool Epic::FrequencyDAO::DataAccess::find_by_id(sqlite3_int64 id, Epic::DAO::Frequency & frequency)
 {
@@ -32,6 +31,28 @@ bool Epic::FrequencyDAO::DataAccess::find_bounds(sqlite3_int64 & upper, sqlite3_
     m_find_bounds.reset();
     return rc;
 }
+
+// find all frequencies
+bool Epic::FrequencyDAO::DataAccess::find_all(std::vector<Epic::DAO::Frequency> & frequencies)
+{
+    bool rc = false;
+    Epic::DAO::Frequency frequency;
+    rc = (SQLITE_ROW == m_find_all.step());
+    if(!rc)
+        return false;
+
+    while(rc)
+    {
+        frequency.set_id(m_find_all.column_int64(0));
+        frequency.set_amount(m_find_all.column_double(1));
+        frequency.validate();
+        frequencies.push_back(frequency);
+        rc = (SQLITE_ROW == m_find_all.step());
+    }
+    m_find_all.reset();
+    return true;
+}
+
 
 // save a frequency
 bool Epic::FrequencyDAO::DataAccess::save(Epic::DAO::Frequency & frequency)
@@ -67,6 +88,12 @@ bool Epic::FrequencyDAO::find_bounds(sqlite3_int64 & upper, sqlite3_int64 & lowe
     return Epic::Pattern::Singleton< Epic::FrequencyDAO::DataAccess >::instance().find_bounds(upper,lower);
 }
 
+// find all frequencies
+bool Epic::FrequencyDAO::find_all(std::vector<Epic::DAO::Frequency> & frequencies)
+{
+    return Epic::Pattern::Singleton< Epic::FrequencyDAO::DataAccess >::instance().find_all(frequencies);
+}
+
 // wire up saving the model to the DAO
 bool Epic::DAO::Frequency::save()
 {
@@ -79,6 +106,12 @@ Epic::DAO::Frequency Epic::DAO::Frequency::find_by_id(sqlite3_int64 id)
     Epic::DAO::Frequency frequency;
     Epic::FrequencyDAO::find_by_id(id,frequency);
     return frequency;
+}
+
+// find all frequencies
+bool Epic::DAO::Frequency::find_all(std::vector<Epic::DAO::Frequency> & frequencies)
+{
+    return Epic::FrequencyDAO::find_all(frequencies);
 }
 
 // wire up finding the upper and lower bounds of the frequency range to the model

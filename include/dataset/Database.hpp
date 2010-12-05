@@ -36,7 +36,8 @@ namespace Epic
                 }
 
                 void exec( const std::string & sql);
-
+                
+                std::string last_error();
                 void prepare(const std::string & sql, sqlite3_stmt **p_statement);
 
              private:
@@ -50,6 +51,8 @@ namespace Epic
         bool created();
         int execute( const std::string & sql);
         void prepare( const std::string & sql,sqlite3_stmt **p_statement);
+        
+        std::string last_error();
 
         sqlite3_int64 last_insert_id();
 

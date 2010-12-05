@@ -31,6 +31,9 @@ libEpic_la_SOURCES = \
                    $(top_srcdir)/include/dao/FrequencyDAO.hpp	\
  		   $(top_srcdir)/include/dao/Frequency.hpp	\
 		   \
+                   $(top_srcdir)/include/dao/ReportDAO.hpp	\
+ 		   $(top_srcdir)/include/dao/Report.hpp		\
+		   \
                    $(top_srcdir)/include/dao/WeightDAO.hpp	\
  		   $(top_srcdir)/include/dao/Weight.hpp		\
 		   \
@@ -1332,6 +1335,7 @@ libEpic_la_SOURCES = \
                    MealFoodDAO.cpp	\
                    NutrientDAO.cpp	\
                    PersonDAO.cpp	\
+                   ReportDAO.cpp	\
                    PortionDAO.cpp	\
                    QuestionaireDAO.cpp	\
                                         \

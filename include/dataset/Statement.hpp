@@ -2,6 +2,7 @@
 #define EPIC_DATABASE_STATEMENT_HPP
 
 #include "dataset/Database.hpp"
+#include "logging/Logger.hpp"
 
 namespace Epic
 {
@@ -17,6 +18,21 @@ namespace Epic
             {
                 prepare(sql);
             }
+            
+            Statement & operator= (const Statement & rhs) {
+                if(this != &rhs)
+                {
+                    if(rhs.m_prepared)
+                    {
+                        prepare(rhs.sql());
+                        return *this;
+                    }
+                    m_prepared = false;
+                    m_statement = NULL;
+                }
+                return *this;
+            }
+
 
             void prepare(const std::string & sql)
             {
@@ -109,6 +125,13 @@ namespace Epic
                 return sqlite3_column_count(m_statement);
             }
 
+            std::string
+            sql() const {
+                if(m_statement)
+                    return sqlite3_sql(m_statement);
+                return "";
+            }
+
             ~Statement()
             {
                 finalise();
@@ -135,13 +158,41 @@ namespace Epic
             public:
             PreparedStatement(const std::string & sql) :
                 m_bound(false),
-                m_sql(sql)
+                m_sql(sql),
+                m_txt(sql)
             {
                 /* skip the binding logic if there are no paramters to bind */
                 m_bindable = (sql.find('?') != std::string::npos);
                 m_bound = (!m_bindable);
             }
+            
+            PreparedStatement() :
+                m_bound(false),
+                m_bindable(false),
+                m_sql(),
+                m_txt("")
+            {
+            }
+        
+            PreparedStatement & operator= (const PreparedStatement & rhs) {
+                if(this != &rhs)
+                {
+                    m_bound     = rhs.m_bound;
+                    m_bindable  = rhs.m_bindable;
+                    m_txt       = rhs.m_txt;
+                    m_sql       = rhs.m_sql;
+                }
+                return *this;
+            }
 
+            // throws on error
+            void prepare(const std::string & sql)
+            {
+                /* skip the binding logic if there are no paramters to bind */
+                m_bindable = (sql.find('?') != std::string::npos);
+                m_bound = (!m_bindable);
+                m_sql.prepare(sql);
+            }
 
             template<class T> void
             bind_statement(T & binder)
@@ -247,6 +298,7 @@ namespace Epic
             bool      m_bindable; // are there arguments to substitute into statement
             bool      m_bound;    // have all arguments been bound to statement
             Statement m_sql;
+            std::string m_txt;
         };
 
     } // Epic::Database

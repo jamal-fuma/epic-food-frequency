@@ -100,6 +100,12 @@ bool Epic::DAO::Weight::save()
     return Epic::WeightDAO::save(*this);
 }
 
+// wire up finding all weights
+bool Epic::DAO::Weight::find_all(std::vector<Epic::DAO::Weight> & weights)
+{
+    return Epic::WeightDAO::find_all(weights);
+}
+
 // wire up finding the model using the DAO and an id
 Epic::DAO::Weight Epic::DAO::Weight::find_by_id(sqlite3_int64 id)
 {

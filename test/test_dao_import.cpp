@@ -1,6 +1,7 @@
 #include "Epic_lib.hpp"
 #include "imp.hpp"
 
+#include "dao/Report.hpp"
 #include "dao/Person.hpp"
 #include "dao/Food.hpp"
 #include "dao/FoodNutrient.hpp"
@@ -20,6 +21,14 @@ struct response
     sqlite3_int64   meal_id;
     sqlite3_int64   frequency_id;
 };
+
+
+bool find_all_by_person_id(sqlite3_int64 person_id, std::vector<Epic::DAO::Report> & reports);
+
+typedef std::vector<Epic::DAO::Person>::const_iterator                                  person_iterator_t;
+typedef std::vector<Epic::DAO::Report>::const_iterator                                  report_iterator_t;
+typedef std::vector<Epic::DAO::FoodNutrient>::const_iterator                            food_nutrient_iterator_t;
+typedef std::map< sqlite3_int64, std::vector<Epic::DAO::FoodNutrient> >::const_iterator food_nutrient_map_iterator_t;
 
 
 int
@@ -113,7 +122,27 @@ main(int argc, char **argv)
         ss.str(std::string());
         return EXIT_FAILURE;
     }
+  
+    // find all weights
+    std::vector<Epic::DAO::Weight> weights;
+    if(!Epic::DAO::Weight::find_all(weights))
+    {
+        ss << "Unable to load weights from db\n";
+        Epic::Logging::error(ss.str());
+        ss.str(std::string());
+        return EXIT_FAILURE;
+    }
     
+    // find all frequencies
+    std::vector<Epic::DAO::Frequency> frequencies;
+    if(!Epic::DAO::Frequency::find_all(frequencies))
+    {
+        ss << "Unable to load frequencies from db\n";
+        Epic::Logging::error(ss.str());
+        ss.str(std::string());
+        return EXIT_FAILURE;
+    }
+ 
     std::map< sqlite3_int64, std::vector<Epic::DAO::FoodNutrient> > nutrients_by_food_id;
     
     // find nutrients for foods
@@ -143,6 +172,7 @@ main(int argc, char **argv)
             Epic::Import::str_vector_t::size_type size = v.size();
             for(Epic::Import::str_vector_t::size_type pos=0; pos != size; ++pos)
             {
+                // wire in alternative fields names here
                 cnf.insert(h[pos],v[pos],true);
             }
 
@@ -164,23 +194,16 @@ main(int argc, char **argv)
             }
 
             // find all the meal frequencies
-            std::vector<Epic::DAO::Meal>::const_iterator ci,end;
-            end = meals.end();
-            for(ci  = meals.begin(); ci != end; ++ci)
+            for( std::vector<Epic::DAO::Meal>::const_iterator ci = meals.begin(),end = meals.end(); ci != end; ++ci)
             {
-                response resp;
                 if(cnf.find(ci->get_name(),value))
                 {
-                    resp.person_id      = person.get_id();
-                    resp.meal_id        = ci->get_id();
-
                     // need to validate frequency 
-                    resp.frequency_id   = Epic::Conversion::IntegerString(value);
-                    if(resp.frequency_id >= frequency_lower && resp.frequency_id <= frequency_upper)
+                    sqlite3_int64 frequency_id   = Epic::Conversion::IntegerString(value);
+                    if(frequency_id >= frequency_lower && frequency_id <= frequency_upper)
                     {
                         // find the frequency object matching this id
-                        person.attach_meal(*ci,Epic::DAO::Frequency::find_by_id(resp.frequency_id));
-                        // responses.push_back(resp);
+                        person.attach_meal(*ci,frequencies.at(frequency_id -1));
                     }
                     else
                     {
@@ -196,10 +219,10 @@ main(int argc, char **argv)
             if(cnf.find("VISIBLE_FAT",value) )
             {
                 sqlite3_int64 weight_id = Epic::Conversion::IntegerString(value);
+                // find the weight object matching this id
                 if(weight_id >= weight_lower && weight_id <= weight_upper)
                 {
-                    // find the weight object matching this id
-                    person.attach_visible_fat(Epic::DAO::Weight::find_by_id(weight_id));
+                    person.attach_visible_fat(weights.at(weight_id-1));
                 }
                 else
                 {
@@ -290,61 +313,57 @@ main(int argc, char **argv)
         }
     }
     tr.commit();
- 
-    // create a temporary table to speed up processing
-    Epic::Database::execute("BEGIN; CREATE TEMPORARY TABLE person_foods_tmp AS SELECT person_id,meal_id,food_id,amount FROM person_food_vw ; CREATE INDEX index_person_foods_tmp_on_person_meal_food ON person_foods_tmp(person_id,meal_id,food_id); COMMIT;");
+
+
     std::vector<Epic::DAO::Person> people;
+    
     if(questionaire.find_people(people))
     {
-        Epic::Database::PreparedStatement sql("SELECT meal_id,food_id,amount FROM person_foods_tmp WHERE person_id=? ;");
+        Epic::DAO::Report::create();
 
-        for(std::vector<Epic::DAO::Person>::const_iterator it = people.begin(), end = people.end(); it != end; ++it)
+        std::vector<Epic::DAO::Report> reports;
+        double amount;
+
+        std::cout << "ID,MEAL_ID,FOOD_CODE,FOOD_PORTION,NUTRIENT_CODE,NUTRIENT_QUANTITY\n" ;
+        for(person_iterator_t person_it = people.begin(), person_end = people.end(); person_it != person_end; ++person_it)
         {
-            sql.bind_int64(1,it->get_id());
-
-            for(int rc = sql.step(); (SQLITE_ROW == rc); rc = sql.step())
+           // if(find_all_by_person_id(person_it->get_id(),reports))
+            if(Epic::DAO::Report::find_all(person_it->get_id(),reports))
             {
-                ss << it->get_reference() << ",";      // reference 
-                ss << sql.column_int64(0) << "," ;     // meal_id
-                
-                double amount = sql.column_double(2);  // food_amount
-                
-                Epic::DAO::Food food = foods.at(sql.column_int64(1) -1 ); // food_id;
-                
-                // skip foods with zero consumption
-//              Epic::DAO::Food food = Epic::DAO::Food::find_by_id(sql.column_int64(1) ); // food_id;
-
-                ss << food.get_name() << "," << amount << "," ;
-
-                std::map< sqlite3_int64, std::vector<Epic::DAO::FoodNutrient> >::const_iterator map_itr;
-                
-                if((map_itr = nutrients_by_food_id.find(food.get_id())) != nutrients_by_food_id.end())
+                for(report_iterator_t report_it = reports.begin(), report_end = reports.end(); report_it != report_end; ++report_it)
                 {
-                    std::string line = ss.str();
+                    // reference,meal_id
+                    ss << person_it->get_reference() << "," << report_it->get_meal_id() << "," ;
 
-                    // list scaled nutrients for food
-                    for(std::vector<Epic::DAO::FoodNutrient>::const_iterator nutrient_it = map_itr->second.begin(), nutrient_end = map_itr->second.end(); nutrient_it != nutrient_end; ++nutrient_it)
+                    Epic::DAO::Food food = foods.at( report_it->get_food_id() -1 ); // food_id;
+                    amount = report_it->get_amount() ;
+
+                    ss << food.get_name() << "," << amount << "," ;
+
+                    food_nutrient_map_iterator_t map_itr = nutrients_by_food_id.find(food.get_id());
+                    if(map_itr != nutrients_by_food_id.end())
                     {
-                        std::cout  << line << nutrient_it->get_nutrient_code() << "," << nutrient_it->get_scaled_amount(amount) << "," << "\n";
+                        std::string line = ss.str();
+
+                        // list scaled nutrients for food
+                        for(food_nutrient_iterator_t nutrient_it = map_itr->second.begin(), nutrient_end = map_itr->second.end(); nutrient_it != nutrient_end; ++nutrient_it)
+                        {
+                            std::cout  << line << nutrient_it->get_nutrient_code() << "," << std::setprecision(6) << std::fixed << nutrient_it->get_scaled_amount(amount)  << "\n";
+                        }
                     }
+
+                    ss.str(std::string());
                 }
 
+                ss << "Processing completed for Respondent: " << person_it->get_reference() << "\n";
+                Epic::Logging::note(ss.str());
                 ss.str(std::string());
             }
-            sql.reset();
-
-            ss << "Processing completed for Respondent: " << it->get_reference() << "\n";
-            Epic::Logging::note(ss.str());
-            ss.str(std::string());
         }
-            
-        // drop all the data that's been processed
-        ss << "BEGIN; DELETE FROM questionaires where id =" <<questionaire.get_id() << "; COMMIT;" ;
-        Epic::Database::execute(ss.str());
-        ss.str(std::string());
-    }
 
-    Epic::Database::execute("BEGIN; DROP INDEX index_person_foods_tmp_on_person_meal_food; DROP TABLE person_foods_tmp; COMMIT; VACUUM;");
+        // drop all the data that's been processed
+        Epic::DAO::Report::destroy();
+    }
 
     std::cout << std::endl;
 
@@ -390,3 +409,31 @@ void person_milks(Person & person, const Epic::Config::Config & cnf)
     std::cout << std::endl <<std::endl;
 
 }
+
+
+// find a report given a name
+bool find_all_by_person_id(sqlite3_int64 person_id, std::vector<Epic::DAO::Report> & reports)
+{
+    Epic::Database::PreparedStatement find_all("SELECT meal_id,food_id,amount FROM person_foods_tmp WHERE person_id = ? ;");
+    if(SQLITE_OK != find_all.bind_int64(1,person_id) )
+    {
+        std::ostringstream ss;
+        ss << "Binding person_id with value: " << person_id << " failed\n" ;
+        ss << "DB error was: " << Epic::Database::last_error() << "\n";
+        Epic::Logging::error(ss.str());
+    }
+
+    std::vector<Epic::DAO::Report> tmp;
+    tmp.swap(reports);
+    for(int rc = find_all.step(); (SQLITE_ROW == rc); rc = find_all.step())
+    {
+        Epic::DAO::Report report;
+        report.set_meal_id(find_all.column_int64(0));
+        report.set_food_id(find_all.column_int64(1));
+        report.set_amount(find_all.column_double(2));
+        reports.push_back(report);
+    }
+    find_all.reset();
+    return (reports.size() > 0 );
+}
+

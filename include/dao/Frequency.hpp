@@ -3,7 +3,7 @@
 
 #include "Epic_lib.hpp"
 #include <iomanip>
-
+#include <vector>
 namespace Epic
 {
     namespace DAO
@@ -19,6 +19,10 @@ namespace Epic
                     m_amount(amount) {}
 
                 static Frequency find_by_id(sqlite3_int64 id) ;
+
+                // find all frequencies
+                static bool find_all(std::vector<Epic::DAO::Frequency> & frequencies);
+
                 static bool load(const std::string & filename);
                 
                 // find the upper and lower bounds of the frequency range

@@ -40,10 +40,8 @@ void Epic::Database::DBConnection::connect(const std::string & filename)
         m_db = NULL;
         throw std::runtime_error("Could not connect to database");
     }
-#if(0)
     // set up query tracing
     sqlite3_trace(m_db, log_queries, NULL);
-#endif
 
     m_connected = true;
 }
@@ -89,7 +87,10 @@ void Epic::Database::DBConnection::prepare( const std::string & sql, sqlite3_stm
     }
 }
 
-
+std::string Epic::Database::DBConnection::last_error()
+{
+    return  std::string(sqlite3_errmsg(m_db));
+}
 bool Epic::Database::connect()
 {
     try
@@ -162,4 +163,7 @@ void Epic::Database::prepare( const std::string & sql,sqlite3_stmt **p_statement
     Epic::Pattern::Singleton< DBConnection >::instance().prepare(sql,p_statement);
 }
 
-
+std::string Epic::Database::last_error()
+{
+    return  Epic::Pattern::Singleton< DBConnection >::instance().last_error();
+}
