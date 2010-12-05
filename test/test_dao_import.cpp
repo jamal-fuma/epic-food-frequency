@@ -4,6 +4,7 @@
 #include "dao/Report.hpp"
 #include "dao/Person.hpp"
 #include "dao/Food.hpp"
+#include "dao/Nutrient.hpp"
 #include "dao/FoodNutrient.hpp"
 #include "dao/Meal.hpp"
 #include "dao/Frequency.hpp"
@@ -61,6 +62,14 @@ public:
                 Epic::Logging::error(ss.str());
             }
         }
+        
+        // find nutrients 
+        if(!Epic::DAO::Nutrient::find_all(m_nutrients))
+        {
+            Epic::Logging::error("Unable to load nutrients from db\n");
+            return false;
+        }
+
         return true;
     }
 
@@ -217,6 +226,68 @@ public:
         return true;
     }
 
+    bool nutrient_wide_report(std::ostream & out)
+    {
+        std::ostringstream ss;
+
+        if(m_person_it != m_end)
+            write_nutrient_wide_header(out);
+        
+        person_iterator_t begin = m_person_it;
+
+        for(; m_person_it != m_end; ++m_person_it)
+        {
+            if(Epic::DAO::Report::find_all(m_person_it->get_id(),m_reports))
+            {
+                  Epic::Database::Transaction tr;
+                
+                  std::map<sqlite3_int64, double> totals;
+
+                  for(report_iterator_t report_it = m_reports.begin(), report_end = m_reports.end(); report_it != report_end; ++report_it)
+                  {
+                      Epic::DAO::Food food = m_foods.at(report_it->get_food_id() -1);
+                      food_nutrient_map_iterator_t map_itr = m_nutrients_by_food_id.find(food.get_id());
+                      
+                      if(map_itr != m_nutrients_by_food_id.end())
+                      {
+                          if(!store_nutrients(report_it->get_meal_id(),report_it->get_amount(),map_itr->second.begin(),map_itr->second.end()))
+                          {
+                              Epic::Logging::error("Storing nutrients failed\n");
+                              return false;
+                          }
+                      }
+                  }
+                  tr.commit();
+
+                  std::vector<Epic::DAO::MealNutrient> meal_nutrients;
+                  if(Epic::DAO::MealNutrient::find_all_nutrients(meal_nutrients))
+                  {
+                      Epic::Database::Transaction tr_2;
+                      for(std::vector<Epic::DAO::MealNutrient>::const_iterator nut_it = meal_nutrients.begin(), nut_end = meal_nutrients.end(); nut_it != nut_end; ++nut_it)
+                      {
+                            // acculate nutrient totals
+                            totals[nut_it->get_nutrient_code()]  += nut_it->get_quantity();
+                      } 
+
+                      // transpose rows to columns
+                      out << m_person_it->get_reference() << ",";
+                      for(std::vector<Epic::DAO::Nutrient>::const_iterator nut_it = m_nutrients.begin(), nut_end = m_nutrients.end(); nut_it != nut_end; )
+                      {
+                          out << std::setprecision(6) << std::fixed <<  totals[nut_it->get_code()] ;
+                          out << ((++nut_it == nut_end) ? "\n" : "," ) ;
+                      }
+                      Epic::DAO::MealNutrient::clear();
+                      tr_2.commit();
+                  }
+                
+                ss << "Processing completed for Respondent: " << m_person_it->get_reference() << "\n";
+                Epic::Logging::note(ss.str());
+                ss.str(std::string());
+            }
+        }
+        m_person_it = begin;
+        return true;
+    }
 
     std::ostream & write_food_header(std::ostream & out)
     {
@@ -233,6 +304,18 @@ public:
     std::ostream & write_nutrient_header(std::ostream & out)
     {
         out << "ID,NUTRIENT_CODE,NUTRIENT_QUANTITY\n" ;
+        return out;
+    }
+ 
+    std::ostream & write_nutrient_wide_header(std::ostream & out)
+    {
+        out << "ID,";
+        
+        for(std::vector<Epic::DAO::Nutrient>::const_iterator nut_it = m_nutrients.begin(), nut_end = m_nutrients.end(); nut_it != nut_end; )
+        {
+            out << "NUTRIENT_" << nut_it->get_code() ;
+            out << ((++nut_it == nut_end) ? "\n" : "," ) ;
+        }
         return out;
     }
 
@@ -278,6 +361,7 @@ private:
     std::vector<Epic::DAO::Report> m_reports;
     std::map< sqlite3_int64, std::vector<Epic::DAO::FoodNutrient> > m_nutrients_by_food_id;
     std::vector<Epic::DAO::Food> m_foods;
+    std::vector<Epic::DAO::Nutrient> m_nutrients;
     person_iterator_t m_person_it;
     person_iterator_t m_end;
 };
@@ -573,6 +657,15 @@ main(int argc, char **argv)
             }
             meal_wtr.nutrient_report(n_file);
             n_file.close();
+
+            std::ofstream w_file("nutrient_wide_report.csv");
+            if(!w_file.is_open())
+            {
+                std::cerr << "unable to open output file " << std::endl;
+                return EXIT_FAILURE;
+            }
+            meal_wtr.nutrient_wide_report(w_file);
+            w_file.close();
         }
 
     }

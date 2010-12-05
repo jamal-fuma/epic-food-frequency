@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.61])
-AC_INIT([epic-food-frequency],[0.0.1],[jamal.natour@fumasoftware.com])
+AC_INIT([epic-food-frequency],[0.0.1g],[jamal.natour@fumasoftware.com])
 AC_CONFIG_SRCDIR([src/client.cpp])
 AC_CONFIG_HEADERS([config.h])
 
