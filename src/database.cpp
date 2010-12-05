@@ -40,9 +40,10 @@ void Epic::Database::DBConnection::connect(const std::string & filename)
         m_db = NULL;
         throw std::runtime_error("Could not connect to database");
     }
+#if(0)
     // set up query tracing
     sqlite3_trace(m_db, log_queries, NULL);
-
+#endif
     m_connected = true;
 }
 

@@ -284,6 +284,29 @@ WHERE
     amount > 0
 ORDER BY person_id,meal_id,food_id;
 
+CREATE TABLE meal_nutrients_tmp (
+	meal_id INTEGER NOT NULL,
+	nutrient_code INTEGER NOT NULL,
+	amount  FLOAT   NOT NULL,
+	quantity  FLOAT   NOT NULL
+);
+CREATE INDEX index_meal_nutrients_tmp_on_meal_and_nutrient ON meal_nutrients_tmp(meal_id,nutrient_code);
+
+CREATE VIEW meal_nutrients_vw AS SELECT
+    meal_id,sum(amount) AS amount, nutrient_code,sum(quantity) as quantity
+FROM
+    meal_nutrients_tmp
+GROUP BY
+    meal_id,nutrient_code;
+
+CREATE VIEW nutrients_vw AS SELECT
+    nutrient_code, sum(quantity) as quantity
+FROM
+    meal_nutrients_vw
+GROUP BY
+    nutrient_code;
+
+
 CREATE TRIGGER trigger_questionaire_clean AFTER DELETE ON questionaires
 BEGIN 
     DELETE FROM questionaire_people WHERE questionaire_id = OLD.id; 
@@ -298,4 +321,5 @@ BEGIN
     DELETE FROM person_foods        WHERE person_id = OLD.person_id;
     DELETE FROM person_cereals      WHERE person_id = OLD.person_id;
     DELETE FROM person_weights      WHERE person_id = OLD.person_id;
+    DELETE FROM meal_nutrients_tmp ;
 END;

@@ -18,7 +18,7 @@ void Epic::ReportDAO::DataAccess::destroy()
     m_find_all = Epic::Database::PreparedStatement();
 }
 
-// find a report given a name
+// find report data given a person_id
 bool Epic::ReportDAO::DataAccess::find_all_by_person_id(sqlite3_int64 person_id, std::vector<Epic::DAO::Report> & reports)
 {
 
@@ -53,6 +53,7 @@ void Epic::ReportDAO::create()
    Epic::Pattern::Singleton< Epic::ReportDAO::DataAccess >::instance().create();
 }
 
+
 // drop the temporary table
 void Epic::ReportDAO::destroy()
 {
@@ -70,13 +71,13 @@ void Epic::DAO::Report::create()
     Epic::ReportDAO::create();
 }
 
-void Epic::DAO::Report::destroy()
-{   
-    Epic::ReportDAO::destroy();
-}
-
 // find all data for given person
 bool Epic::DAO::Report::find_all(sqlite3_int64 person_id, std::vector<Epic::DAO::Report> & reports)
 {
     return Epic::ReportDAO::find_all_by_person_id(person_id,reports);
+}
+
+void Epic::DAO::Report::destroy()
+{   
+    Epic::ReportDAO::destroy();
 }

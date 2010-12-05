@@ -7,7 +7,6 @@
 
 namespace Epic
 {
-    // TEMPORARY 
     namespace ReportDAO
     {
         class DataAccess
@@ -37,15 +36,15 @@ namespace Epic
             void destroy();
 
             bool find_all_by_person_id(sqlite3_int64 person_id, std::vector<Epic::DAO::Report> & reports);
-
+            
         private:
             Epic::Database::PreparedStatement m_find_all; 
             std::string m_create;
             std::string m_destroy;
         };
 
-            bool find_all_by_person_id(sqlite3_int64 person_id, std::vector<Epic::DAO::Report> & reports);
-        
+        bool find_all_by_person_id(sqlite3_int64 person_id, std::vector<Epic::DAO::Report> & reports);
+
          // create the temporary table
         void create();
 
