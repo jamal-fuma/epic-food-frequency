@@ -16,7 +16,7 @@ namespace Epic
             DataAccess() :
                 // create a temporary table to speed up processing
                 m_create("BEGIN; "
-                          "CREATE TABLE person_foods_tmp AS "
+                          "CREATE TEMPORARY TABLE person_foods_tmp AS "
                           "SELECT person_id,meal_id,food_id,amount FROM person_food_vw ; "
                           "CREATE INDEX index_person_foods_tmp_on_person_meal_food ON "
                           "person_foods_tmp(person_id,meal_id,food_id); "
