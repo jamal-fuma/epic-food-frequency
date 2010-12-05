@@ -13,8 +13,8 @@ namespace Epic
         {
         public:
             DataAccess() :
-                m_insert("INSERT INTO meal_nutrients_tmp (meal_id,nutrient_code,amount,quantity) VALUES (?,?,?,?) ;"),
-                m_find_meal_nutrients("SELECT meal_id,amount,nutrient_code,quantity FROM meal_nutrients_vw ;"),
+                m_insert("INSERT INTO meal_nutrients_tmp (meal_id,nutrient_code,quantity) VALUES (?,?,?) ;"),
+                m_find_meal_nutrients("SELECT meal_id,nutrient_code,quantity FROM meal_nutrients_vw ;"),
                 m_find_nutrients("SELECT nutrient_code,quantity FROM nutrients_vw ;"),
                 m_clear("DELETE FROM meal_nutrients_tmp ;") {}
 

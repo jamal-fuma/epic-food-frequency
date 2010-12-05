@@ -10,9 +10,8 @@ bool Epic::MealNutrientDAO::DataAccess::find_all_meal_nutrients(std::vector<Epic
     {
         Epic::DAO::MealNutrient meal_nutrient;
         meal_nutrient.set_meal_id(m_find_meal_nutrients.column_int64(0));
-        meal_nutrient.set_amount(m_find_meal_nutrients.column_double(1));
-        meal_nutrient.set_nutrient_code(m_find_meal_nutrients.column_int64(2));
-        meal_nutrient.set_quantity(m_find_meal_nutrients.column_double(3));
+        meal_nutrient.set_nutrient_code(m_find_meal_nutrients.column_int64(1));
+        meal_nutrient.set_quantity(m_find_meal_nutrients.column_double(2));
 
         meal_nutrients.push_back(meal_nutrient);
     }
@@ -29,7 +28,6 @@ bool Epic::MealNutrientDAO::DataAccess::find_all_nutrients(std::vector<Epic::DAO
     {
         Epic::DAO::MealNutrient meal_nutrient;
         meal_nutrient.set_meal_id(0);
-        meal_nutrient.set_amount(0);
         meal_nutrient.set_nutrient_code(m_find_nutrients.column_int64(0));
         meal_nutrient.set_quantity(m_find_nutrients.column_double(1));
         meal_nutrients.push_back(meal_nutrient);
@@ -43,8 +41,7 @@ bool Epic::MealNutrientDAO::DataAccess::save(const Epic::DAO::MealNutrient & mea
 {
     m_insert.bind_int64(1,meal_nutrient.get_meal_id());
     m_insert.bind_int64(2,meal_nutrient.get_nutrient_code());
-    m_insert.bind_double(3,meal_nutrient.get_amount());
-    m_insert.bind_double(4,meal_nutrient.get_quantity());
+    m_insert.bind_double(3,meal_nutrient.get_quantity());
     int rc = m_insert.step();
     m_insert.reset();
     if(rc == SQLITE_DONE)

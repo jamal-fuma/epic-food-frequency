@@ -12,7 +12,7 @@ namespace Epic
         {
             public:
                 MealNutrient() : 
-                    m_meal_id(0), m_nutrient_code(0), m_amount(0), m_quantity(0) {}
+                    m_meal_id(0), m_nutrient_code(0), m_quantity(0) {}
 
                 // accessors
                 sqlite3_int64 get_meal_id() const {
@@ -21,10 +21,6 @@ namespace Epic
 
                 sqlite3_int64 get_nutrient_code() const {
                     return m_nutrient_code;
-                }
-
-                double get_amount() const {
-                    return m_amount;
                 }
 
                 double get_quantity() const {
@@ -40,10 +36,6 @@ namespace Epic
                     m_nutrient_code = nutrient_code;
                 }
 
-                void set_amount(double amount) {
-                    m_amount = amount;
-                }
-
                 void set_quantity(double quantity) {
                     m_quantity = quantity;
                 }
@@ -56,7 +48,6 @@ namespace Epic
             private:
                 sqlite3_int64 m_meal_id;
                 sqlite3_int64 m_nutrient_code;
-                double        m_amount;
                 double        m_quantity;
         };
 

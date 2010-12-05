@@ -39,6 +39,33 @@ bool Epic::NutrientDAO::DataAccess::find_by_code(int code, Epic::DAO::Nutrient &
     return rc;
 }
 
+// find all nutrients
+bool Epic::NutrientDAO::DataAccess::find_all(std::vector<Epic::DAO::Nutrient> & nutrients)
+{
+    bool rc = false;
+    std::vector<Epic::DAO::Nutrient> tmp;
+    tmp.swap(nutrients);
+    Epic::DAO::Nutrient nutrient;
+    rc = (SQLITE_ROW == m_find_all.step());
+    if(!rc)
+        return false;
+
+    while(rc)
+    {
+        nutrient.set_id(m_find_all.column_int64(0));
+        nutrient.set_code(m_find_all.column_int(1));
+        nutrient.set_description(m_find_all.column_text(2));
+        nutrient.set_units(m_find_all.column_text(3));
+        nutrient.validate();
+        nutrients.push_back(nutrient);
+        rc = (SQLITE_ROW == m_find_all.step());
+    }
+    m_find_all.reset();
+    return true;
+}
+
+
+
 // save a nutrient
 bool Epic::NutrientDAO::DataAccess::save(Epic::DAO::Nutrient & nutrient)
 {
@@ -83,6 +110,12 @@ bool Epic::NutrientDAO::find_by_id(sqlite3_int64 id, Epic::DAO::Nutrient & nutri
     return Epic::Pattern::Singleton< Epic::NutrientDAO::DataAccess >::instance().find_by_id(id,nutrient);
 }
 
+// find all nutrients
+bool Epic::NutrientDAO::find_all(std::vector<Epic::DAO::Nutrient> & nutrients)
+{
+    return Epic::Pattern::Singleton< Epic::NutrientDAO::DataAccess >::instance().find_all(nutrients);
+}
+
 // find a nutrient given a code
 bool Epic::NutrientDAO::find_by_code(int code, Epic::DAO::Nutrient & nutrient)
 {
@@ -115,6 +148,12 @@ Epic::DAO::Nutrient Epic::DAO::Nutrient::find_by_id(sqlite3_int64 id)
     Epic::DAO::Nutrient nutrient;
     Epic::NutrientDAO::find_by_id(id,nutrient);
     return nutrient;
+}
+
+// wire up finding all nutrients
+bool Epic::DAO::Nutrient::find_all(std::vector<Epic::DAO::Nutrient> & nutrients)
+{
+    return Epic::NutrientDAO::find_all(nutrients);
 }
 
 // load the model from file

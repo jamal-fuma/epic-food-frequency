@@ -261,7 +261,6 @@ public:
         Epic::DAO::MealNutrient meal_nutrient;
         
         meal_nutrient.set_meal_id(meal_id);
-        meal_nutrient.set_amount(amount);
         
         // store scaled nutrients for food
         for(; nutrient_it != nutrient_end; ++nutrient_it)

@@ -287,13 +287,12 @@ ORDER BY person_id,meal_id,food_id;
 CREATE TABLE meal_nutrients_tmp (
 	meal_id INTEGER NOT NULL,
 	nutrient_code INTEGER NOT NULL,
-	amount  FLOAT   NOT NULL,
 	quantity  FLOAT   NOT NULL
 );
 CREATE INDEX index_meal_nutrients_tmp_on_meal_and_nutrient ON meal_nutrients_tmp(meal_id,nutrient_code);
 
 CREATE VIEW meal_nutrients_vw AS SELECT
-    meal_id,sum(amount) AS amount, nutrient_code,sum(quantity) as quantity
+    meal_id,nutrient_code,sum(quantity) as quantity
 FROM
     meal_nutrients_tmp
 GROUP BY

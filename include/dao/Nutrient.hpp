@@ -2,6 +2,7 @@
 #define EPIC_DAO_NUTRIENT_HPP
 
 #include "Epic_lib.hpp"
+#include <vector>
 
 namespace Epic
 {
@@ -24,7 +25,10 @@ namespace Epic
                 
                 // load the model from file
                 static bool load(const std::string & filename);
-                
+  
+                // find all nutrients
+                static bool find_all(std::vector<Epic::DAO::Nutrient> & nutrients);
+               
                 // persist to db
                 bool save();
 
