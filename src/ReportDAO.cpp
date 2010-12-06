@@ -21,14 +21,10 @@ void Epic::ReportDAO::DataAccess::destroy()
 // find report data given a person_id
 bool Epic::ReportDAO::DataAccess::find_all_by_person_id(sqlite3_int64 person_id, std::vector<Epic::DAO::Report> & reports)
 {
-
     if(SQLITE_OK != m_find_all.bind_int64(1,person_id) )
     {
-        std::ostringstream ss;
-        ss << "Binding person_id with value: " << person_id << " failed\n" ;
-        ss << "DB error was: " << Epic::Database::last_error() << "\n";
-        Epic::Logging::error(ss.str());
-        throw std::runtime_error(ss.str());
+        Epic::Logging::Error().log() << "Binding person_id with value: " << person_id << " failed: DB error was: " << Epic::Database::last_error() ;
+        return false;
     }
 
     std::vector<Epic::DAO::Report> tmp;

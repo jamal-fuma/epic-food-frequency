@@ -124,6 +124,27 @@ Epic::DAO::Milk Epic::DAO::Milk::find_by_id(sqlite3_int64 id)
     return milk;
 }
 
+// load the model associations from file
+bool Epic::DAO::Milk::load()
+{
+    std::string value;
+    std::string config_key = "milks";
+    if(!Epic::Config::find(config_key,value))
+    {
+        Epic::Logging::Error().log() << "Config file lacks value for '" << config_key << "'" ;
+        return false;
+    }
+
+    if(!Epic::DAO::Milk::load(value))
+    {
+        Epic::Logging::Error().log() <<  "Loading imports for '" << config_key << "' failed" ;
+        return false;
+    }
+
+    Epic::Logging::Note().log() << "Loading imports for '" << config_key << "' completed" ;
+    return true;
+}
+
 // load the model from file
 bool Epic::DAO::Milk::load(const std::string & filename)
 {
@@ -175,9 +196,7 @@ bool Epic::DAO::Milk::load(const std::string & filename)
 
             if(!milk.save())
             {
-                std::ostringstream ss;
-                ss << "Error in milks import file: aborting on line :" << line << std::endl;
-                Epic::Logging::error(ss.str());
+                Epic::Logging::Error().log() << "Error in [" << "milks" <<"] import file: [" << filename << "] aborting on line: " << line ;
                 return false;
             }
         }

@@ -23,6 +23,7 @@ namespace Epic
                 // find all frequencies
                 static bool find_all(std::vector<Epic::DAO::Frequency> & frequencies);
 
+                static bool load();
                 static bool load(const std::string & filename);
                 
                 // find the upper and lower bounds of the frequency range

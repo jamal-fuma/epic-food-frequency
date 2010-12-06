@@ -5,6 +5,17 @@
 #include "config/Global.hpp"
 #include "config/Resource.hpp"
 
+// models for populating tables
+#include "dao/Nutrient.hpp"
+#include "dao/Meal.hpp"
+#include "dao/Food.hpp"
+#include "dao/MealFood.hpp"
+#include "dao/Weight.hpp"
+#include "dao/Frequency.hpp"
+#include "dao/Portion.hpp"
+#include "dao/Cereal.hpp"
+#include "dao/Milk.hpp"
+
 extern "C" {
     void log_queries(void * userdata, char const * psql);
 
@@ -12,9 +23,7 @@ extern "C" {
     {
         if(psql)
         {
-            std::string s(psql);
-            s += "\n";
-            Epic::Logging::trace(s);
+            Epic::Logging::Trace().log() << std::string(psql) ;
         }
     }
 }
@@ -38,6 +47,7 @@ void Epic::Database::DBConnection::connect(const std::string & filename)
     {
         sqlite3_close(m_db);
         m_db = NULL;
+        Epic::Logging::Error().log() << "Couldn't connect to database: [" << filename << "]";
         throw std::runtime_error("Could not connect to database");
     }
 #if(0)
@@ -63,16 +73,14 @@ void Epic::Database::DBConnection::exec(const std::string & sql)
     char *errmsg=NULL;
     if(SQLITE_OK != sqlite3_exec(m_db,sql.c_str(),NULL,0,&errmsg))
     {
-        std::ostringstream ss;
-        ss << "Couldn't execute database statement: " << sql << std::endl;
-        ss <<  "SQL library error was " << errmsg << std::endl;
+        Epic::Logging::Error().log() << "Couldn't execute database statement: [" << sql <<"]\n" <<
+        "SQL library error was " << errmsg ;
 
         /* sqlite uses it's own  pool so need to clean up it's errors */
         sqlite3_free(errmsg);
         errmsg = NULL;
 
-        Epic::Logging::error(ss.str());
-        throw std::runtime_error(ss.str().c_str());
+        throw std::runtime_error(sql.c_str());
     }
 }
 
@@ -80,11 +88,8 @@ void Epic::Database::DBConnection::prepare( const std::string & sql, sqlite3_stm
 {
     if(sqlite3_prepare_v2(m_db, sql.c_str(), sql.size(), p_statement, NULL))
     {
-        std::ostringstream ss;
-        ss << "Couldn't prepare database statement: " << sql << std::endl;
-
-        Epic::Logging::error(ss.str());
-        throw std::runtime_error(ss.str().c_str());
+        Epic::Logging::Error().log() << "Couldn't prepare database statement: [" << sql <<"]";
+        throw std::runtime_error(sql.c_str());
     }
 }
 
@@ -100,7 +105,7 @@ bool Epic::Database::connect()
         std::string db_name;
         if(!Epic::Config::find("database",db_name))
         {
-            Epic::Logging::error("Config file lacks value for 'database'\n");
+            Epic::Logging::Error().log() << "Config file lacks value for 'database'";
             return false;
         }
 
@@ -114,8 +119,7 @@ bool Epic::Database::connect()
         std::string schema;
         if(!Epic::Config::Resource::load(filename,schema))
         {
-            ss << "Unable to load database schema from file '" << filename << "'\n" ;
-            Epic::Logging::error(ss.str());
+            Epic::Logging::Error().log() << "Unable to load database schema from file '" << filename << "'" ;
             return false;
         }
 
@@ -125,7 +129,38 @@ bool Epic::Database::connect()
         // insert schema on first use of database
         if( Epic::Pattern::Singleton< DBConnection >::instance().created())
             Epic::Database::execute(schema);
+        
+        // load lookup data on first use of database
+        if(!Epic::DAO::Food::load())
+            return false;
 
+        if(!Epic::DAO::Meal::load())
+            return false;
+
+        if(!Epic::DAO::Nutrient::load())
+            return false;
+
+        if(!Epic::DAO::FoodNutrient::load())
+            return false;
+
+        if(!Epic::DAO::MealFood::load())
+            return false;
+
+        if(!Epic::DAO::Weight::load())
+            return false;
+
+        if(!Epic::DAO::Portion::load())
+            return false;
+
+        if(!Epic::DAO::Frequency::load())
+            return false;
+
+        if(!Epic::DAO::Cereal::load())
+            return false;
+
+        if(!Epic::DAO::Milk::load())
+            return false;
+        
         return true;
     }
     catch(...)
@@ -155,10 +190,8 @@ void Epic::Database::prepare( const std::string & sql,sqlite3_stmt **p_statement
 {
     if(!p_statement)
     {
-        std::ostringstream ss;
-        ss << "Couldn't prepare database statement: " << "statement pointer is NULL" << std::endl;
-        Epic::Logging::error(ss.str());
-        throw std::runtime_error(ss.str().c_str());
+        Epic::Logging::Error().log() << "Couldn't prepare database statement: " << "statement pointer is NULL" ;
+        throw std::runtime_error(sql.c_str());
     }
 
     Epic::Pattern::Singleton< DBConnection >::instance().prepare(sql,p_statement);

@@ -3,6 +3,7 @@
 
 #include "Epic_lib.hpp"
 #include <iomanip>
+#include <vector>
 
 namespace Epic
 {
@@ -20,6 +21,12 @@ namespace Epic
 
                 static Portion find_by_id(sqlite3_int64 id) ;
                 static bool load(const std::string & filename);
+                static bool load();
+                // find the upper and lower bounds of the portion range
+                static bool find_bounds(sqlite3_int64 & upper, sqlite3_int64 & lower);
+
+                // find all portions
+                static bool find_all(std::vector<Epic::DAO::Portion> & portions);
 
                 bool save();
 

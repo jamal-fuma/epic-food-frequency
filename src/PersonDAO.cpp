@@ -9,6 +9,9 @@
 #include "dao/Milk.hpp"
 #include "dao/Cereal.hpp"
 
+#include "conversion/Conversion.hpp"
+#include "import/Import.hpp"
+
 // find a person given an id
 bool Epic::PersonDAO::DataAccess::find(sqlite3_int64 id, Epic::DAO::Person & person)
 {
@@ -44,8 +47,8 @@ bool Epic::PersonDAO::DataAccess::save(Epic::DAO::Person & person)
 {
     if(person.reference_empty())
     {
-        Epic::Logging::error("Cant save a person without a reference\n");
-        throw std::runtime_error("Cant save a person without a reference\n");
+        Epic::Logging::Error().log() << "Cant save a person without a reference";
+        return false;
     }
 
     std::string fname = person.get_reference();
@@ -70,12 +73,16 @@ bool Epic::PersonDAO::DataAccess::save(Epic::DAO::Person & person)
 // associate a person with a weight
 bool Epic::PersonDAO::DataAccess::attach_weight(const Epic::DAO::Person & person,const Epic::DAO::Weight & weight)
 {
-    if(!weight.valid() || !person.valid())
+    if(!person.valid())
     {
-        std::ostringstream ss;
-        ss << "Cant attach a weight to a person unless both are valid()\n";
-        Epic::Logging::error(ss.str());
-        throw std::runtime_error(ss.str());
+        Epic::Logging::Error().log() << "Cant attach a weight to an invalid person";
+        return false;
+    }
+
+    if(!weight.valid() )
+    {
+        Epic::Logging::Error().log() << "Cant attach a person to an invalid weight";
+        return false;
     }
 
     bool rc = false;
@@ -89,12 +96,16 @@ bool Epic::PersonDAO::DataAccess::attach_weight(const Epic::DAO::Person & person
 
 bool Epic::PersonDAO::DataAccess::attach_fat(const Epic::DAO::Person & person,const Epic::DAO::Food & food, const Epic::DAO::MealFood::Types type)
 {
-    if(!food.valid() || !person.valid())
+    if(!person.valid())
     {
-        std::ostringstream ss;
-        ss << "Cant attach a fat type to a person unless both are valid()\n";
-        Epic::Logging::error(ss.str());
-        throw std::runtime_error(ss.str());
+        Epic::Logging::Error().log() << "Cant attach a fat to an invalid person";
+        return false;
+    }
+
+    if(!food.valid() )
+    {
+        Epic::Logging::Error().log() << "Cant attach a person to an invalid fat";
+        return false;
     }
 
     bool rc = false;
@@ -108,12 +119,16 @@ bool Epic::PersonDAO::DataAccess::attach_fat(const Epic::DAO::Person & person,co
 
 bool Epic::PersonDAO::DataAccess::attach_cereal(const Epic::DAO::Person & person,const Epic::DAO::Cereal & cereal)
 {
-    if(!cereal.valid() || !person.valid())
+    if(!person.valid())
     {
-        std::ostringstream ss;
-        ss << "Cant attach a cereal to a person unless both are valid()\n";
-        Epic::Logging::error(ss.str());
-        throw std::runtime_error(ss.str());
+        Epic::Logging::Error().log() << "Cant attach a cereal to an invalid person";
+        return false;
+    }
+
+    if(!cereal.valid() )
+    {
+        Epic::Logging::Error().log() << "Cant attach a person to an invalid cereal";
+        return false;
     }
 
     bool rc = false;
@@ -129,12 +144,22 @@ bool Epic::PersonDAO::DataAccess::attach_cereal(const Epic::DAO::Person & person
 // associate a person with a milk food code and portion
 bool Epic::PersonDAO::DataAccess::attach_milk(const Epic::DAO::Person & person,const Epic::DAO::Milk & milk, const Epic::DAO::Portion & portion)
 {
-    if(!milk.valid() || !portion.valid() || !person.valid())
+    if(!person.valid())
     {
-        std::ostringstream ss;
-        ss << "Cant attach a milk portion to a person unless person and milk and portion are valid()\n";
-        Epic::Logging::error(ss.str());
-        throw std::runtime_error(ss.str());
+        Epic::Logging::Error().log() << "Cant attach a milk portion to an invalid person";
+        return false;
+    }
+
+    if(!milk.valid() )
+    {
+        Epic::Logging::Error().log() << "Cant attach a person to an invalid milk";
+        return false;
+    }
+ 
+    if(!portion.valid() )
+    {
+        Epic::Logging::Error().log() << "Cant attach a person to an invalid portion of milk";
+        return false;
     }
 
     bool rc = false;
@@ -149,27 +174,31 @@ bool Epic::PersonDAO::DataAccess::attach_milk(const Epic::DAO::Person & person,c
 // associate a person with a meal frequency
 bool Epic::PersonDAO::DataAccess::attach_meal(const Epic::DAO::Person & person,const Epic::DAO::Meal & meal, const Epic::DAO::Frequency & frequency)
 {
-    std::ostringstream ss;
-    if(!meal.valid())
-        ss << "Cant attach a meal frequency to a person as meal is invalid\n" ;
-    else if(!frequency.valid())
-        ss << "Cant attach a meal frequency to a person as frequency is invalid\n" ;
-    else if(!person.valid())
-        ss << "Cant attach a meal frequency to a person as person is invalid\n" ;
-
-    else
+     if(!person.valid())
     {
-        bool rc = false;
-        m_attach_frequency.bind_int64(1,person.get_id());
-        m_attach_frequency.bind_int64(2,meal.get_id());
-        m_attach_frequency.bind_int64(3,frequency.get_id());
-        rc = (SQLITE_DONE == m_attach_frequency.step());
-        m_attach_frequency.reset();
-        return rc;
+        Epic::Logging::Error().log() << "Cant attach a meal frequency to an invalid person";
+        return false;
     }
 
-    Epic::Logging::error(ss.str());
-    throw std::runtime_error(ss.str());
+    if(!meal.valid() )
+    {
+        Epic::Logging::Error().log() << "Cant attach a person to an invalid meal";
+        return false;
+    }
+ 
+    if(!frequency.valid() )
+    {
+        Epic::Logging::Error().log() << "Cant attach a person to an invalid frequency of meal consumption";
+        return false;
+    }
+
+    bool rc = false;
+    m_attach_frequency.bind_int64(1,person.get_id());
+    m_attach_frequency.bind_int64(2,meal.get_id());
+    m_attach_frequency.bind_int64(3,frequency.get_id());
+    rc = (SQLITE_DONE == m_attach_frequency.step());
+    m_attach_frequency.reset();
+    return rc;
 
 }
 
@@ -301,3 +330,261 @@ Epic::DAO::Person Epic::DAO::Person::find_by_id(sqlite3_int64 id)
     Epic::PersonDAO::find_by_id(id,person);
     return person;
 }
+
+void
+Epic::DAO::Person::process_meals( 
+        const Epic::Config::Config & cnf,
+        const std::vector<Epic::DAO::Meal> & meals, 
+        const std::vector<Epic::DAO::Frequency> & frequencies, 
+        sqlite3_int64 frequency_upper, 
+        sqlite3_int64 frequency_lower)
+{
+    bool rc;
+    std::string value;
+
+    // find all the meal frequencies
+    for( std::vector<Epic::DAO::Meal>::const_iterator ci = meals.begin(),end = meals.end(); ci != end; ++ci)
+    {
+        rc = cnf.find(ci->get_name(),value);
+        if( (rc && value == "") || !rc)
+        {
+            Epic::Logging::Error().log() << "Respondent: "
+                                         << this->get_reference()
+                                         << " supplied " 
+                                         << "no frequency for meal: " 
+                                         << ci->get_name();
+        }
+        else
+        {
+            // need to validate frequency 
+            sqlite3_int64 frequency_id   = Epic::Conversion::IntegerString(value);
+            if(frequency_id >= frequency_lower && frequency_id <= frequency_upper)
+            {
+                // find the frequency object matching this id
+                this->attach_meal(*ci,frequencies.at(frequency_id -1));
+            }
+            else
+            {
+                Epic::Logging::Error().log() << "Respondent: " 
+                                             << this->get_reference() 
+                                             << " supplied " 
+                                             << "invalid frequency: " 
+                                             << value 
+                                             << " for meal: " 
+                                             << ci->get_name();
+            }
+        }
+    }
+}
+
+// record visible fat weighting for this person
+void
+Epic::DAO::Person::process_visible_fat(
+        const Epic::Config::Config & cnf, 
+        const std::vector<Epic::DAO::Weight> & weights, 
+        sqlite3_int64 weight_upper, 
+        sqlite3_int64 weight_lower)
+{
+    std::string value;
+    bool rc = cnf.find("VISIBLE_FAT",value);
+    if( (rc && value == "") || !rc)
+    {
+        Epic::Logging::Error().log() << "Respondent: " 
+                                     << this->get_reference() 
+                                     << " supplied " 
+                                     << "no visible fat weighting" ;
+ 
+        Epic::Logging::Note().log() << "Respondent: " 
+                                     << this->get_reference() 
+                                     << " using default weighting: " 
+                                     << weight_lower ;
+     }
+    else
+    {
+        sqlite3_int64 weight_id = Epic::Conversion::IntegerString(value);
+        // find the weight object matching this id
+        if(weight_id >= weight_lower && weight_id <= weight_upper)
+        {
+            this->attach_visible_fat(weights.at(weight_id-1));
+        }
+        else
+        {
+            Epic::Logging::Error().log() << "Respondent: " 
+                                         << this->get_reference() 
+                                         << " supplied " 
+                                         << "invalid weight: " 
+                                         << value 
+                                         << " for visible fat";
+        }
+    }
+}
+
+// record cereals for this person
+void
+Epic::DAO::Person::process_cereals(const Epic::Config::Config & cnf, const std::string & default_cereal)
+{
+    std::string value;
+    bool rc = cnf.find("CERIAL_FOOD",value);
+    if( (rc && value == "") || !rc)
+    {
+        Epic::Logging::Error().log() << "Respondent: " 
+                                     << this->get_reference() 
+                                     << " supplied " 
+                                     << "no cereal food codes" ;
+ 
+        Epic::Logging::Note().log() << "Respondent: " 
+                                     << this->get_reference() 
+                                     << " using default cereal code: " 
+                                     << default_cereal ;
+        this->attach_cereal( Epic::DAO::Cereal::find_by_food_id( Epic::DAO::Food::find_by_name(default_cereal).get_id()));
+     }
+    else
+    {
+        // split delimited cereal food codes and attach to respondent
+        std::vector< std::string > food_codes;
+        Epic::Util::Token(value).split(';').values(food_codes);
+
+        for(std::vector< std::string >::const_iterator it = food_codes.begin(), it_end = food_codes.end(); it != it_end; ++it)
+        {
+            this->attach_cereal( Epic::DAO::Cereal::find_by_food_id( Epic::DAO::Food::find_by_name(*it).get_id()));
+        }
+    }
+}
+
+// record frying fats for this person
+void
+Epic::DAO::Person::process_frying_fats(const Epic::Config::Config & cnf, const std::string & default_fat)
+{
+    std::string value;
+    bool rc = cnf.find("FAT_FRYING_FOOD",value);
+    if( (rc && value == "") || !rc)
+    {
+        Epic::Logging::Error().log() << "Respondent: " 
+                                     << this->get_reference() 
+                                     << " supplied "
+                                     << "no frying fats" ;
+ 
+        Epic::Logging::Note().log() << "Respondent: " 
+                                     << this->get_reference() 
+                                     << " using default frying fat code: " 
+                                     << default_fat ;
+        this->attach_frying_fat( Epic::DAO::Food::find_by_name(default_fat) );
+    }
+    else
+    {
+        // split delimited frying fat food codes and attach to respondent
+        std::vector< std::string > food_codes;
+        Epic::Util::Token(value).split(';').values(food_codes);
+
+        for(std::vector< std::string >::const_iterator it = food_codes.begin(), it_end = food_codes.end(); it != it_end; ++it)
+        {
+            this->attach_frying_fat( Epic::DAO::Food::find_by_name(*it) );
+        }
+    }
+}
+
+// record baking fats for this person
+void
+Epic::DAO::Person::process_baking_fats(const Epic::Config::Config & cnf, const std::string & default_fat)
+{
+    std::string value;
+    bool rc = cnf.find("FAT_BAKING_FOOD",value);
+    if( (rc && value == "") || !rc)
+    {
+        Epic::Logging::Error().log() << "Respondent: " 
+                                     << this->get_reference() 
+                                     << " supplied "
+                                     << "no baking fats" ;
+ 
+        Epic::Logging::Note().log() << "Respondent: " 
+                                     << this->get_reference() 
+                                     << " using default baking fat code: " 
+                                     << default_fat ;
+        this->attach_baking_fat( Epic::DAO::Food::find_by_name(default_fat) );
+    }
+    else
+    {
+        // split delimited frying fat food codes and attach to respondent
+        std::vector< std::string > food_codes;
+        Epic::Util::Token(value).split(';').values(food_codes);
+
+        for(std::vector< std::string >::const_iterator it = food_codes.begin(), it_end = food_codes.end(); it != it_end; ++it)
+        {
+            this->attach_baking_fat( Epic::DAO::Food::find_by_name(*it) );
+        }
+    }
+}
+
+// record milks for this person
+void
+Epic::DAO::Person::process_milk(const Epic::Config::Config & cnf, 
+        const std::vector<Epic::DAO::Portion> & portions, 
+        sqlite3_int64 portion_upper, 
+        sqlite3_int64 portion_lower,
+        const std::string & default_milk)
+{
+    sqlite3_int64 portion_id = 0;
+    std::string value;
+    bool rc = cnf.find("MILK_FREQUENCY",value);
+    if( (rc && value == "") || !rc)
+    {
+         Epic::Logging::Error().log() << "Respondent: " 
+                                     << this->get_reference() 
+                                     << " supplied "
+                                     << "no milk portion data" ;
+        return;
+    }
+    else
+    {
+        portion_id = Epic::Conversion::IntegerString(value);
+        // find the weight object matching this id
+        if(!(portion_id >= portion_lower && portion_id <= portion_upper))
+        {
+            Epic::Logging::Error().log() << "Respondent: " 
+                << this->get_reference() 
+                << " supplied " 
+                << "invalid portion: " 
+                << value 
+                << " for milk";
+            return;
+        }
+    }
+
+    rc = cnf.find("MILK_FOOD",value);
+    if( (rc && value == "") || !rc)
+    {
+        Epic::Logging::Error().log() << "Respondent: " 
+                                     << this->get_reference() 
+                                     << " supplied "
+                                     << "no milk food_codes" ;
+ 
+        Epic::Logging::Note().log() << "Respondent: " 
+                                     << this->get_reference() 
+                                     << " using default milk food_code: " 
+                                     << default_milk ;
+
+        Epic::DAO::Milk milk = Epic::DAO::Milk::find_by_food_id( 
+                Epic::DAO::Food::find_by_name(default_milk).get_id()
+                );
+
+        this->attach_milk(milk,portions.at(portion_id-1));
+    }
+    else
+    {
+        // split delimited milk food codes and attach to respondent
+        std::vector< std::string > food_codes;
+        Epic::Util::Token(value).split(';').values(food_codes);
+
+        for(std::vector< std::string >::const_iterator it = food_codes.begin(), it_end = food_codes.end(); it != it_end; ++it)
+        {
+            this->attach_milk(
+                    Epic::DAO::Milk::find_by_food_id( 
+                        Epic::DAO::Food::find_by_name(*it).get_id()
+                        ),
+                    portions.at(portion_id-1)
+                    );
+
+        }
+    }
+}
+

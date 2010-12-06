@@ -24,6 +24,7 @@ namespace Epic
                 static Nutrient find_by_id(sqlite3_int64 id) ;
                 
                 // load the model from file
+                static bool load();
                 static bool load(const std::string & filename);
   
                 // find all nutrients

@@ -175,6 +175,27 @@ bool Epic::DAO::MealFood::save()
     return Epic::MealFoodDAO::save(*this);
 }
 
+// load the model associations from file
+bool Epic::DAO::MealFood::load()
+{
+    std::string value;
+    std::string config_key = "meal_foods";
+    if(!Epic::Config::find(config_key,value))
+    {
+        Epic::Logging::Error().log() << "Config file lacks value for '" << config_key << "'" ;
+        return false;
+    }
+
+    if(!Epic::DAO::Meal::load(value))
+    {
+        Epic::Logging::Error().log() <<  "Loading imports for '" << config_key << "' failed" ;
+        return false;
+    }
+
+    Epic::Logging::Note().log() << "Loading imports for '" << config_key << "' completed" ;
+    return true;
+}
+
 // load the model from file
 bool Epic::DAO::MealFood::load(const std::string & filename)
 {
@@ -236,9 +257,7 @@ bool Epic::DAO::MealFood::load(const std::string & filename)
 
             if(!meal_food.save())
             {
-                std::ostringstream ss;
-                ss << "Error in meal_foods import file: aborting on line :" << line << std::endl;
-                Epic::Logging::error(ss.str());
+                Epic::Logging::Error().log() << "Error in [" << "meal_foods" <<"] import file: [" << filename << "] aborting on line: " << line ;
                 return false;
             }
         }

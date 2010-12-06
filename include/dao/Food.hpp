@@ -35,6 +35,7 @@ namespace Epic
 
                 bool save();
 
+                static bool load();
                 static bool load(const std::string &filename);
 
                 // accessors

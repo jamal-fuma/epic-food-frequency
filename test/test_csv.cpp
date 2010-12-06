@@ -10,6 +10,8 @@ main(int argc, char **argv)
     std::string schema  = "/home/me/workspace/clone/epic-food-frequency-0.0.1/sql/model.sql" ;
     std::string dbase   = "/home/me/workspace/clone/epic-food-frequency-0.0.1/build/test/foods.db" ;
 
+    Epic::Logging::open("log.out");
+
     if(!Epic::Config::load(conf))
     {
         std::ostringstream ss;
@@ -29,6 +31,8 @@ main(int argc, char **argv)
     Epic::Database::connect();
 
     Epic::Import::CSVReader rdr;
+
+    Epic::Logging::Note().log() << "this is a test of log" << " so is this " << 1234 << "foo" << std::endl;
 
     if(argc > 1)
     {

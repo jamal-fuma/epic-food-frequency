@@ -15,6 +15,7 @@ namespace Epic
                 Weight() : m_id(0), m_amount(0.0F), m_valid(false) {}
 
                 static Weight find_by_id(sqlite3_int64 id) ;
+                static bool load();
                 static bool load(const std::string & filename);
         
                 // find the upper and lower bounds of the weight range

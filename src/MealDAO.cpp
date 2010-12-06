@@ -110,8 +110,8 @@ bool Epic::MealDAO::DataAccess::save(Epic::DAO::Meal & meal)
 {
     if(meal.description_empty() || meal.name_empty())
     {
-        Epic::Logging::error("Cant save a meal without a description and name\n");
-        throw std::runtime_error("Cant save a meal without a description and name\n");
+        Epic::Logging::Error().log() << "Cant save a meal without a description and name" ;
+        return false;
     }
     
     std::string name = meal.get_name();
@@ -240,6 +240,28 @@ bool Epic::DAO::Meal::find_all(std::vector<Epic::DAO::Meal> & meals)
     return Epic::MealDAO::find_all(meals);
 }
 
+// load the model associations from file
+bool Epic::DAO::Meal::load()
+{
+    std::string value;
+    std::string config_key = "meals";
+    if(!Epic::Config::find(config_key,value))
+    {
+        Epic::Logging::Error().log() << "Config file lacks value for '" << config_key << "'" ;
+        return false;
+    }
+
+    if(!Epic::DAO::Meal::load(value))
+    {
+        Epic::Logging::Error().log() <<  "Loading imports for '" << config_key << "' failed" ;
+        return false;
+    }
+
+    Epic::Logging::Note().log() << "Loading imports for '" << config_key << "' completed" ;
+    return true;
+}
+
+
 // load the model from file
 bool Epic::DAO::Meal::load(const std::string & filename)
 {
@@ -291,9 +313,7 @@ bool Epic::DAO::Meal::load(const std::string & filename)
 
             if(!meal.save())
             {
-                std::ostringstream ss;
-                ss << "Error in meals import file: aborting on line :" << line << std::endl;
-                Epic::Logging::error(ss.str());
+                Epic::Logging::Error().log() << "Error in [" << "meals" <<"] import file: [" << filename << "] aborting on line: " << line ;
                 return false;
             }
         }

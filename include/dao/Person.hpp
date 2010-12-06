@@ -3,17 +3,17 @@
 
 #include "Epic_lib.hpp"
 
+#include "dao/Weight.hpp"
+#include "dao/Portion.hpp"
+#include "dao/Meal.hpp"
+#include "dao/Frequency.hpp"
 namespace Epic
 {
     namespace DAO
     {
-        class Weight;       // forward declaration
         class Food;         // forward declaration
         class Cereal;       // forward declaration
         class Milk;         // forward declaration
-        class Portion;      // forward declaration
-        class Meal;         // forward declaration
-        class Frequency;    // forward declaration
 
         class Person 
         {
@@ -80,6 +80,35 @@ namespace Epic
                     rhs << "Person: [" << person.get_id() << ",'" << person.get_reference() << "']" << std::endl;
                     return rhs;
                 }
+
+                // record meal frequencies for this person
+                void process_meals( const Epic::Config::Config & cnf, 
+                        const std::vector<Epic::DAO::Meal> & meals, 
+                        const std::vector<Epic::DAO::Frequency> & frequencies, 
+                        sqlite3_int64 frequency_upper, 
+                        sqlite3_int64 frequency_lower);
+                
+                // record visible fat weighting for this person
+                void process_visible_fat( const Epic::Config::Config & cnf, 
+                            const std::vector<Epic::DAO::Weight> & weights, 
+                            sqlite3_int64 weight_upper, 
+                            sqlite3_int64 weight_lower);
+
+                // record cereals for this person
+                void process_cereals(const Epic::Config::Config & cnf, const std::string & default_cereal);
+ 
+                // record baking fats for this person
+                void process_baking_fats(const Epic::Config::Config & cnf, const std::string & default_fat);
+
+                // record frying fats for this person
+                void process_frying_fats(const Epic::Config::Config & cnf, const std::string & default_fat);
+
+                // record milks for this person
+                void process_milk(const Epic::Config::Config & cnf, 
+                            const std::vector<Epic::DAO::Portion> & portions, 
+                            sqlite3_int64 portion_upper, 
+                            sqlite3_int64 portion_lower,
+                            const std::string & default_milk);
 
             private:
                 sqlite3_int64 m_id;

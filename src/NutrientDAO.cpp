@@ -71,15 +71,15 @@ bool Epic::NutrientDAO::DataAccess::save(Epic::DAO::Nutrient & nutrient)
 {
     if(nutrient.description_empty() || nutrient.units_empty())
     {
-        Epic::Logging::error("Cant save a nutrient without a description and units\n");
-        throw std::runtime_error("Cant save a nutrient without a description and units\n");
+        Epic::Logging::Error().log() << "Cant save a nutrient without a description and units";
+        return false;
     }
     
     int code = nutrient.get_code();
     if(code <= 0 )
     {
-        Epic::Logging::error("Cant save a nutrient without a code greater then zero\n");
-        throw std::runtime_error("Cant save a nutrient without a code greater then zero\n");
+        Epic::Logging::Error().log() << "Cant save a nutrient without a code greater then zero";
+        return false;
     }
 
     // check if it exists already
@@ -156,6 +156,27 @@ bool Epic::DAO::Nutrient::find_all(std::vector<Epic::DAO::Nutrient> & nutrients)
     return Epic::NutrientDAO::find_all(nutrients);
 }
 
+// load the model associations from file
+bool Epic::DAO::Nutrient::load()
+{
+    std::string value;
+    std::string config_key = "nutrients";
+    if(!Epic::Config::find(config_key,value))
+    {
+        Epic::Logging::Error().log() << "Config file lacks value for '" << config_key << "'" ;
+        return false;
+    }
+
+    if(!Epic::DAO::Nutrient::load(value))
+    {
+        Epic::Logging::Error().log() <<  "Loading imports for '" << config_key << "' failed" ;
+        return false;
+    }
+
+    Epic::Logging::Note().log() << "Loading imports for '" << config_key << "' completed" ;
+    return true;
+}
+
 // load the model from file
 bool Epic::DAO::Nutrient::load(const std::string & filename)
 {
@@ -212,9 +233,7 @@ bool Epic::DAO::Nutrient::load(const std::string & filename)
 
             if(!nutrient.save())
             {
-                std::ostringstream ss;
-                ss << "Error in nutrients import file: aborting on line :" << line << std::endl;
-                Epic::Logging::error(ss.str());
+                Epic::Logging::Error().log() << "Error in [" << "nutrients" <<"] import file: [" << filename << "] aborting on line: " << line ;
                 return false;
             }
         }

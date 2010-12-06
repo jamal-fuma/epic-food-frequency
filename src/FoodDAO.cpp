@@ -66,9 +66,8 @@ bool Epic::FoodDAO::DataAccess::save(Epic::DAO::Food & food)
 {
     if(food.name_empty())
     {
-        std::string s("Cant save a food without a name\n");
-        Epic::Logging::error(s);
-        throw std::runtime_error(s.c_str());
+        Epic::Logging::Error().log() <<  "Attempted to save food without a food_code name" ;
+        return false;
     }
     
     std::string name = food.get_name();
@@ -94,12 +93,17 @@ bool Epic::FoodDAO::DataAccess::save(Epic::DAO::Food & food)
 // associate a food with a nutrient
 bool Epic::FoodDAO::DataAccess::attach(const Epic::DAO::Food & food, const Epic::DAO::Nutrient & nutrient, double amount)
 {
-    if(!food.valid() || !nutrient.valid())
+    if(!food.valid())
     {
-        std::string s("Cant save a food nutrient without a valid food and valid nutrient\n");
-        Epic::Logging::error(s);
-        throw std::runtime_error(s.c_str());
+        Epic::Logging::Error().log() <<  "Attempted to associate nutrient with invalid food" ;
+        return false;
     }
+    if(!nutrient.valid())
+    {
+        Epic::Logging::Error().log() <<  "Attempted to associate food with invalid nutrient" ;
+        return false;
+    }
+
     m_attach.bind_int64(1,food.get_id());
     m_attach.bind_int64(2,nutrient.get_id());
     m_attach.bind_double(3,amount);
@@ -189,9 +193,8 @@ Epic::DAO::Food Epic::DAO::Food::find_by_name(const std::string & name)
     Epic::FoodDAO::find_by_name(Epic::Util::c_trim(name),food);
     if(!food.valid())
     {
-        std::cerr << "searched for invalid food (code) = " << name << " returned " << food;
+        Epic::Logging::Error().log() <<  "Attempted to locate food with code [" << Epic::Util::c_trim(name) << "] failed";
     }
-
     return food;
 }
 
@@ -219,6 +222,27 @@ bool Epic::DAO::Food::attach( Epic::DAO::Nutrient & nutrient, double amount)
 bool Epic::DAO::Food::find_nutrients(std::vector<FoodNutrient> & nutrients) const
 {
     return  Epic::FoodDAO::find_nutrients(*this,nutrients);
+}
+
+// load the model associations from file
+bool Epic::DAO::Food::load()
+{
+    std::string value;
+    std::string config_key = "foods";
+    if(!Epic::Config::find(config_key,value))
+    {
+        Epic::Logging::Error().log() << "Config file lacks value for '" << config_key << "'" ;
+        return false;
+    }
+
+    if(!Epic::DAO::Food::load(value))
+    {
+        Epic::Logging::Error().log() <<  "Loading imports for '" << config_key << "' failed" ;
+        return false;
+    }
+
+    Epic::Logging::Note().log() << "Loading imports for '" << config_key << "' completed" ;
+    return true;
 }
 
 // load the model from file
@@ -271,9 +295,7 @@ bool Epic::DAO::Food::load(const std::string & filename)
 
             if(!food.save())
             {
-                std::ostringstream ss;
-                ss << "Error in foods import file: aborting on line :" << line << std::endl;
-                Epic::Logging::error(ss.str());
+                Epic::Logging::Error().log() << "Error in [" << "foods" <<"] import file: [" << filename << "] aborting on line: " << line ;
                 return false;
             }
         }
@@ -283,6 +305,26 @@ bool Epic::DAO::Food::load(const std::string & filename)
 }
 
 // load the model associations from file
+bool Epic::DAO::FoodNutrient::load()
+{
+    std::string value;
+    std::string config_key = "food_nutrients";
+    if(!Epic::Config::find(config_key,value))
+    {
+        Epic::Logging::Error().log() << "Config file lacks value for '" << config_key << "'" ;
+        return false;
+    }
+
+    if(!Epic::DAO::FoodNutrient::load(value))
+    {
+        Epic::Logging::Error().log() <<  "Loading imports for '" << config_key << "' failed" ;
+        return false;
+    }
+
+    Epic::Logging::Note().log() << "Loading imports for '" << config_key << "' completed" ;
+    return true;
+}
+
 bool Epic::DAO::FoodNutrient::load(const std::string & filename)
 {
     Epic::Import::CSVReader rdr;
@@ -344,9 +386,7 @@ bool Epic::DAO::FoodNutrient::load(const std::string & filename)
 
             if(!food.attach(nutrient,quantity))
             {
-                std::ostringstream ss;
-                ss << "Error in food_nutrients import file: aborting on line :" << line << std::endl;
-                Epic::Logging::error(ss.str());
+                Epic::Logging::Error().log() << "Error in [" << "food_nutrients" <<"] import file: [" << filename << "] aborting on line: " << line ;
                 return false;
             }
         }

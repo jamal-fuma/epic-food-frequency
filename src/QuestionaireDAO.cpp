@@ -63,8 +63,8 @@ bool Epic::QuestionaireDAO::DataAccess::save(Epic::DAO::Questionaire & questiona
 {
     if(questionaire.filename_empty())
     {
-        Epic::Logging::error("Cant save a questionaire without a filename\n");
-        throw std::runtime_error("Cant save a questionaire without a filename\n");
+        Epic::Logging::Error().log() << "Cant save a questionaire without a filename";
+        return false;
     }
 
     std::string fname = questionaire.get_filename();
@@ -89,12 +89,16 @@ bool Epic::QuestionaireDAO::DataAccess::save(Epic::DAO::Questionaire & questiona
 // associate a person with a questionaire
 bool Epic::QuestionaireDAO::DataAccess::attach(const Epic::DAO::Questionaire & questionaire, const Epic::DAO::Person & person)
 {
-    if(!questionaire.valid() || !person.valid())
+    if(!questionaire.valid())
     {
-        Epic::Logging::error("Cant attach a person to a questionaire unless both are valid()\n");
-        throw std::runtime_error("Cant attach a person to a questionaire unless both are valid()\n");
+         Epic::Logging::Error().log() << "Cant attach a person to an invalid questionaire";
+         return false;
     }
-
+    if(!person.valid())
+    {
+         Epic::Logging::Error().log() << "Cant attach a invalid person to a questionaire";
+         return false;
+    }
     bool rc = false;
     m_attach.bind_int64(1,questionaire.get_id());
     m_attach.bind_int64(2,person.get_id());

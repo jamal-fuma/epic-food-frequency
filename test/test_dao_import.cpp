@@ -89,6 +89,7 @@ public:
 
         for(; m_person_it != m_end; ++m_person_it)
         {
+            // load all meals, associated food_codes and portions
             if(Epic::DAO::Report::find_all(m_person_it->get_id(),m_reports))
             {
                   for(report_iterator_t report_it = m_reports.begin(), report_end = m_reports.end(); report_it != report_end; ++report_it)

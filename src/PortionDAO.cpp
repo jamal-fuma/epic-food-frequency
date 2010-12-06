@@ -18,6 +18,43 @@ bool Epic::PortionDAO::DataAccess::find_by_id(sqlite3_int64 id, Epic::DAO::Porti
     return rc;
 }
 
+// find the upper and lower bounds of the portion range
+bool Epic::PortionDAO::DataAccess::find_bounds(sqlite3_int64 & upper, sqlite3_int64 & lower)
+{
+    bool rc = false;
+    if(SQLITE_ROW == m_find_bounds.step())
+    {
+        lower = m_find_bounds.column_int64(0);
+        upper = m_find_bounds.column_int64(1);
+        rc = true;
+    }
+    m_find_bounds.reset();
+    return rc;
+}
+
+// find all portions
+bool Epic::PortionDAO::DataAccess::find_all(std::vector<Epic::DAO::Portion> & portions)
+{
+    bool rc = false;
+    Epic::DAO::Portion portion;
+    rc = (SQLITE_ROW == m_find_all.step());
+    if(!rc)
+        return false;
+
+    while(rc)
+    {
+        portion.set_id(m_find_all.column_int64(0));
+        portion.set_amount(m_find_all.column_double(1));
+        portion.validate();
+        portions.push_back(portion);
+        rc = (SQLITE_ROW == m_find_all.step());
+    }
+    m_find_all.reset();
+    return true;
+}
+
+
+
 // save a portion
 bool Epic::PortionDAO::DataAccess::save(Epic::DAO::Portion & portion)
 {
@@ -40,6 +77,19 @@ bool Epic::PortionDAO::find_by_id(sqlite3_int64 id, Epic::DAO::Portion & portion
     return Epic::Pattern::Singleton< Epic::PortionDAO::DataAccess >::instance().find_by_id(id,portion);
 }
 
+// find the upper and lower bounds of the portion range
+bool Epic::PortionDAO::find_bounds(sqlite3_int64 & upper, sqlite3_int64 & lower)
+{
+    return Epic::Pattern::Singleton< Epic::PortionDAO::DataAccess >::instance().find_bounds(upper,lower);
+}
+
+// find all portions
+bool Epic::PortionDAO::find_all(std::vector<Epic::DAO::Portion> & portions)
+{
+    return Epic::Pattern::Singleton< Epic::PortionDAO::DataAccess >::instance().find_all(portions);
+}
+
+
 // save a portion
 bool Epic::PortionDAO::save(Epic::DAO::Portion & portion)
 {
@@ -52,12 +102,47 @@ bool Epic::DAO::Portion::save()
     return Epic::PortionDAO::save(*this);
 }
 
+// wire up finding all portions
+bool Epic::DAO::Portion::find_all(std::vector<Epic::DAO::Portion> & portions)
+{
+    return Epic::PortionDAO::find_all(portions);
+}
+
+// wire up finding the upper and lower bounds of the portion range to the model
+bool Epic::DAO::Portion::find_bounds(sqlite3_int64 & upper, sqlite3_int64 & lower)
+{
+    return Epic::PortionDAO::find_bounds(upper,lower);
+}
+
+
+
 // wire up finding the model using the DAO and an id
 Epic::DAO::Portion Epic::DAO::Portion::find_by_id(sqlite3_int64 id)
 {
     Epic::DAO::Portion portion;
     Epic::PortionDAO::find_by_id(id,portion);
     return portion;
+}
+
+// load the model associations from file
+bool Epic::DAO::Portion::load()
+{
+    std::string value;
+    std::string config_key = "portions";
+    if(!Epic::Config::find(config_key,value))
+    {
+        Epic::Logging::Error().log() << "Config file lacks value for '" << config_key << "'" ;
+        return false;
+    }
+
+    if(!Epic::DAO::Portion::load(value))
+    {
+        Epic::Logging::Error().log() <<  "Loading imports for '" << config_key << "' failed" ;
+        return false;
+    }
+
+    Epic::Logging::Note().log() << "Loading imports for '" << config_key << "' completed" ;
+    return true;
 }
 
 // load the model from file
@@ -106,9 +191,7 @@ bool Epic::DAO::Portion::load(const std::string & filename)
 
             if(!portion.save())
             {
-                std::ostringstream ss;
-                ss << "Error in portions import file: aborting on line :" << line << std::endl;
-                Epic::Logging::error(ss.str());
+                Epic::Logging::Error().log() << "Error in [" << "portions" <<"] import file: [" << filename << "] aborting on line: " << line ;
                 return false;
             }
         }

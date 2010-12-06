@@ -40,6 +40,7 @@ namespace Epic
 
                 static bool find_all(std::vector<Epic::DAO::Meal> & meals);
 
+                static bool load();
                 static bool load(const std::string & filename);
                 bool save();
 

@@ -22,6 +22,7 @@ namespace Epic
                     m_amount(0.0) {}
 
                 static MealFood find_by_id(sqlite3_int64 id) ;
+                static bool load();
                 static bool load(const std::string & filename);
                 bool save();
 

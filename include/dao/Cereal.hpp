@@ -25,6 +25,7 @@ namespace Epic
                 static Cereal find_by_id(sqlite3_int64 id) ;
                 static Cereal find_by_food_id(sqlite3_int64 food_id) ;
 
+                static bool load();
                 static bool load(const std::string & filename);
 
                 bool save();

@@ -19,6 +19,7 @@ namespace Epic
                     m_nutrient_code(0), 
                     m_amount(0.0) {}
 
+                static bool load();
                 static bool load(const std::string & filename);
                 sqlite3_int64 get_nutrient_id() const {
                     return m_nutrient_id;

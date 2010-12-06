@@ -85,9 +85,7 @@ Epic::DAO::Cereal Epic::DAO::Cereal::find_by_food_id(sqlite3_int64 food_id)
     Epic::DAO::Cereal cereal;
     Epic::CerealDAO::find_by_food_id(food_id,cereal);
     if(!cereal.valid())
-    {
-        std::cerr << "invalid cereal " << cereal;
-    }
+        Epic::Logging::Error().log() << "invalid cereal with food_id of: " << food_id; 
     return cereal;
 }
 
@@ -97,6 +95,27 @@ Epic::DAO::Cereal Epic::DAO::Cereal::find_by_id(sqlite3_int64 id)
     Epic::DAO::Cereal cereal;
     Epic::CerealDAO::find_by_id(id,cereal);
     return cereal;
+}
+
+// load the model associations from file
+bool Epic::DAO::Cereal::load()
+{
+    std::string value;
+    std::string config_key = "cereals";
+    if(!Epic::Config::find(config_key,value))
+    {
+        Epic::Logging::Error().log() << "Config file lacks value for '" << config_key << "'" ;
+        return false;
+    }
+
+    if(!Epic::DAO::Cereal::load(value))
+    {
+        Epic::Logging::Error().log() <<  "Loading imports for '" << config_key << "' failed" ;
+        return false;
+    }
+
+    Epic::Logging::Note().log() << "Loading imports for '" << config_key << "' completed" ;
+    return true;
 }
 
 // load the model from file
@@ -149,9 +168,7 @@ bool Epic::DAO::Cereal::load(const std::string & filename)
 
             if(!cereal.save())
             {
-                std::ostringstream ss;
-                ss << "Error in cereals import file: aborting on line :" << line << std::endl;
-                Epic::Logging::error(ss.str());
+                Epic::Logging::Error().log() << "Error in [" << "cereals" <<"] import file: [" << filename << "] aborting on line: " << line ;
                 return false;
             }
         }

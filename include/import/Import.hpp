@@ -31,7 +31,7 @@ namespace Epic
 
             virtual bool error(std::string & error_message)
             {
-                std::cerr << error_message << std::endl;
+                Epic::Logging::Error().log() << error_message ;
                 return false;
             }
 
@@ -47,16 +47,10 @@ namespace Epic
                         const std::vector< std::string > & expected,
                         const std::vector< std::string > & actual)
                 {
-                    std::ostringstream ss;
-
                     // sufficent fields for format
                     if(actual.size() < expected.size())
                     {
-                        ss << "Unexpected number of fields in " << name
-                            << " import file," << " expected "   << expected.size() << " field(s)"
-                            << " got " << actual.size() << " field(s)" << std::endl;
-
-                        Epic::Logging::error(ss.str());
+                        Epic::Logging::Error().log() << "Unexpected number of fields in " << name << " import file," << " expected "   << expected.size() << " field(s)" << " got " << actual.size() << " field(s)" ;
                         return false;
                     }
 
@@ -67,11 +61,7 @@ namespace Epic
                     {
                         if(*it != actual.at(pos))
                         {
-                            ss << "Unexpected fieldname for field: " << (pos+1) << " of " << name
-                                << " import file," << " expected "   << *it
-                                << " got " << actual.at(pos) << std::endl;
-
-                            Epic::Logging::error(ss.str());
+                            Epic::Logging::Error().log()  << "Unexpected fieldname for field: " << (pos+1) << " of " << name << " import file," << " expected "   << *it << " got " << actual.at(pos) ;
                             return false;
                         }
                     }
@@ -131,16 +121,14 @@ namespace Epic
                 Epic::Import::Context::iterator_t begin(m_filename);
                 if(!begin)
                 {
-                    m_ss << "Unable to open file: " << m_filename << std::endl;
-                    Epic::Logging::error(m_ss.str());
+                    Epic::Logging::Error().log() << "Unable to open file: " << m_filename;
                     return false;
                 }
 
                 m_ctx = new Epic::Import::Context(begin, begin.make_end());
                 if(!m_ctx)
                 {
-                    m_ss << "Unable to allocate memory for parser context: " << std::endl;
-                    Epic::Logging::error(m_ss.str());
+                    Epic::Logging::Error().log() << "Unable to allocate memory for parser context: " ;
                     return false;
                 }
                 m_open = true;
@@ -169,12 +157,10 @@ namespace Epic
                     delete m_ctx;
                     m_ctx = NULL;
                     m_open = false;
-                    m_ss.clear();
                 }
             }
 
             Epic::Import::Context *m_ctx;
-            std::ostringstream     m_ss;
             std::string            m_filename;
             bool                   m_open;
         };
