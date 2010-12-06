@@ -1352,6 +1352,7 @@ libEpic_la_SOURCES = \
                    report.cpp           \
                    config_reader.cpp
 
-libEpic_la_LDFLAGS =  -lpthread -lrt -lltdl
+libEpic_la_LDFLAGS = 
+ # -lpthread -lrt -lltdl
 
 libEpic_la_LIBADD = $(top_builddir)/libutility/src/libUtility.la

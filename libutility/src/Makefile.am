@@ -5,7 +5,9 @@
 AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" \
 	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
-	-DPACKAGE_DATA_DIR=\""$(datadir)"\" 
+	-DPACKAGE_DATA_DIR=\""$(datadir)"\" \
+	-DSQLITE_OMIT_LOAD_EXTENSION=1	\
+	-DSQLITE_THREADSAFE=0
 
 AM_CFLAGS =\
 	 -Wall\
