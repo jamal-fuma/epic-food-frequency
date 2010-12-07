@@ -1504,6 +1504,7 @@ get_directory_permissions(
     return 0;
 }
 
+#if(0)
 char *
 utility_dir_name(
         const char *path
@@ -1566,6 +1567,9 @@ utility_dir_name(
 #endif
 }
 
+#endif
+
+#if(0)
 /* resolve 'base' to a directory and appends 'filename'
  * Returns NULL on failure setting p2p_get_errno()
  * Returns pointer to malloced result on success
@@ -1596,6 +1600,7 @@ char *dir= NULL;
     return strcat(dir,filename);
 }
 
+#endif
 int
 utility_chown(
         const char * dir,
@@ -1949,7 +1954,7 @@ utility_mk_dir_filename(
 
     return NULL;
 }
-
+#if(0)
 /* resolve user home directory and appends 'filename'
  * Returns NULL on failure setting p2p_get_errno()
  * Returns pointer to malloced result on success
@@ -1967,7 +1972,9 @@ util_uid_t uid;
 
     return utility_get_uid_and_home_dir(&uid,filename);
 }
+#endif
 
+#if(0)
 /* resolve user home directory and appends 'filename'
  * Returns NULL on failure setting p2p_get_errno()
  * Returns pointer to malloced result on success
@@ -1985,8 +1992,9 @@ util_uid_t uid;
 
     return utility_get_uid_and_home_dir(&uid,dirname);
 }
+#endif
 
-
+#if(0)
 /* resolve user home directory and appends 'filename'
  * Returns NULL on failure setting p2p_get_errno()
  * Returns pointer to malloced result on success
@@ -2015,8 +2023,9 @@ char *path = NULL;
     home = NULL;
     return path;
 }
+#endif
 
-
+#if(0)
 /* resolve user home directory and user id (uid)
  * Returns NULL on failure setting p2p_get_errno()
  * Returns pointer to malloced result on success
@@ -2083,6 +2092,7 @@ utility_get_uid_and_home_dir(
     *dest_uid = uid;
     return home;
 }
+#endif /* 0*/
 
 #if defined( __cplusplus)
 }

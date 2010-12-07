@@ -50,7 +50,9 @@ extern "C" {
 #if defined(_WIN32) && !defined(WIN32_LEAN_AND_MEAN)
     #define WIN32_LEAN_AND_MEAN
     /* other wise we don't getaddrinfo */
+#ifndef _WIN32_WINNT
     #define _WIN32_WINNT 0x0501
+#endif
     #include <process.h>  /* getpid() */
 
     #include <sys/types.h> /* stat()/fstat() */

@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <string>
+#include <time.h>
 #include <stdexcept>
 #include "pattern/Singleton.hpp"
 #include <sstream>

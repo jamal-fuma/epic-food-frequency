@@ -1,6 +1,9 @@
 #ifndef EPIC_CONVERSION_HPP
 #define EPIC_CONVERSION_HPP
 
+#include <cstdlib>
+#include <stdlib.h>
+
 #include "Epic_lib.hpp"
 #include <string>
 #include <map>

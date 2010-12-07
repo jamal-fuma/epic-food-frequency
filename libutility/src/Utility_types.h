@@ -119,8 +119,15 @@ typedef struct addrinfo  util_addrinfo_t;
     #define util_socket_error(sd)( (sd) == SOCKET_ERROR)
     #define utility_socket_invalid(sd)( (sd) == INVALID_SOCKET)
 
+#if(0)
     #define p2p_set_errno(err)              (WSASetLastError((err)))
     #define p2p_get_errno()                 (WSAGetLastError())
+#else
+    /* cross compilation cant find these */
+    #define p2p_set_errno(err) do { errno = (err); }while(0)
+    #define p2p_get_errno() ((errno))
+#endif
+
 #else
     typedef int                 util_sock_fd_t;
     typedef struct stat         util_stat_t;
