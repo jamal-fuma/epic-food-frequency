@@ -1,7 +1,8 @@
 # Location of the nutrients database
-database=":memory:" # create pure in memory database, replace with a file name to use a file db
+database=":memory:"
+# create pure in memory database, replace with a file name to use a file db
 
-schema="@sqldir@/model.sql"
+schema="@sqldir@/schema.sql"
 
 # nutrient quantities may contain codes which refer to missing data so an additional
 # config file helps with mapping the codes onto quantities, the absence of a value

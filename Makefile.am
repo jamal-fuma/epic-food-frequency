@@ -31,7 +31,7 @@ $(top_builddir)/client.conf: $(top_srcdir)/conf/client.conf.in stamp-h1
 # application data imports
 sqldir = ${pkgsysconfdir}/sql
 sql_DATA = \
-	sql/model.sql
+	sql/schema.sql
 
 # application data imports
 importdir = ${pkgsysconfdir}/import
