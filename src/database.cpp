@@ -128,39 +128,41 @@ bool Epic::Database::connect()
 
         // insert schema on first use of database
         if( Epic::Pattern::Singleton< DBConnection >::instance().created())
+        {
             Epic::Database::execute(schema);
-        
-        // load lookup data on first use of database
-        if(!Epic::DAO::Food::load())
-            return false;
 
-        if(!Epic::DAO::Meal::load())
-            return false;
+            // load lookup data on first use of database
+            if(!Epic::DAO::Food::load())
+                return false;
 
-        if(!Epic::DAO::Nutrient::load())
-            return false;
+            if(!Epic::DAO::Meal::load())
+                return false;
 
-        if(!Epic::DAO::FoodNutrient::load())
-            return false;
+            if(!Epic::DAO::Nutrient::load())
+                return false;
 
-        if(!Epic::DAO::MealFood::load())
-            return false;
+            if(!Epic::DAO::FoodNutrient::load())
+                return false;
 
-        if(!Epic::DAO::Weight::load())
-            return false;
+            if(!Epic::DAO::MealFood::load())
+                return false;
 
-        if(!Epic::DAO::Portion::load())
-            return false;
+            if(!Epic::DAO::Weight::load())
+                return false;
 
-        if(!Epic::DAO::Frequency::load())
-            return false;
+            if(!Epic::DAO::Portion::load())
+                return false;
 
-        if(!Epic::DAO::Cereal::load())
-            return false;
+            if(!Epic::DAO::Frequency::load())
+                return false;
 
-        if(!Epic::DAO::Milk::load())
-            return false;
-        
+            if(!Epic::DAO::Cereal::load())
+                return false;
+
+            if(!Epic::DAO::Milk::load())
+                return false;
+        }
+
         return true;
     }
     catch(...)

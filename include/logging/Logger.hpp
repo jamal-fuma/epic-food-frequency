@@ -51,7 +51,7 @@ namespace Epic
 
             void
             note(const std::string & msg) {
-                write("Note",msg);
+                write("Note ",msg);
             }
 
         protected:

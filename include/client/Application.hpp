@@ -93,19 +93,18 @@ namespace Epic
         class Application
         {
             enum FileType { InputFile=1, JobFile} ;
-            enum ReportType { Foods=1, Meals, Nutrients, Spreadsheet} ;
 
         public:
+            enum ReportType { Foods=1, Meals, Nutrients, Spreadsheet} ;
+
             Application() :
                 m_status(Application::InputFile), 
                 m_report_type(Application::Foods)
             {
-                Logging::Trace().log() << "Starting Up";
             }
 
             ~Application()
             {
-                Logging::Trace().log() << "Shutting Down";
             }
 
 

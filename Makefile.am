@@ -31,20 +31,21 @@ $(top_builddir)/client.conf: $(top_srcdir)/conf/client.conf.in stamp-h1
 # application data imports
 sqldir = ${pkgsysconfdir}/sql
 sql_DATA = \
-	sql/schema.sql
+	sql/model.sql
 
 # application data imports
 importdir = ${pkgsysconfdir}/import
 import_DATA = \
-	import/model/foods.csv \
-	import/model/food_nutrients.csv \
-	import/model/meal_foods.csv \
-	import/model/portions.csv \
-	import/model/cereals.csv \
-	import/meals.csv \
-	import/nutrients.csv \
-	import/frequencies.csv \
-	import/weights.csv
+	import/frequencies.csv 		\
+	import/weights.csv		\
+	import/portions.csv 		\
+	import/meals.csv 		\
+	import/foods.csv 		\
+	import/nutrients.csv 		\
+	import/meal_foods.csv 		\
+	import/food_nutrients.csv 	\
+	import/cereals.csv 		\
+	import/milks.csv
 
 # docs and LICENSE
 epic_ffqdocdir  = ${prefix}/doc/epic_ffq
@@ -74,7 +75,7 @@ epic_ffq_CPPFLAGS=  -I$(top_srcdir)/libutility/src \
 
 epic_ffq_SOURCES = $(top_srcdir)/src/client.cpp
 epic_ffq_LDADD   = $(top_builddir)/src/libEpic.la
-epic_ffq_LDFLAGS = -lpthread -ldl -lrt
+epic_ffq_LDFLAGS = 
 
 EXTRA_DIST = $(epic_ffqdoc_DATA) $(conf_DATA) $(sql_DATA) $(import_DATA) $(top_srcdir)/conf/client.conf.in $(top_srcdir)/autogen.sh
 

@@ -186,7 +186,7 @@ bool Epic::DAO::MealFood::load()
         return false;
     }
 
-    if(!Epic::DAO::Meal::load(value))
+    if(!Epic::DAO::MealFood::load(value))
     {
         Epic::Logging::Error().log() <<  "Loading imports for '" << config_key << "' failed" ;
         return false;

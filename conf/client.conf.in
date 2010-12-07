@@ -1,70 +1,40 @@
-# Base directory for relative paths
-#
-base_dir="@prefix@"
-
 # Location of the nutrients database
-database="nutrient.db"
+database=":memory:" # create pure in memory database, replace with a file name to use a file db
 
-schema="@sqldir@/schema.sql"
+schema="@sqldir@/model.sql"
 
 # nutrient quantities may contain codes which refer to missing data so an additional
 # config file helps with mapping the codes onto quantities, the absence of a value
 # in the config file is treated as if the value was present and mapped to its literal value.
 nutrient_quantity="@confdir@/quantity.conf"
 
-# Nutrients import file
-nutrients="@importdir@/nutrients.csv"
-
-# Food codes import file  - food codes with the corresponding nutrients
-foods="@importdir@/foods.csv"
-
 # Meals import file - these are grid questions
 meals="@importdir@/meals.csv"
 
-# Question Types import file
-question_types="@importdir@/question_types.csv"
+# Food codes import file 
+foods="@importdir@/foods.csv"
+
+# Nutrients import file
+nutrients="@importdir@/nutrients.csv"
 
 # Conversion between frequency codes and multipliers
 frequencies="@importdir@/frequencies.csv"
 
-# Groups import file - these are processing groups for linked questions
-groups="@importdir@/groups.csv"
-
 # Weighting factors 
 weights="@importdir@/weights.csv"
 
+# Milk portions
+portions="@importdir@/portions.csv"
+
 # Joins between meals and food tables
-ingredients="@importdir@/ingredients.csv"
+meal_foods="@importdir@/meal_foods.csv"
 
-# ingredients with removable visible fat
-# these are additional food codes to append
-visible_fats="@importdir@/visible_fats.csv"
+# Joins between foods and nutrients tables
+food_nutrients="@importdir@/food_nutrients.csv"
 
-# ingredients with baking fats
-baking_fats="@importdir@/baking_fats.csv"
-
-# ingredients with frying fats
-frying_fats="@importdir@/frying_fats.csv"
-
-# cereals 
+# cereals, joins between foods and weights 
 cereals="@importdir@/cereals.csv"
 
-# cereal brands
-cereal_brands="@importdir@/cereal_brands.csv"
-
-# cereal brands alternate names
-cereal_brands_alt="@importdir@/cereal_brands_alt.csv"
-
-# cereal types
-cereal_types="@importdir@/cereal_types.csv"
-
-# cereal types alternate names
-cereal_types_alt="@importdir@/cereal_types_alt.csv"
-
-# milk types
-milk_types="@importdir@/milk_types.csv"
-
-# milk types alternate names
-milk_types_alt="@importdir@/milk_types_alt.csv"
-
+# milks
+milks="@importdir@/milks.csv"
 

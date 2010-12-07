@@ -141,6 +141,11 @@ Epic::Client::Application::load_questionaire(Epic::DAO::Questionaire & questiona
             bool rc = cnf.find("ID",value);
             if( (rc && value == "") || !rc)
             {
+                Epic::Logging::Error().log() << "Error on line: " << line << " No questionaire ID specified";
+                continue;
+            }
+            else
+            {
                 person.set_reference(value);
                 if(!person.save())
                 {
@@ -151,6 +156,7 @@ Epic::Client::Application::load_questionaire(Epic::DAO::Questionaire & questiona
                 }
                 questionaire.attach(person);
             }
+
 
             // handle the meals
             person.process_meals(cnf,m_meals,m_frequencies,m_frequency_upper,m_frequency_lower);

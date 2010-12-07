@@ -5,14 +5,16 @@
 
 static int help();
 static int version();
+Epic::Client::Application::ReportType report_type(const std::string & name);
 
 int
 main(int argc, char **argv)
 {
+   
     try
     {
         Epic::CmdLine::Parser cmd;
-
+        
         cmd.add_option("version",   'V');
         cmd.add_option("verbose",   'v');
         cmd.add_option("help",      'h');
@@ -47,9 +49,7 @@ main(int argc, char **argv)
 
         if(!Epic::Config::load(args["config"]))
         {
-            std::ostringstream ss;
-            ss << "Config file missing " << args["config"] << std::endl;
-            Epic::Logging::error(ss.str());
+            Epic::Logging::Error().log() << "Config file missing " << args["config"] ;
             return EXIT_FAILURE;
         }
 
@@ -61,6 +61,16 @@ main(int argc, char **argv)
         if(args.find("output") != args.end())
             app.set_output(args["output"]);
 
+        // output report type 
+        if(args.find("style") != args.end())
+        {
+            app.set_report_type(report_type(args["style"]));
+        }
+        else
+        {
+            Epic::Logging::Note().log()  << "Defaulting to foods report as no report style specified " ;
+        }
+
         if(args.find("input") != args.end())
         {
             app.set_input(args["input"]);
@@ -71,7 +81,7 @@ main(int argc, char **argv)
         }
         else
         {
-            Epic::Logging::error("No jobfile or input file specifed on command line\n");
+            Epic::Logging::Error().log() << "No jobfile or input file specifed on command line";
             return EXIT_FAILURE;
         }
 
@@ -81,13 +91,12 @@ main(int argc, char **argv)
 
     catch(std::runtime_error & e)
     {
-        std::ostringstream ss;
-        ss << "Unable to continue, because " << e.what() << std::endl;
-        Epic::Logging::error(ss.str());
+        Epic::Logging::Error().log() << "Unable to continue, because "  << e.what() ;
         return EXIT_FAILURE;
     }
     catch(...)
     {
+        Epic::Logging::Error().log() << "Unable to continue " ;
         return EXIT_FAILURE;
     }
 }
@@ -104,7 +113,7 @@ help()
     std::cerr << "		(-l) 	 --log-file\n" ;
     std::cerr << "		(-m) 	 --mapping\n" ;
     std::cerr << "		(-o) 	 --output\n" ;
-    std::cerr << "		(-s) 	 --style\n" ;
+    std::cerr << "		(-s) 	 --style=[food | meal | nutrient | spreadsheet]\n" ;
     std::cerr << "		(-v) 	 --verbose\n" ;
     std::cerr << "		(-V) 	 --version\n" ;
     std::cerr << std::endl;
@@ -119,3 +128,25 @@ version()
     std::cerr << std::endl;
     return EXIT_SUCCESS;
 }
+
+
+Epic::Client::Application::ReportType 
+report_type(const std::string & name)
+{
+    std::map<std::string, Epic::Client::Application::ReportType> report_types_by_name;
+
+    report_types_by_name["foods"]           = Epic::Client::Application::Foods;
+    report_types_by_name["meals"]           = Epic::Client::Application::Meals;
+    report_types_by_name["nutrients"]       = Epic::Client::Application::Nutrients;
+    report_types_by_name["spreadsheet"]     = Epic::Client::Application::Spreadsheet;
+
+    std::map<std::string, Epic::Client::Application::ReportType>::iterator report_type_it = report_types_by_name.find(Epic::Util::c_trim(name));
+    if(report_type_it != report_types_by_name.end())
+        return report_type_it->second;
+
+    Epic::Logging::Error().log() << "Unknown report type: " << name ;
+    Epic::Logging::Note().log()  << "Defaulting to foods report " ;
+
+    return report_types_by_name["foods"];
+}
+

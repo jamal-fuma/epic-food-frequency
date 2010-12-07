@@ -1,31 +1,31 @@
-MEAL_ID,FOOD_CODE,DESCRIPTION,PORTION
-24,68,"CommonSense Oatbranflakes",30.0
-24,75,"Oat and Wheat Bran",30.0
-24,79,"Raisin Splitz",30.0
-24,11127,"Branbuds",30.0
-24,11128,"Branflakes",30.0
-24,11129,"Cocopops",30.0
-24,11130,"Cornflakes",30.0
-24,11131,"Crunchy nut Cornflakes",30.0
-24,11133,"Frosties",30.0
-24,11134,"Fruit n Fibre",30.0
-24,11135,"Grapenuts",30.0
-24,11136,"Honey Smacks",30.0
-24,11137,"Muesli",60.0
-24,11144,"Puffed Wheat",30.0
-24,11146,"Rice Crispies",30.0
-24,11147,"Ricicles",30.0
-24,11148,"Shredded Wheat",30.0
-24,11149,"Shreddies",30.0
-24,11150,"Special K",30.0
-24,11151,"Start",30.0
-24,11152,"Sugar Puffs",30.0
-24,11153,"Sultana Bran",30.0
-24,11154,"Weetabix",30.0
-24,11155,"Weetaflakes",30.0
-24,11157,"Weetos",30.0
-24,11126,"All Bran",30.0
-24,a1361,"Crunchy Oat Cereal",30.0
-24,a1362,"Cereal non specific",30.0
-24,11018,"Oats, quick cook",30.0
-24,11140,"Nutri-Grain",30.0
+"FOOD_CODE","WEIGHT_ID"
+"68",1
+"75",1
+"79",1
+"11127",1
+"11128",1
+"11129",1
+"11130",1
+"11131",1
+"11133",1
+"11134",1
+"11135",1
+"11136",1
+"11137",2
+"11144",1
+"11146",1
+"11147",1
+"11148",1
+"11149",1
+"11150",1
+"11151",1
+"11152",1
+"11153",1
+"11154",1
+"11155",1
+"11157",1
+"11126",1
+"a1361",1
+"a1362",1
+"11018",1
+"11140",1
