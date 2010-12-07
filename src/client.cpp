@@ -50,10 +50,13 @@ main(int argc, char **argv)
         if(!Epic::Config::load(args["config"]))
         {
             Epic::Logging::Error().log() << "Config file missing " << args["config"] ;
+            help();
             return EXIT_FAILURE;
         }
 
+        Epic::Logging::Note().log() << "Starting database setup\n" ;
         Epic::Database::connect();
+        Epic::Logging::Note().log() << "Completed database setup\n" ;
 
         Epic::Client::Application app;
 
@@ -68,7 +71,7 @@ main(int argc, char **argv)
         }
         else
         {
-            Epic::Logging::Note().log()  << "Defaulting to foods report as no report style specified " ;
+            Epic::Logging::Note().log()  << "Defaulting to foods report as no report style specified \n" ;
         }
 
         if(args.find("input") != args.end())
@@ -82,6 +85,7 @@ main(int argc, char **argv)
         else
         {
             Epic::Logging::Error().log() << "No jobfile or input file specifed on command line";
+            help();
             return EXIT_FAILURE;
         }
 
@@ -104,16 +108,16 @@ main(int argc, char **argv)
 static int
 help()
 {
-    std::cerr << "Epic_Client <options> - where options is one or more of the following:\n" ;
+    std::cerr << "\nEpic_Client <options> - where options is one or more of the following:\n" ;
     std::cerr << "	Usage :" << std::endl;
-    std::cerr << "		(-f) 	 --config\n" ;
-    std::cerr << "		(-h) 	 --help\n" ;
-    std::cerr << "		(-i) 	 --input\n" ;
+    std::cerr << "		(-f) 	 --config (defaults to '" << DEFAULT_CONFIG_FILE << "')\n";
+    std::cerr << "		(-h) 	 --help (shows this text)\n" ;
+    std::cerr << "		(-i) 	 --input (input file to process)\n" ;
     std::cerr << "		(-j) 	 --jobfile\n" ;
     std::cerr << "		(-l) 	 --log-file\n" ;
     std::cerr << "		(-m) 	 --mapping\n" ;
     std::cerr << "		(-o) 	 --output\n" ;
-    std::cerr << "		(-s) 	 --style=[food | meal | nutrient | spreadsheet]\n" ;
+    std::cerr << "		(-s) 	 --style=[food | meal | nutrient | spreadsheet] (defaults to 'food')\n";
     std::cerr << "		(-v) 	 --verbose\n" ;
     std::cerr << "		(-V) 	 --version\n" ;
     std::cerr << std::endl;

@@ -26,6 +26,11 @@ namespace Epic
 
             void
             open(const std::string & filename) {
+                if(m_close_on_exit)
+                {
+                    close();
+                    m_close_on_exit = false;
+                }
                 m_fp = fopen(filename.c_str(),"w");
                 if(!m_fp)
                 {
