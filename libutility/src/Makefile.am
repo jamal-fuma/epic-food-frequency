@@ -11,7 +11,7 @@ AM_CPPFLAGS = \
 
 AM_CFLAGS =\
 	 -Wall\
-	 -g
+	 -O2
 
 noinst_LTLIBRARIES = libUtility.la
 

@@ -10,7 +10,7 @@ noinst_PROGRAMS = \
 	       test_import
 
 BUILD_DEFS	=  -ggdb -O0
-LINK_DEPS	=  $(top_builddir)/src/libEpic.la -lpthread -ldl -lrt
+LINK_DEPS	=  $(top_builddir)/src/libEpic.la
 AM_CFLAGS 	=  $(BUILD_DEFS)
 AM_CPPFLAGS 	=  -I$(top_srcdir)/libutility/src \
         -I$(top_srcdir)/include   \
