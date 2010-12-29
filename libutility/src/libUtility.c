@@ -1318,7 +1318,7 @@ int err;
     if(!dst_sz || !fname)
         return NULL;
 
-    fp = utility_fopen(fname,"rb+",should_exist);
+    fp = fopen(fname,"rb");
     if(!fp)
         return NULL;
 
@@ -1363,41 +1363,29 @@ utility_fslurp_with_sz(
         size_t *psz
         )
 {
-size_t sz;
-void *p;
-long pos;
-int err ;
-	p2p_set_errno(util_eInvalidArguments);
-	if(utility_fp_filesize(&sz,fp) || !sz)
-		return NULL;
+    size_t sz;
+    void *p;
+    int err ;
+    p2p_set_errno(util_eInvalidArguments);
+    if(utility_fp_filesize(&sz,fp) || !sz)
+        return NULL;
 
-        p2p_set_errno(ENOENT);
-	if( !(p = malloc(sz+1)))
-		return NULL;
+    p2p_set_errno(ENOENT);
+    if( !(p = malloc(sz+1)))
+        return NULL;
 
-	if( (-1 == (pos = ftell(fp))) || (pos > 0 &&  -1 == fseek(fp,0L,SEEK_SET)) )
-	{
-		err = errno;
-		goto seek_err_ret;
-	}
+    if( 1 != fread(p,sz,1,fp))
+    {
+        err = errno;
+        free(p);
+        p2p_set_errno(err);
+        return NULL;
+    }
 
-	if( 1 != fread(p,sz,1,fp))
-		goto read_err_ret;
-
-	/* success */
-	fseek(fp,pos,SEEK_SET);
-        *psz = sz;
-        *(((char *)p)+sz) = '\0';
-	return p;
-
-read_err_ret:
-	err = errno;
-	fseek(fp,pos,SEEK_SET);
-seek_err_ret:
-	free(p);
-	p2p_set_errno(err);
-	return NULL;
-
+    /* success */
+    *psz = sz;
+    *(((char *)p)+sz) = '\0';
+    return p;
 }
 
 /* Allocate an unique temp name using prefix, pid/ppid and system clock for entropy
