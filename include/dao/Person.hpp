@@ -95,22 +95,26 @@ namespace Epic
                             sqlite3_int64 weight_lower);
 
                 // record cereals for this person
-                void process_cereals(const Epic::Config::Config & cnf, const std::string & default_cereal);
+                bool process_cereals(const Epic::Config::Config & cnf, const std::string & default_cereal);
  
                 // record baking fats for this person
-                void process_baking_fats(const Epic::Config::Config & cnf, const std::string & default_fat);
+                bool process_baking_fats(const Epic::Config::Config & cnf, const std::string & default_fat);
 
                 // record frying fats for this person
-                void process_frying_fats(const Epic::Config::Config & cnf, const std::string & default_fat);
+                bool process_frying_fats(const Epic::Config::Config & cnf, const std::string & default_fat);
 
                 // record milks for this person
-                void process_milk(const Epic::Config::Config & cnf, 
+                bool process_milk(const Epic::Config::Config & cnf, 
                             const std::vector<Epic::DAO::Portion> & portions, 
                             sqlite3_int64 portion_upper, 
                             sqlite3_int64 portion_lower,
                             const std::string & default_milk);
 
             private:
+                bool str_to_foods(std::vector<Epic::DAO::Food> & foods,
+                                    const std::string & value,
+                                    const std::string & label);
+
                 sqlite3_int64 m_id;
                 std::string m_reference;
                 bool m_valid;

@@ -131,8 +131,8 @@ Epic::Client::Application::load_questionaire(Epic::DAO::Questionaire & questiona
                 h.swap(v);
                 continue;
             }
-            Epic::Import::str_vector_t::size_type size = v.size();
-            for(Epic::Import::str_vector_t::size_type pos=0; pos != size; ++pos)
+            Epic::Import::str_vector_t::size_type nelem = v.size();
+            for(Epic::Import::str_vector_t::size_type pos=0; pos != nelem; ++pos)
             {
                 // wire in alternative fields names here
                 cnf.insert(h[pos],v[pos],true);
@@ -189,7 +189,7 @@ bool Epic::Client::Application::write_report(Epic::DAO::Questionaire & questiona
     if(questionaire.find_people(people))
     {
         ReportWriter report_wtr(people.begin(),people.end());
-        bool rc;
+        bool rc = false;
         if(report_wtr.preload())
         {
             switch(m_report_type)

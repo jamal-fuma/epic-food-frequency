@@ -12,6 +12,7 @@
 #include "conversion/Conversion.hpp"
 #include "import/Import.hpp"
 
+
 // find a person given an id
 bool Epic::PersonDAO::DataAccess::find(sqlite3_int64 id, Epic::DAO::Person & person)
 {
@@ -420,111 +421,88 @@ Epic::DAO::Person::process_visible_fat(
 }
 
 // record cereals for this person
-void
+bool
 Epic::DAO::Person::process_cereals(const Epic::Config::Config & cnf, const std::string & default_cereal)
 {
     std::string value;
+    std::vector<Epic::DAO::Food> foods;
     bool rc = cnf.find("CERIAL_FOOD",value);
-    if( (rc && value == "") || !rc)
+    if(rc)
     {
-        Epic::Logging::Error().log() << "Respondent: " 
-                                     << this->get_reference() 
-                                     << " supplied " 
-                                     << "no cereal food codes" ;
- 
-        Epic::Logging::Note().log() << "Respondent: " 
-                                     << this->get_reference() 
-                                     << " using default cereal code: " 
-                                     << default_cereal ;
-        this->attach_cereal( Epic::DAO::Cereal::find_by_food_id( Epic::DAO::Food::find_by_name(default_cereal).get_id()));
-     }
-    else
-    {
-        // split delimited cereal food codes and attach to respondent
-        std::vector< std::string > food_codes;
-        Epic::Util::Token(value).split(';').values(food_codes);
-
-        for(std::vector< std::string >::const_iterator it = food_codes.begin(), it_end = food_codes.end(); it != it_end; ++it)
+        if(!this->str_to_foods(foods,value,"cereal food"))
         {
-            this->attach_cereal( Epic::DAO::Cereal::find_by_food_id( Epic::DAO::Food::find_by_name(*it).get_id()));
+            Epic::Logging::Note().log() << "Respondent: "                 << this->get_reference() 
+                                        << " using default cereal code: " << default_cereal ;
+
+            foods.push_back(Epic::DAO::Food::find_by_name( default_cereal ));
+
+        }
+        for(std::vector< Epic::DAO::Food >::const_iterator it = foods.begin(), it_end = foods.end(); it != it_end; ++it)
+        {
+            this->attach_cereal( Epic::DAO::Cereal::find_by_food_id(it->get_id()));
         }
     }
+    return rc;
 }
 
 // record frying fats for this person
-void
+bool
 Epic::DAO::Person::process_frying_fats(const Epic::Config::Config & cnf, const std::string & default_fat)
 {
     std::string value;
+    std::vector<Epic::DAO::Food> foods;
     bool rc = cnf.find("FAT_FRYING_FOOD",value);
-    if( (rc && value == "") || !rc)
+    if(rc)
     {
-        Epic::Logging::Error().log() << "Respondent: " 
-                                     << this->get_reference() 
-                                     << " supplied "
-                                     << "no frying fats" ;
- 
-        Epic::Logging::Note().log() << "Respondent: " 
-                                     << this->get_reference() 
-                                     << " using default frying fat code: " 
-                                     << default_fat ;
-        this->attach_frying_fat( Epic::DAO::Food::find_by_name(default_fat) );
-    }
-    else
-    {
-        // split delimited frying fat food codes and attach to respondent
-        std::vector< std::string > food_codes;
-        Epic::Util::Token(value).split(';').values(food_codes);
-
-        for(std::vector< std::string >::const_iterator it = food_codes.begin(), it_end = food_codes.end(); it != it_end; ++it)
+        if(!this->str_to_foods(foods,value,"frying fat"))
         {
-            this->attach_frying_fat( Epic::DAO::Food::find_by_name(*it) );
+            Epic::Logging::Note().log() << "Respondent: " << this->get_reference() 
+                                        << " using default frying fat code: " << default_fat ;
+            foods.push_back(Epic::DAO::Food::find_by_name( default_fat ));
+        }
+    
+        for(std::vector< Epic::DAO::Food >::const_iterator it = foods.begin(), it_end = foods.end(); it != it_end; ++it)
+        {
+            this->attach_frying_fat(*it);
         }
     }
+    return rc;
 }
 
 // record baking fats for this person
-void
+bool
 Epic::DAO::Person::process_baking_fats(const Epic::Config::Config & cnf, const std::string & default_fat)
 {
     std::string value;
+    std::vector<Epic::DAO::Food> foods;
     bool rc = cnf.find("FAT_BAKING_FOOD",value);
-    if( (rc && value == "") || !rc)
+    if(rc)
     {
-        Epic::Logging::Error().log() << "Respondent: " 
-                                     << this->get_reference() 
-                                     << " supplied "
-                                     << "no baking fats" ;
- 
-        Epic::Logging::Note().log() << "Respondent: " 
-                                     << this->get_reference() 
-                                     << " using default baking fat code: " 
-                                     << default_fat ;
-        this->attach_baking_fat( Epic::DAO::Food::find_by_name(default_fat) );
-    }
-    else
-    {
-        // split delimited frying fat food codes and attach to respondent
-        std::vector< std::string > food_codes;
-        Epic::Util::Token(value).split(';').values(food_codes);
-
-        for(std::vector< std::string >::const_iterator it = food_codes.begin(), it_end = food_codes.end(); it != it_end; ++it)
+        if(!this->str_to_foods(foods,value,"baking fat"))
         {
-            this->attach_baking_fat( Epic::DAO::Food::find_by_name(*it) );
+            Epic::Logging::Note().log() << "Respondent: " << this->get_reference() 
+                                        << " using default baking fat code: " << default_fat ;
+            foods.push_back(Epic::DAO::Food::find_by_name( default_fat ));
+        }
+    
+        for(std::vector< Epic::DAO::Food >::const_iterator it = foods.begin(), it_end = foods.end(); it != it_end; ++it)
+        {
+            this->attach_baking_fat(*it);
         }
     }
+    return rc;
 }
 
 // record milks for this person
-void
+bool
 Epic::DAO::Person::process_milk(const Epic::Config::Config & cnf, 
         const std::vector<Epic::DAO::Portion> & portions, 
         sqlite3_int64 portion_upper, 
         sqlite3_int64 portion_lower,
         const std::string & default_milk)
 {
-    sqlite3_int64 portion_id = 0;
     std::string value;
+    
     bool rc = cnf.find("MILK_FREQUENCY",value);
     if( (rc && value == "") || !rc)
     {
@@ -532,59 +510,60 @@ Epic::DAO::Person::process_milk(const Epic::Config::Config & cnf,
                                      << this->get_reference() 
                                      << " supplied "
                                      << "no milk portion data" ;
-        return;
-    }
-    else
-    {
-        portion_id = Epic::Conversion::IntegerString(value);
-        // find the weight object matching this id
-        if(!(portion_id >= portion_lower && portion_id <= portion_upper))
-        {
-            Epic::Logging::Error().log() << "Respondent: " 
-                << this->get_reference() 
-                << " supplied " 
-                << "invalid portion: " 
-                << value 
-                << " for milk";
-            return;
-        }
+        return false;
     }
 
-    rc = cnf.find("MILK_FOOD",value);
-    if( (rc && value == "") || !rc)
+    // find the weight object matching this id
+    sqlite3_int64 portion_id = Epic::Conversion::IntegerString(value);
+    if(!(portion_id >= portion_lower && portion_id <= portion_upper))
     {
         Epic::Logging::Error().log() << "Respondent: " 
-                                     << this->get_reference() 
-                                     << " supplied "
-                                     << "no milk food_codes" ;
- 
-        Epic::Logging::Note().log() << "Respondent: " 
-                                     << this->get_reference() 
-                                     << " using default milk food_code: " 
-                                     << default_milk ;
-
-        Epic::DAO::Milk milk = Epic::DAO::Milk::find_by_food_id( 
-                Epic::DAO::Food::find_by_name(default_milk).get_id()
-                );
-
-        this->attach_milk(milk,portions.at(portion_id-1));
+            << this->get_reference() 
+            << " supplied " 
+            << "invalid portion: " 
+            << value 
+            << " for milk";
+        return false;
     }
-    else
-    {
-        // split delimited milk food codes and attach to respondent
-        std::vector< std::string > food_codes;
-        Epic::Util::Token(value).split(';').values(food_codes);
 
-        for(std::vector< std::string >::const_iterator it = food_codes.begin(), it_end = food_codes.end(); it != it_end; ++it)
+    Epic::DAO::Portion milk_portion = portions.at(portion_id-1);
+
+    std::vector<Epic::DAO::Food> foods;
+    rc = cnf.find("MILK_FOOD",value);
+    if(rc)
+    {
+        if(!this->str_to_foods(foods,value,"milk"))
         {
-            this->attach_milk(
-                    Epic::DAO::Milk::find_by_food_id( 
-                        Epic::DAO::Food::find_by_name(*it).get_id()
-                        ),
-                    portions.at(portion_id-1)
-                    );
+            foods.push_back(Epic::DAO::Food::find_by_name( default_milk ));
+            Epic::Logging::Note().log() << "Respondent: " 
+                << this->get_reference() 
+                << " using default milk food_code: " 
+                << default_milk ;
 
         }
+
+        for(std::vector< Epic::DAO::Food >::const_iterator it = foods.begin(), it_end = foods.end(); it != it_end; ++it)
+        {
+            this->attach_milk( Epic::DAO::Milk::find_by_food_id(it->get_id()), milk_portion );
+        }
     }
+    return rc;
 }
 
+bool
+Epic::DAO::Person::str_to_foods(std::vector<Epic::DAO::Food> & foods, const std::string & value,const std::string & label)
+{
+    if(value == "")
+    {
+        Epic::Logging::Error().log() << "Respondent: " << this->get_reference() << " supplied no " << label << " food_codes" ;
+        return false;
+    }
+    
+    std::vector< std::string > food_codes;
+    Epic::Util::Token(value).split(';').values(food_codes);
+
+    for(std::vector< std::string >::const_iterator it = food_codes.begin(), it_end = food_codes.end(); it != it_end; ++it)
+        foods.push_back(Epic::DAO::Food::find_by_name(*it));
+
+    return true;
+}
