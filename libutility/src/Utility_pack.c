@@ -641,7 +641,11 @@ utility_split(
     p2p_set_errno(util_eInvalidArguments);
 
     /* count occurences of char and  test for overflow as need to increment counter to accomadate sentinal  */
-    if( (!pargc) || (util_eError == utility_count_ch(&count,s,ch)) || (!count || (count+1 < count )))
+    if( (!pargc || !s) || (util_eError == utility_count_ch(&count,s,ch)) || (count+1 < count))
+           return NULL;
+
+    /* sentinal is not present, and string is empty */
+    if(!count && !strcmp("",s))
            return NULL;
 
     /* allocate array of string pointers plus sentinal */

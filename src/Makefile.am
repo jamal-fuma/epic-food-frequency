@@ -1347,8 +1347,6 @@ libEpic_la_SOURCES = \
                    database.cpp      	\
                    config.cpp      	\
                    logger.cpp      	\
-                   questionaire.cpp     \
-                   fields.cpp           \
                    report.cpp           \
                    config_reader.cpp
 
