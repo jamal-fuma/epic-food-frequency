@@ -1,3 +1,32 @@
+commit 00cb7ed4a9e9e55f25153d90c9b64f24797ac179
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Mon Jan 31 22:58:17 2011 +0000
+
+    version bump
+
+commit d751304577822905b9ba72dad0f3c8d877a7f3de
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Mon Jan 31 22:57:30 2011 +0000
+
+    fix a bug in split which treated a non-empty string lacking a delimter as a zero length array rather than an array of length one.
+
+commit 690b178b2037b0d6c99b1b125d01d1a269beede6
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Mon Jan 31 15:09:37 2011 +0000
+
+    synced build tree
+
+commit f2b36ff1545bc3f99d5fb14b5485ba8836db0d8a
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Mon Jan 31 15:08:51 2011 +0000
+
+    cleanup args and disable jobfile options
+
+commit c3bce34bc0abb800c024d620f6dc352610abf3c9
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Mon Jan 31 15:06:16 2011 +0000
+
+    removed dead code
 
 commit dca08e71deef02e655df65e49b19717605c81d9a
 Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
@@ -371,4 +400,3 @@ Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
 Date:   Sat Oct 30 14:44:25 2010 +0100
 
     added to git
-

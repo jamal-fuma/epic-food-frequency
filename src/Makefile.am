@@ -1347,7 +1347,6 @@ libEpic_la_SOURCES = \
                    database.cpp      	\
                    config.cpp      	\
                    logger.cpp      	\
-                   report.cpp           \
                    config_reader.cpp
 
 libEpic_la_LDFLAGS = 
