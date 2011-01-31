@@ -1,2 +1,374 @@
 
+commit dca08e71deef02e655df65e49b19717605c81d9a
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Sat Jan 1 21:12:12 2011 +0000
+
+    tidied up reporting slightly and patched result counting
+
+commit b2833fe64a0ef48a90e4d9cfbd72db792ac94704
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Wed Dec 29 05:20:46 2010 +0000
+
+    commit the permissions based fix to fslurp
+
+commit 64da7d2b7c2917087f6e2d45601cbb0675d7543d
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Tue Dec 7 08:29:12 2010 +0000
+
+    broken jobfile
+
+commit 60019ea6e9c9dec7961f8b66e12ec73416673ef7
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Tue Dec 7 07:12:58 2010 +0000
+
+    removed pthread decl
+
+commit 216066fb16db29e9f283ea11f38470b659d8d63d
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Tue Dec 7 07:05:48 2010 +0000
+
+    added an autoconf config.h to use with vc++
+
+commit 44ae6e1dde4054100ba247ffffd438cc757fe01c
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Tue Dec 7 06:55:36 2010 +0000
+
+    windows cross build script
+
+commit bf3d68912c7d4700a4f9693c62dec96852e6a54e
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Tue Dec 7 06:40:51 2010 +0000
+
+    added windows build script
+
+commit 3ccc1b2284501e404851b1a9d8c222cf2d509460
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Tue Dec 7 06:39:10 2010 +0000
+
+    added the windows changes to allow cross compilation
+
+commit 95e224f9c94f818fd552425bce0c4c4713684496
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Tue Dec 7 06:37:47 2010 +0000
+
+    cleanup a bit
+
+commit 36c8a27b7a57bcc92227cc9c4d06fbac89c4280e
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Tue Dec 7 02:53:41 2010 +0000
+
+    version bump
+
+commit 6b2bc0540c64bbd4cc0341fbd897a3a3fe82e7b7
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Tue Dec 7 01:13:31 2010 +0000
+
+    Report type selection
+
+commit 722694a56e0f0c93a27b8f05f11e3aebc4f69aea
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Mon Dec 6 11:28:15 2010 +0000
+
+    logging and report wiring
+
+commit 8561647539bcf48e10b19808539a50f1678bbb4e
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Mon Dec 6 01:34:44 2010 +0000
+
+    latest sqlite3
+
+commit e4d7f34bd60f0135bbd0f1e96d0bcecb22d0e1cf
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Sun Dec 5 22:29:56 2010 +0000
+
+    four reports
+
+commit 422cc9829c54332995f751d6c61fb0e63500c280
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Sun Dec 5 21:54:27 2010 +0000
+
+    three reports
+
+commit b31ea25fff49eadba6ddecb2019ed53fe59f3c0a
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Sun Dec 5 11:52:49 2010 +0000
+
+    three sorts of output
+
+commit b0eae4d623a2891c9f592b62f7726c8ef5df29a1
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Sun Dec 5 03:24:10 2010 +0000
+
+    report temporary tables
+
+commit bbae0ae9368ecce3ae2471c37af2a7fd53f85b29
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Sun Dec 5 03:23:35 2010 +0000
+
+    report temporary tables
+
+commit 634e26a24da912b8ba7db265cb718e89f0fd0730
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Sat Dec 4 03:06:07 2010 +0000
+
+    respectable 53 minutes
+
+commit 0b1604337f3ab1b533f7c37eff7023f5fbbe990d
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Sat Dec 4 00:35:14 2010 +0000
+
+    base line 86 minutes
+
+commit edbec2a206ad2d9888ece689fcd6f8483d2225b4
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Wed Dec 1 15:13:27 2010 +0000
+
+    added unique constraint on cereal food_codes and made prepared statement dumber
+
+commit 0eaa6fe81929d8f7f34dda8157da6ec000c6408f
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Wed Dec 1 02:43:12 2010 +0000
+
+    added Milk/Cereal DAO and binders to person model
+
+commit cc52847ea05d35189bc9263823bf1a4e3caaf794
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Mon Nov 29 03:49:25 2010 +0000
+
+    removed junk
+
+commit 0d94bc6781e84e0d4bf1ca13d532945d42b4bfa2
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Mon Nov 29 03:46:32 2010 +0000
+
+    Check point commit lots of sql changes
+
+commit 75527842dcda4efaed950c42410fccc58d67b576
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Mon Nov 29 02:03:37 2010 +0000
+
+    views galore with modifiers working
+
+commit 51fecab1b468509aa7e0b80b687ad654b9b57177
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Thu Nov 25 19:42:38 2010 +0000
+
+    More DAO related changes
+
+commit 5835b89300671e0e27cd624f9abc5c078923090d
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Wed Nov 24 23:01:02 2010 +0000
+
+    added WeightDAO
+
+commit bfc2ec7c0ae9b9d7b0cc1876fc5be2d9eb21a02e
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Sat Nov 20 21:38:07 2010 +0000
+
+    added Food DAO
+
+commit 697194d58b4d469d38afd9276741d8f7eb6de859
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Sat Nov 20 21:23:49 2010 +0000
+
+    added Questionaire one to many relationship
+
+commit d8c24d7e38adaf78ab3a30ac703bdc6701a22f17
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Fri Nov 19 14:06:06 2010 +0000
+
+    added meal DAO
+
+commit 212ae032f6af48e7222748dbfea65213e26174f7
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Fri Nov 19 00:46:33 2010 +0000
+
+    added nutrient DAO
+
+commit 025b1315e3c259b3d7ea5fd4dbd25dbf983c6e18
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Fri Nov 19 00:01:38 2010 +0000
+
+    renamed to sensible name
+
+commit c760adde3bbb5b1116acd5bd19f308187b2bd498
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Thu Nov 18 23:59:08 2010 +0000
+
+    renamed to sensible name
+
+commit 1cd02c85ca31c7c1ac1495caae023fc4e3832d12
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Thu Nov 18 23:39:24 2010 +0000
+
+    proper DAO namespace
+
+commit caab877bbc570d0f3c0ffc79e2e758a5000091cb
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Thu Nov 18 20:45:44 2010 +0000
+
+    turned libs into convenience libs
+
+commit ade628583a1fa94080a2992cb798e20bebd4da7d
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Thu Nov 18 19:33:41 2010 +0000
+
+    moved dao stuff
+
+commit ae33729f43ec712d6f9effc56ae549a08545e3e5
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Thu Nov 18 19:11:25 2010 +0000
+
+    moved dao into dir
+
+commit 9703da48e593b75bb2575bdee7792ea8939987df
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Thu Nov 18 17:42:42 2010 +0000
+
+    put frying fat into it's own map
+
+commit 8ff7001a444dfb78abe973d2a0d4f2fd9e3dddd5
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Thu Nov 18 05:15:33 2010 +0000
+
+    added person DAO
+
+commit fb8d5c017f8b332332ab4f8f9d3f8866e1e0c58f
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Thu Nov 18 05:00:20 2010 +0000
+
+    added wip test for person import
+
+commit 06b93c04f3d9dfd6e733c17a7214c93595c24743
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Thu Nov 18 04:58:42 2010 +0000
+
+    constness
+
+commit 67aac979fdc906a6e592253cbf4b240719536f74
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Thu Nov 18 04:58:06 2010 +0000
+
+    constness and output operator
+
+commit 2d2541445d6e5977d2905a396a142f4d60e319e1
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Wed Nov 17 14:19:10 2010 +0000
+
+    removed unneeded include
+
+commit 1aaf58938f19d8cc70456af8872dfb1f8b7dfc72
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Tue Nov 16 16:04:31 2010 +0000
+
+    added Questionaire DAO
+
+commit 2beead74ff4c3cfd891fdf14878b410f0b3e7e43
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Tue Nov 16 00:48:52 2010 +0000
+
+    added insert and supporting typedefs
+
+commit 843b4ff35a12aaffdc2f52092909c31021d6b997
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Sun Nov 14 20:06:22 2010 +0000
+
+    distcheck stuff
+
+commit 46f2234e4f3a90abd1ac75805aecfced867d5a26
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Sun Nov 14 19:30:01 2010 +0000
+
+    Tidy up stuff in preperation for schema changes
+
+commit 225b483f209a4152592d5a43fdc237ecd0c7ac02
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Sat Nov 13 23:50:28 2010 +0000
+
+    removed spacing from line endings
+
+commit e5a1603ce132c146f3285899776adae951c7ed9c
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Thu Nov 11 14:10:30 2010 +0000
+
+    folded import headers into declarative version
+
+commit 05a5969af983ead811e073003823100ea9c31390
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Thu Nov 11 05:41:05 2010 +0000
+
+    make distcheck saves the day again
+
+commit 921d5ced8df36ba26b2162b9406331b8b6118de0
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Thu Nov 11 05:08:08 2010 +0000
+
+    re-enable slow output to check all ok
+
+commit 1ce10adfc94c0ea9289a95aa3ada39f1a2198432
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Thu Nov 11 04:38:25 2010 +0000
+
+    builds with db/logger/config singletons
+
+commit d30548a8c75f03e6db044d109656643337f7d22a
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Tue Nov 9 04:57:50 2010 +0000
+
+    pulled in the platform changes
+
+commit cc300e39bb1670d47dd2b7bb4bdb9f599863ac29
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Tue Nov 9 04:40:19 2010 +0000
+
+    added test files
+
+commit 6e5f20e0c458f78499032a5cbc5a28c13d43235b
+Merge: fbbabcd 298f572
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Tue Nov 9 04:38:46 2010 +0000
+
+    Merge branch 'ver-0.0.2' into ver-0.0.2-1
+
+commit fbbabcd0bd04b37cef3404a063713edf0614a5f1
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Tue Nov 9 04:36:12 2010 +0000
+
+    removed autogened
+
+commit 298f572bebea7fbaf2d0b9f1c46cbb742c2a58b4
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Tue Nov 9 04:16:42 2010 +0000
+
+    moved work into a branch
+
+commit 79b3235d9534911361479398a85aa306263029cd
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Sun Oct 31 03:19:42 2010 +0000
+
+    updated reporting to fix loop
+
+commit a62b35f9220b606877ea59ac0c9486e77a67b321
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Sun Oct 31 02:54:35 2010 +0000
+
+    reporting
+
+commit caa5526f8ecebcfcce12574346089f45f5868818
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Sun Oct 31 00:29:45 2010 +0100
+
+    updated output format
+
+commit 300f67ffe2f96f2df6877a9b4bd8ae4c8f39da00
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Sun Oct 31 00:02:31 2010 +0100
+
+    distribution changes
+
+commit 8362d6df0c11c73673251cb0e83dfd79b109bb9a
+Author: Jamal M. Natour <jamal.natour@fumasoftware.com>
+Date:   Sat Oct 30 14:44:25 2010 +0100
+
+    added to git
 
