@@ -54,7 +54,7 @@ main(int argc, char **argv)
             return EXIT_FAILURE;
         }
 
-        Epic::Logging::Note().log() << "Starting database setup\n" ;
+        Epic::Logging::Note().log() << "Starting database setup" ;
         Epic::Database::connect();
         Epic::Logging::Note().log() << "Completed database setup\n" ;
 
@@ -78,6 +78,7 @@ main(int argc, char **argv)
         {
             app.set_input(args["input"]);
         }
+#if(0)
         else if(args.find("jobfile") != args.end())
         {
             app.set_jobfile(args["jobfile"]);
@@ -88,6 +89,15 @@ main(int argc, char **argv)
             help();
             return EXIT_FAILURE;
         }
+#else
+        else
+        {
+            Epic::Logging::Error().log() << "No Input file specifed on command line";
+            help();
+            return EXIT_FAILURE;
+        }
+
+#endif /* jobfile */
 
         // all that for this
         return app.run();
@@ -113,11 +123,11 @@ help()
     std::cerr << "		(-f) 	 --config (defaults to '" << DEFAULT_CONFIG_FILE << "')\n";
     std::cerr << "		(-h) 	 --help (shows this text)\n" ;
     std::cerr << "		(-i) 	 --input (input file to process)\n" ;
-    std::cerr << "		(-j) 	 --jobfile\n" ;
+ //   std::cerr << "		(-j) 	 --jobfile\n" ;
     std::cerr << "		(-l) 	 --log-file\n" ;
-    std::cerr << "		(-m) 	 --mapping\n" ;
+//    std::cerr << "		(-m) 	 --mapping\n" ;
     std::cerr << "		(-o) 	 --output\n" ;
-    std::cerr << "		(-s) 	 --style=[food | meal | nutrient | spreadsheet] (defaults to 'food')\n";
+    std::cerr << "		(-s) 	 --style=[foods | meals | nutrients | spreadsheet] (defaults to 'foods')\n";
     std::cerr << "		(-v) 	 --verbose\n" ;
     std::cerr << "		(-V) 	 --version\n" ;
     std::cerr << std::endl;
