@@ -1,0 +1,36 @@
+Bugs:
+
+Bug  : 0001
+    When a food code field is searched for semicolon delimited text,
+    if there are no semicolons present, the search will terminate with
+    an error even if the field wasn't empty.
+
+Expected Behaviour:
+    When a non-empty food code field is searched for semicolon delimited
+    text, if there are no semicolons present, the search should
+    terminate succesfully returning a list of length 1.
+
+
+Impact:
+    [Major] This piece of code handles all food_codes parsing, so the same
+    flaw will affect processing of "FAT_BAKING_FOOD/FAT_FRYING_FOOD/CERIAL_FOOD"
+
+Resolution:
+    This is fixed in release 0.0.2-c and later
+
+Bug  : 0002 
+    Failure of food_code string parsing is not logged.
+    
+Expected Behaviour:
+    Failure of food_code string parsing should output an error to the
+    log with a human readable reason for failure e.g. "Error: milk food_code field was empty"
+
+Impact:
+    [Minor] this makes it harder to track down errors but doesn't
+    introduce any additional errors
+
+Resolution:
+    This is fixed in release 0.0.2-c and later
+
+
+
