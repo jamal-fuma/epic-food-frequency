@@ -443,7 +443,7 @@ Epic::DAO::Person::process_cereals(const Epic::Config::Config & cnf, const std::
 {
     std::string value;
     std::vector<Epic::DAO::Food> foods;
-    bool rc = cnf.find("CERIAL_FOOD",value);
+    bool rc = cnf.find("CEREAL_FOOD",value);
     if(rc)
     {
         if(!this->str_to_foods(foods,value,"cereal food"))
