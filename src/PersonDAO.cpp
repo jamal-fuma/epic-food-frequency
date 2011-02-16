@@ -330,6 +330,13 @@ bool Epic::DAO::Person::attach_milk(const Epic::DAO::Milk & milk, const Epic::DA
 // associate a person with a meal frequency
 bool Epic::DAO::Person::attach_meal(const Epic::DAO::Meal & meal, const Epic::DAO::Frequency & frequency)
 {
+       Epic::Logging::Note().log() << "Respondent: "
+                                             << this->get_reference()
+                                             << " supplied "
+                                             << frequency
+                                             << " for meal: "
+                                             << meal.get_name();
+
     return Epic::PersonDAO::attach_meal(*this,meal,frequency);
 }
 

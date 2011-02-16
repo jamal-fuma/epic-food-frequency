@@ -111,7 +111,7 @@ namespace Epic
                     rhs << "Meal: [" << meal.get_id()               << ",'" 
                                          << meal.get_name()         << "','"
                                          << meal.get_description()  << "'"
-                                  << "]" << std::endl;
+                                  << "]";
                     return rhs;
                 }
 

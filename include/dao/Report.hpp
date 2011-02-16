@@ -20,7 +20,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Epic_lib.hpp"
 #include <vector>
-
+#include "dao/Meal.hpp"
+#include "dao/Food.hpp"
+#
 namespace Epic
 {
     namespace DAO
@@ -66,6 +68,14 @@ namespace Epic
                 
                 void set_amount(double amount) { 
                     m_amount = amount;
+                }
+            
+                friend std::ostream & operator<<(std::ostream & rhs, const Report & report) {
+                    rhs << "Report: ["   << Epic::DAO::Meal::find_by_id(report.get_meal_id()) << ",'" 
+                                         << Epic::DAO::Food::find_by_id(report.get_food_id()) << "','"
+                                         << report.get_amount()  << "'"
+                                  << "]" ;
+                    return rhs;
                 }
 
             private:

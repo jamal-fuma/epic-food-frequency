@@ -387,7 +387,8 @@ bool Epic::DAO::FoodNutrient::load(const std::string & filename)
             {
                 food = Epic::DAO::Food::find_by_name(s);
             }
-
+        
+            bool log = false;
             if(cnf.find("NUTRIENT",s) )
             {
                 // nutrient code
@@ -400,7 +401,7 @@ bool Epic::DAO::FoodNutrient::load(const std::string & filename)
                 // quantity
                 quantity = Conversion::NutrientQuantity(s);
             }
-
+            
             if(!food.attach(nutrient,quantity))
             {
                 Epic::Logging::Error().log() << "Error in [" << "food_nutrients" <<"] import file: [" << filename << "] aborting on line: " << line ;

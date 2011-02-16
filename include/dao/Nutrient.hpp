@@ -107,7 +107,7 @@ namespace Epic
                                          << nutrient.get_code()         << ",'" 
                                          << nutrient.get_description()  << "','" 
                                          << nutrient.get_units()        << "'"
-                                  << "]" << std::endl;
+                                  << "]" ;
                     return rhs;
                 }
 

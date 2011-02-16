@@ -78,7 +78,7 @@ namespace Epic
                 friend std::ostream & operator<<(std::ostream & rhs, const Frequency & frequency) {
                     rhs << "Frequency: ["  << frequency.get_id()           << ","
                                         << std::setprecision(5) << std::fixed << frequency.get_amount()
-                                << "]"  << std::endl;
+                                << "]" ;
                     return rhs;
                 }
 
