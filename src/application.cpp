@@ -128,7 +128,7 @@ Epic::Client::Application::load_questionaire(Epic::DAO::Questionaire & questiona
 {
     Epic::DAO::Person person;
 
-    Epic::Import::str_vector_t v,h;
+    Epic::Import::str_vector_t values,headers;
     Epic::Config::Config cnf;
     std::string value;
    
@@ -141,18 +141,18 @@ Epic::Client::Application::load_questionaire(Epic::DAO::Questionaire & questiona
 
     for(size_t line=0; (rdr.more_rows()); ++line)
     {
-        if(rdr.read_row(v))
+        if(rdr.read_row(values))
         {
             if(!line)
             {
-                h.swap(v);
+                headers.swap(values);
                 continue;
             }
-            Epic::Import::str_vector_t::size_type nelem = v.size();
+            Epic::Import::str_vector_t::size_type nelem = values.size();
             for(Epic::Import::str_vector_t::size_type pos=0; pos != nelem; ++pos)
             {
                 // wire in alternative fields names here
-                cnf.insert(h[pos],v[pos],true);
+                cnf.insert(headers[pos],values[pos],true);
             }
 
             bool rc = cnf.find("ID",value);
@@ -253,16 +253,14 @@ bool Epic::Client::ReportWriter::preload()
         }
         else
         {
-            std::ostringstream ss;
-            ss << "Unable to load nutrients for food_code: " << food_it->get_name() << ": " << food_it->get_description() << "\n";
-            Epic::Logging::error(ss.str());
+           Epic::Logging::Error().log() << "Unable to load nutrients for food_code: " << food_it->get_name() << ": " << food_it->get_description() << "\n";
         }
     }
 
     // find nutrients 
     if(!Epic::DAO::Nutrient::find_all(m_nutrients))
     {
-        Epic::Logging::error("Unable to load nutrients from db\n");
+        Epic::Logging::Error().log() << "Unable to load nutrients from db";
         return false;
     }
 
@@ -284,6 +282,7 @@ bool Epic::Client::ReportWriter::food_report(std::ostream & out)
         {
             for(report_iterator_t report_it = m_reports.begin(), report_end = m_reports.end(); report_it != report_end; ++report_it)
             {
+
                 Epic::DAO::Food food = m_foods.at(report_it->get_food_id() -1);
                 food_nutrient_map_iterator_t map_itr = m_nutrients_by_food_id.find(food.get_id());
                 if(map_itr != m_nutrients_by_food_id.end())
@@ -318,6 +317,12 @@ bool Epic::Client::ReportWriter::meal_report(std::ostream & out)
 
             for(report_iterator_t report_it = m_reports.begin(), report_end = m_reports.end(); report_it != report_end; ++report_it)
             {
+                Epic::Logging::Note().log() << "Respondent: "
+                                             << m_person_it->get_reference()
+                                             << " consumption "
+                                             << *report_it;
+
+
                 Epic::DAO::Food food = m_foods.at(report_it->get_food_id() -1);
                 food_nutrient_map_iterator_t map_itr = m_nutrients_by_food_id.find(food.get_id());
 
@@ -328,7 +333,7 @@ bool Epic::Client::ReportWriter::meal_report(std::ostream & out)
                 {
                     if(!store_nutrients(report_it->get_meal_id(),report_it->get_amount(),map_itr->second.begin(),map_itr->second.end()))
                     {
-                        Epic::Logging::error("Storing nutrients failed\n");
+                        Epic::Logging::Error().log() << "Storing nutrients failed for " << *report_it;
                         return false;
                     }
                 }
