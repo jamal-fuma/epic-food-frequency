@@ -32,7 +32,7 @@ namespace Epic
         {
             double m_num;
             bool m_valid;
-            DecimalString(const std::string & s) :m_num(0.0F), m_valid(true)
+            DecimalString(const std::string & s) :m_num(-1.0F), m_valid(true)
             {
                 if(s.find_first_of(".") == std::string::npos)
                 {
@@ -42,18 +42,26 @@ namespace Epic
                 }
                 // turns 0.10 into 10 which is perfect for financial calculations
                 // but sub-optimal for other applications
-                else if(-1 == ::utility_strtod(&m_num,s.c_str()))
+                else 
                 {
-                    m_valid = false;
+                    char * end=NULL;
+                    double d =  strtod(s.c_str(),&end);
+                    if(end == s)
+                    {
+                        Epic::Logging::Error().log() << "Turning [" << s << "] into a decimal number failed" << "\n";
+                        m_valid = false;
+                    }
+                    else
+                    {
+                        m_valid = true;
+                        m_num = d;
+                    }
                 }
             }
 
             operator double() const
             {
-                if(m_valid)
-                    return m_num / 100.00F;
-
-                return 0.0F;
+                return m_num ;
             }
         };
 
@@ -65,7 +73,7 @@ namespace Epic
             bool m_valid;
 
             NutrientQuantity(const std::string & s) :
-                m_valid(false)
+                m_valid(false), m_value(-1.0F)
             {
                 std::string s_val(s);
 
