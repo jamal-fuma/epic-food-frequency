@@ -88,27 +88,11 @@ libEpic_la_SOURCES = \
                    \
                    $(top_srcdir)/include/client/Application.hpp  \
                    \
-                   $(top_srcdir)/include/dataset/IngredientStatement.hpp  \
                    $(top_srcdir)/include/dataset/Dataset.hpp  \
-                   $(top_srcdir)/include/dataset/TableStatement.hpp  \
-                   $(top_srcdir)/include/dataset/ResponseStatement.hpp  \
-                   $(top_srcdir)/include/dataset/GroupStatement.hpp  \
-                   $(top_srcdir)/include/dataset/WeightStatement.hpp  \
-                   $(top_srcdir)/include/dataset/FoodStatement.hpp  \
-                   $(top_srcdir)/include/dataset/QuestionStatement.hpp  \
-                   $(top_srcdir)/include/dataset/MealStatement.hpp  \
-                   $(top_srcdir)/include/dataset/FrequencyStatement.hpp  \
                    $(top_srcdir)/include/dataset/Database.hpp  \
                    $(top_srcdir)/include/dataset/Statement.hpp  \
                    $(top_srcdir)/include/dataset/ResultStatement.hpp  \
-                   $(top_srcdir)/include/dataset/QuestionTypes.hpp  \
-                   $(top_srcdir)/include/dataset/QuestionaireStatement.hpp  \
-                   $(top_srcdir)/include/dataset/NutrientStatement.hpp  \
                    $(top_srcdir)/include/dataset/Schema.hpp  \
-                   $(top_srcdir)/include/dataset/RespondentStatement.hpp  \
-                   $(top_srcdir)/include/dataset/Report.hpp  \
-                   $(top_srcdir)/include/dataset/CerealTypesStatement.hpp  \
-                   $(top_srcdir)/include/dataset/MilkTypesStatement.hpp  \
                    \
                    $(top_srcdir)/include/pattern/TwoKeyMap.hpp  \
                    $(top_srcdir)/include/pattern/Singleton.hpp  \
