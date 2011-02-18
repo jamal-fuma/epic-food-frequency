@@ -38,12 +38,8 @@ namespace Epic
                 {
                     IntegerString is(s);
                     long num = is;
-                    Epic::Logging::Error().log() << "Turning [" << s << "] into a decimal number " << num << "\n";
                     m_num = (num *1.00F);
-                    Epic::Logging::Error().log() << "Turning [" << num << "] into a scaled decimal number " << m_num << "\n";
                 }
-                // turns 0.10 into 10 which is perfect for financial calculations
-                // but sub-optimal for other applications
                 else 
                 {
                     char * end=NULL;
