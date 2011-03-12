@@ -74,11 +74,8 @@ namespace Epic
             void
             clear()
             {
-                if(m_ptr)
-                {
-                    free(m_ptr);
-                    m_ptr = NULL;
-                }
+                free(m_ptr);
+                m_ptr = NULL;
             }
         };
     } // Epic::Config
