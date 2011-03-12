@@ -1155,9 +1155,6 @@ int fd;
     if(!dst_st || !fp)
         return util_eError;
 
-    if(utility_fflush(fp))
-        return util_eError;
-
     if(utility_fileno(&fd,fp))
         return util_eError;
 
@@ -1310,7 +1307,6 @@ utility_slurp_with_sz(
         const char *fname
         )
 {
-static const int should_exist=1;
 FILE *fp;
 void *p;
 int err;
