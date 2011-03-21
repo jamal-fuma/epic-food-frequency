@@ -1,36 +1,22 @@
-Bugs:
+Copyright EPIC-Norfolk Study 2011
 
-Bug  : 0001
-    When a food code field is searched for semicolon delimited text,
-    if there are no semicolons present, the search will terminate with
-    an error even if the field wasn't empty.
+Funders: UKCRN, MRC
 
-Expected Behaviour:
-    When a non-empty food code field is searched for semicolon delimited
-    text, if there are no semicolons present, the search should
-    terminate succesfully returning a list of length 1.
+Contributions:  Amit Bhaniani, Angela Mulligan, Jamal Natour, Robert Luben
 
+Contact: epic@srl.cam.ac.uk
 
-Impact:
-    [Major] This piece of code handles all food_codes parsing, so the same
-    flaw will affect processing of "FAT_BAKING_FOOD/FAT_FRYING_FOOD/CERIAL_FOOD"
+Software licenced under the GPL
+Food table data is licenced under the PCI, licence number C2009002292 (see etc/PCI_licence )
 
-Resolution:
-    This is fixed in release 0.0.2-c and later
+Acknowledgements:  Please acknowledge the EPIC-Norfolk Study in your publications as follows:
 
-Bug  : 0002 
-    Failure of food_code string parsing is not logged.
-    
-Expected Behaviour:
-    Failure of food_code string parsing should output an error to the
-    log with a human readable reason for failure e.g. "Error: milk food_code field was empty"
+"We are grateful to the participants and general practitioners who took part in the study and 
+the staff associated with the research program.  EPIC-Norfolk is supported by programme grants
+from the Medical Research Council UK (G9502233, G0300128) and Cancer Research UK (C865/A2883)"
 
-Impact:
-    [Minor] this makes it harder to track down errors but doesn't
-    introduce any additional errors
+Reference:  Please cite the following paper in reference to this software:
 
-Resolution:
-    This is fixed in release 0.0.2-c and later
-
-
-
+"A. A. Welch, R. Luben, K. T. Khaw, S. A. Bingham. (2005) The CAFE computer program for nutritional 
+analysis of the EPIC-Norfolk food frequency questionnaire and identification of extreme nutrient values. 
+J Hum Nutr Diet Apr 18 (2):99-116."
