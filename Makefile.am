@@ -57,7 +57,8 @@ epic_ffqdoc_DATA = \
 	AUTHORS\
 	ChangeLog\
 	INSTALL\
-	NEWS
+	NEWS\
+	Acknowledgements
 
 bin_PROGRAMS = epic_ffq
 
@@ -79,7 +80,13 @@ epic_ffq_SOURCES = $(top_srcdir)/src/client.cpp
 epic_ffq_LDADD   = $(top_builddir)/src/libEpic.la
 epic_ffq_LDFLAGS = 
 
-EXTRA_DIST = $(epic_ffqdoc_DATA) $(conf_DATA) $(sql_DATA) $(import_DATA) $(top_srcdir)/conf/client.conf.in $(top_srcdir)/autogen.sh
+EXTRA_DIST = $(epic_ffqdoc_DATA) \
+	     $(conf_DATA) \
+	     $(sql_DATA) \
+	     $(import_DATA) \
+	     $(top_srcdir)/conf/client.conf.in \
+	     $(top_srcdir)/scripts/build-w32.sh \
+	     $(top_srcdir)/autogen.sh
 
 DISTCLEANFILES = $(top_builddir)/client.conf
 
