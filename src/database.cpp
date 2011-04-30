@@ -130,7 +130,11 @@ bool Epic::Database::connect()
         std::ostringstream ss;
         std::string filename;
         if(!Epic::Config::find("schema",filename))
+        {
+            Epic::Logging::Error().log() << "Config file lacks value for 'schema'";
             return false;
+        }
+        
 
         // load database schema ready to execute
         std::string schema;

@@ -1,4 +1,9 @@
+
+#include <iterator>
+#include <fstream>
+
 #include "Epic_lib.hpp"
+
 
 #include "dao/Questionaire.hpp"
 #include "dao/Person.hpp"
@@ -62,6 +67,15 @@ main(int argc, char **argv)
     test_meal_foods();
     test_portions();
 
+    // load file into string
+    std::ifstream infile(schema.c_str());
+    std::string data(
+            (std::istreambuf_iterator<char>(infile)),
+            std::istreambuf_iterator<char>()
+            );
+    
+    std::cout << data << std::endl;
+    
     return EXIT_SUCCESS;
 }
 
