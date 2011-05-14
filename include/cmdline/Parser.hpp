@@ -189,6 +189,7 @@ namespace Epic
                     int pos = 0;
                     // all remaining arguments are treated
                     // as purely positional following this terminator
+                    std::cout << "Argc=[" << argc << "]\n";
                     if(!strcmp("--",argv[i]))
                     {
                         positional = true;

@@ -4,9 +4,11 @@
 #include <cstdlib>
 #include <stdlib.h>
 
-#include "Epic_lib.hpp"
+// #include "Epic_lib.hpp"
 #include <string>
 #include <map>
+
+#include <ostream>
 
 namespace Epic
 {
@@ -18,9 +20,14 @@ namespace Epic
             bool m_valid;
             IntegerString(const std::string & s) : m_num(0),m_valid(true)
             {
+
+                std::istringstream ss(s);
+                ss >> m_num;
+#if(0)
                 const char *c_str = s.c_str();
                 if(-1 == ::utility_sntol(&m_num,c_str,strlen(c_str)))
                     m_valid = false;
+#endif
             }
             operator long() const
             {
