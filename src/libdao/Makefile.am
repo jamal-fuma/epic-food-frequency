@@ -7,6 +7,7 @@ AM_CPPFLAGS = \
 	-DSQLITE_OMIT_LOAD_EXTENSION=1	\
 	-DSQLITE_THREADSAFE=0		\
         -I$(top_srcdir)/include   	\
+        -I$(top_srcdir)/src/libdao   	\
         -I$(top_srcdir)/include/boost   \
         -I$(top_srcdir)/include/import  \
         -I$(top_srcdir)/include/pattern \

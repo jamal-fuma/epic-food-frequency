@@ -15,10 +15,11 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "dao/CerealDAO.hpp"
+#include "CerealDAO.hpp"
 #include "dao/Cereal.hpp"
 #include "dao/Food.hpp"
 #include "dao/Weight.hpp"
+
 #include "import/Import.hpp"
 #include "conversion/Conversion.hpp"
 

@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "dao/ReportDAO.hpp"
+#include "ReportDAO.hpp"
 #include "dao/Report.hpp"
 
 // create a temporary table to speed up processing
