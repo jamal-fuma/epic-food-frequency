@@ -52,22 +52,22 @@ libEpicDAO_la_SOURCES = \
                    PersonDAO.hpp	\
                    QuestionaireDAO.hpp	\
 		   \
- 		   Frequency.hpp	\
- 		   Report.hpp		\
- 		   Weight.hpp		\
- 		   Milk.hpp		\
- 		   Cereal.hpp		\
- 		   Portion.hpp		\
- 		   Food.hpp		\
- 		   FoodNutrient.hpp	\
-                   MealNutrient.hpp	\
- 		   MealFood.hpp		\
- 		   Meal.hpp		\
- 		   Nutrient.hpp		\
- 		   Person.hpp		\
-                   Questionaire.hpp	\
+ 		   $(top_srcdir)/include/dao/Frequency.hpp	\
+ 		   $(top_srcdir)/include/dao/Report.hpp		\
+ 		   $(top_srcdir)/include/dao/Weight.hpp		\
+ 		   $(top_srcdir)/include/dao/Milk.hpp		\
+ 		   $(top_srcdir)/include/dao/Cereal.hpp		\
+ 		   $(top_srcdir)/include/dao/Portion.hpp		\
+ 		   $(top_srcdir)/include/dao/Food.hpp		\
+ 		   $(top_srcdir)/include/dao/FoodNutrient.hpp	\
+                   $(top_srcdir)/include/dao/MealNutrient.hpp	\
+ 		   $(top_srcdir)/include/dao/MealFood.hpp		\
+ 		   $(top_srcdir)/include/dao/Meal.hpp		\
+ 		   $(top_srcdir)/include/dao/Nutrient.hpp		\
+ 		   $(top_srcdir)/include/dao/Person.hpp		\
+                   $(top_srcdir)/include/dao/Questionaire.hpp	\
                    \
-			$(top_srcdir)/include/config/Util.hpp  \
+		   $(top_srcdir)/include/config/Util.hpp  \
                    \
                    $(top_srcdir)/include/pattern/Singleton.hpp  \
                    \

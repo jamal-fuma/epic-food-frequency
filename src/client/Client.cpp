@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Epic_lib.hpp"
 
-#include "client/Application.hpp"
+#include "Application.hpp"
 #include "cmdline/Parser.hpp"
 
 static int help();
