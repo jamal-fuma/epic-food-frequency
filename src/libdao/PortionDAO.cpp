@@ -19,6 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "dao/Portion.hpp"
 #include "conversion/Conversion.hpp"
 #include "import/Import.hpp"
+#include "libcsv/MatchedValues.hpp"
+#include "libcsv/CSVReader.hpp"
 
 // find a portion given an id
 bool Epic::PortionDAO::DataAccess::find_by_id(sqlite3_int64 id, Epic::DAO::Portion & portion)
@@ -186,7 +188,7 @@ bool Epic::DAO::Portion::load(const std::string & filename)
                 Epic::Import::str_vector_t expected;
                 expected.push_back("CODE");
                 expected.push_back("VALUE");
-                if(Epic::Import::DBModel::same_header("portions",expected,v))
+                if(Epic::Import::MatchedValues()("portions",expected,v))
                 {
                     h.swap(v);
                     continue;

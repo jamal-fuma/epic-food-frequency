@@ -2,13 +2,14 @@
 #define EPIC_CONVERSION_HPP
 
 #include <cstdlib>
-#include <stdlib.h>
 
-// #include "Epic_lib.hpp"
 #include <string>
 #include <map>
 
 #include <ostream>
+
+#include "config/Global.hpp"
+#include "libhelper/Logger.hpp"
 
 namespace Epic
 {
@@ -50,10 +51,10 @@ namespace Epic
                 else 
                 {
                     char * end=NULL;
-                    double d =  strtod(s.c_str(),&end);
+                    double d =  std::strtod(s.c_str(),&end);
                     if(end == s)
                     {
-                        Epic::Logging::Error().log() << "Turning [" << s << "] into a decimal number failed" << "\n";
+                     //   Epic::Logging::Error().log() << "Turning [" << s << "] into a decimal number failed" << "\n";
                         m_valid = false;
                     }
                     else

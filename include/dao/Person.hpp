@@ -18,12 +18,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef EPIC_DAO_PERSON_HPP
 #define EPIC_DAO_PERSON_HPP
 
-#include "Epic_lib.hpp"
 
 #include "dao/Weight.hpp"
 #include "dao/Portion.hpp"
 #include "dao/Meal.hpp"
 #include "dao/Frequency.hpp"
+
+#include "config/Global.hpp"
+
 namespace Epic
 {
     namespace DAO

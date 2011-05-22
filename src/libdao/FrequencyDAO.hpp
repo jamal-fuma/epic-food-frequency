@@ -18,9 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef EPIC_DAO_FREQUENCY_DAO_HPP
 #define EPIC_DAO_FREQUENCY_DAO_HPP
 
-#include "Epic_lib.hpp"
 #include "dao/Frequency.hpp"
-#include <vector>
+#include "libdao/Statement.hpp"
 
 namespace Epic
 {

@@ -16,6 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "ReportWriter.hpp"
+#include "libhelper/Logger.hpp"
 
 bool Epic::Client::ReportWriter::preload()
 {

@@ -19,7 +19,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define EPIC_DAO_NUTRIENT_HPP
 
 #include <vector>
-#include "Epic_lib.hpp"
+#include <string>
+#include <iostream>
+#include "sqlite3.h"
 
 namespace Epic
 {

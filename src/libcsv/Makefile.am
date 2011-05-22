@@ -8,10 +8,19 @@ AM_CPPFLAGS = \
 	-DPACKAGE_DATA_DIR=\""$(datadir)"\"  \
         -I$(top_srcdir)/include   \
         -I$(top_srcdir)/include/boost   \
-        -I$(top_srcdir)/include/import
+        -I$(top_srcdir)/include/import \
+        -I$(top_srcdir)/src/libcsv	\
+        -I$(top_srcdir)/src
  	
 noinst_LTLIBRARIES = libEpicCSV.la
 libEpicCSV_la_SOURCES = \
+			CSVReader.hpp  \
+			CSVReader.cpp  \
+			MatchedValues.hpp  \
+			\
+			$(top_srcdir)/src/libhelper/Logger.hpp  \
+			$(top_srcdir)/include/import/Parser.hpp  \
+			\
 			$(top_srcdir)/include/import/Parser.hpp  \
 			$(top_srcdir)/include/import/LineInfo.hpp  \
 			$(top_srcdir)/include/import/Context.hpp  \

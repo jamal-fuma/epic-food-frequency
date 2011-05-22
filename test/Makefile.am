@@ -22,7 +22,6 @@ AM_CPPFLAGS 	=  -I$(top_srcdir)/libutility/src \
         -I$(top_srcdir)/src/libdao   	\
         -I$(top_srcdir)/include/boost   \
         -I$(top_srcdir)/include/import  \
-        -I$(top_srcdir)/include/client \
         -I$(top_srcdir)/include/dataset \
         -I$(top_srcdir)/include/pattern \
         -I$(top_srcdir)/include/logging \

@@ -20,6 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "dao/Food.hpp"
 #include "import/Import.hpp"
 #include "conversion/Conversion.hpp"
+#include "libcsv/CSVReader.hpp"
+#include "libcsv/MatchedValues.hpp"
 
 // find a milk given an id
 bool Epic::MilkDAO::DataAccess::find_by_id(sqlite3_int64 id, Epic::DAO::Milk & milk)
@@ -186,7 +188,7 @@ bool Epic::DAO::Milk::load(const std::string & filename)
                 Epic::Import::str_vector_t expected;
                 expected.push_back("CODE");
                 expected.push_back("FOOD_CODE");
-                if(Epic::Import::DBModel::same_header("milks",expected,v))
+                if(Epic::Import::MatchedValues()("milks",expected,v))
                 {
                     h.swap(v);
                     continue;
