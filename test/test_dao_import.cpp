@@ -559,7 +559,7 @@ main(int argc, char **argv)
                 else
                 {
                     std::vector< std::string > food_codes;
-                    Epic::Util::Token(value).split(';').values(food_codes);
+                    Epic::Util::split(food_codes,value,";");
                     std::vector< std::string >::const_iterator it, it_end = food_codes.end();
                     for(it = food_codes.begin(); it != it_end; ++it)
                     {
@@ -590,7 +590,7 @@ main(int argc, char **argv)
                 else
                 {
                     std::vector< std::string > food_codes;
-                    Epic::Util::Token(value).split(';').values(food_codes);
+                    Epic::Util::split(food_codes,value,";");
                     std::vector< std::string >::const_iterator it, it_end = food_codes.end();
                     for(it = food_codes.begin(); it != it_end; ++it)
                     {
@@ -613,7 +613,7 @@ main(int argc, char **argv)
                 else
                 {
                     std::vector< std::string > food_codes;
-                    Epic::Util::Token(value).split(';').values(food_codes);
+                    Epic::Util::split(food_codes,value,";");
                     std::vector< std::string >::const_iterator it, it_end = food_codes.end();
                     for(it = food_codes.begin(); it != it_end; ++it)
                     {
