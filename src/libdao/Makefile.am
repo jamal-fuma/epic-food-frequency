@@ -12,7 +12,6 @@ AM_CPPFLAGS = \
         -I$(top_srcdir)/include/boost   \
         -I$(top_srcdir)/include/import  \
         -I$(top_srcdir)/include/pattern \
-        -I$(top_srcdir)/include/logging \
         -I$(top_srcdir)/include/conversion
 
 noinst_LTLIBRARIES = libEpicDAO.la

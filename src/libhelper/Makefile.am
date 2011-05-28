@@ -10,7 +10,6 @@ AM_CPPFLAGS = \
         -I$(top_srcdir)/include/boost   \
         -I$(top_srcdir)/include/import  \
         -I$(top_srcdir)/include/pattern \
-        -I$(top_srcdir)/include/logging \
         -I$(top_srcdir)/include/conversion
 
 noinst_LTLIBRARIES = libEpicHelper.la
@@ -18,10 +17,10 @@ libEpicHelper_la_SOURCES = \
 			   Config.cpp \
 			   ConfigReader.cpp \
 			   Logger.cpp \
+			   Logger.hpp \
 			   $(top_srcdir)/include/config/Global.hpp  \
 			   $(top_srcdir)/include/config/Reader.hpp  \
-			   $(top_srcdir)/include/pattern/Singleton.hpp  \
-			   $(top_srcdir)/include/logging/Logger.hpp
+			   $(top_srcdir)/include/pattern/Singleton.hpp
 
 libEpicHelper_la_LDFLAGS = 
  # -lpthread -lrt -lltdl

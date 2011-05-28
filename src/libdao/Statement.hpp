@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef EPIC_DATABASE_STATEMENT_HPP
 #define EPIC_DATABASE_STATEMENT_HPP
 
-#include "dataset/Database.hpp"
+#include "Database.hpp"
 #include "libhelper/Logger.hpp"
 
 namespace Epic
