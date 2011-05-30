@@ -7,6 +7,7 @@ AM_CPPFLAGS = \
 	-DSQLITE_OMIT_LOAD_EXTENSION=1	\
 	-DSQLITE_THREADSAFE=0		\
         -I$(top_srcdir)/include   	\
+        -I$(top_srcdir)/libutility/src   \
         -I$(top_srcdir)/src/libdao   	\
         -I$(top_srcdir)/src  		\
         -I$(top_srcdir)/include/boost   \
@@ -70,7 +71,7 @@ libEpicDAO_la_SOURCES = \
                    \
 		   $(top_srcdir)/include/config/Util.hpp  \
                    \
-                   $(top_srcdir)/include/pattern/Singleton.hpp  \
+                   $(top_srcdir)/include/Singleton.hpp  \
                    \
 		   $(top_srcdir)/src/logger.cpp
 

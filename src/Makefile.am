@@ -12,7 +12,6 @@ AM_CPPFLAGS = \
         -I$(top_srcdir)/include/import  \
         -I$(top_srcdir)/include/client \
         -I$(top_srcdir)/include/dataset \
-        -I$(top_srcdir)/include/pattern \
         -I$(top_srcdir)/include/logging \
         -I$(top_srcdir)/include/config \
         -I$(top_srcdir)/include/license \
@@ -25,47 +24,33 @@ AM_CFLAGS =\
 
 noinst_LTLIBRARIES = libEpic.la
 libEpic_la_SOURCES = \
-                   Database.cpp      	\
                 $(top_srcdir)/include/conversion/Conversion.hpp  \
                  $(top_srcdir)/include/Epic_lib.hpp  \
 		   \
-                   $(top_srcdir)/include/dao/FrequencyDAO.hpp	\
  		   $(top_srcdir)/include/dao/Frequency.hpp	\
 		   \
-                   $(top_srcdir)/include/dao/ReportDAO.hpp	\
  		   $(top_srcdir)/include/dao/Report.hpp		\
 		   \
-                   $(top_srcdir)/include/dao/WeightDAO.hpp	\
  		   $(top_srcdir)/include/dao/Weight.hpp		\
 		   \
-                   $(top_srcdir)/include/dao/MilkDAO.hpp	\
  		   $(top_srcdir)/include/dao/Milk.hpp		\
 		   \
-                   $(top_srcdir)/include/dao/CerealDAO.hpp	\
  		   $(top_srcdir)/include/dao/Cereal.hpp		\
 		   \
-                   $(top_srcdir)/include/dao/PortionDAO.hpp	\
  		   $(top_srcdir)/include/dao/Portion.hpp	\
 		   \
-                   $(top_srcdir)/include/dao/FoodDAO.hpp	\
  		   $(top_srcdir)/include/dao/Food.hpp		\
  		   $(top_srcdir)/include/dao/FoodNutrient.hpp	\
 		   \
-		   $(top_srcdir)/include/dao/MealNutrientDAO.hpp\
                    $(top_srcdir)/include/dao/MealNutrient.hpp	\
  		    \
-                   $(top_srcdir)/include/dao/MealFoodDAO.hpp	\
-                   $(top_srcdir)/include/dao/MealDAO.hpp	\
  		   $(top_srcdir)/include/dao/MealFood.hpp	\
  		   $(top_srcdir)/include/dao/Meal.hpp		\
 		   \
-                   $(top_srcdir)/include/dao/NutrientDAO.hpp	\
  		   $(top_srcdir)/include/dao/Nutrient.hpp	\
 		   \
-                   $(top_srcdir)/include/dao/PersonDAO.hpp	\
  		   $(top_srcdir)/include/dao/Person.hpp		\
 		   \
-                   $(top_srcdir)/include/dao/QuestionaireDAO.hpp\
                    $(top_srcdir)/include/dao/Questionaire.hpp	\
 		   \
                    $(top_srcdir)/include/import/Parser.hpp  \
@@ -83,7 +68,7 @@ libEpic_la_SOURCES = \
                    $(top_srcdir)/include/dataset/Statement.hpp  \
                    \
                    $(top_srcdir)/include/pattern/TwoKeyMap.hpp  \
-                   $(top_srcdir)/include/pattern/Singleton.hpp  \
+                   $(top_srcdir)/include/Singleton.hpp  \
                    \
                    $(top_srcdir)/include/logging/Logger.hpp  \
                    \
@@ -1301,26 +1286,13 @@ libEpic_la_SOURCES = \
 	$(top_srcdir)/include/boost/aligned_storage.hpp \
 		  \
 		   ReportWriter.cpp	\
-		   FrequencyDAO.cpp	\
-                   WeightDAO.cpp	\
-                   FoodDAO.cpp		\
-                   CerealDAO.cpp	\
-                   MealDAO.cpp		\
-                   MilkDAO.cpp		\
-                   MealFoodDAO.cpp	\
-                   NutrientDAO.cpp	\
-                   PersonDAO.cpp	\
-                   MealNutrientDAO.cpp	\
-                   ReportDAO.cpp	\
-                   PortionDAO.cpp	\
-                   QuestionaireDAO.cpp	\
                                         \
                    Application.cpp      \
                    config.cpp      	\
-                   logger.cpp      	\
                    config_reader.cpp
 
 libEpic_la_LDFLAGS = 
  # -lpthread -lrt -lltdl
 
-libEpic_la_LIBADD = $(top_builddir)/libutility/src/libUtility.la
+#libEpic_la_LIBADD = $(top_builddir)/libutility/src/libUtility.la
+libEpic_la_LIBADD = $(top_builddir)/src/libdao/libEpicDAO.la
