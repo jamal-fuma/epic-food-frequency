@@ -3,8 +3,7 @@
 
 ACLOCAL_AMFLAGS= -I m4
 
-SUBDIRS = libutility \
-          src \
+SUBDIRS = src \
 	  test
 
 pkgsysconfdir = $(sysconfdir)/$(PACKAGE)
