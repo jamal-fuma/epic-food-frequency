@@ -69,9 +69,7 @@ libEpic_la_SOURCES = \
                    $(top_srcdir)/include/dao/Questionaire.hpp	\
 		   \
                    $(top_srcdir)/include/import/MilkTypes.hpp  \
-                   $(top_srcdir)/include/import/Group.hpp  \
                    $(top_srcdir)/include/import/Parser.hpp  \
-                   $(top_srcdir)/include/import/Frequency.hpp  \
                    $(top_srcdir)/include/import/LineInfo.hpp  \
                    $(top_srcdir)/include/import/Nutrient.hpp  \
                    $(top_srcdir)/include/import/Meal.hpp  \
