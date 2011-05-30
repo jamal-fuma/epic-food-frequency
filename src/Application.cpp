@@ -23,21 +23,21 @@ Epic::Client::Application::run()
 {
     try
     {
-        // find all meals
+        // find all meal
         if(!Epic::DAO::Meal::find_all(m_meals))
         {
             Epic::Logging::Error().log()  << "Unable to load meals from db";
             return EXIT_FAILURE;
         }
 
-        // find all weights
+        // find all weight
         if(!Epic::DAO::Weight::find_all(m_weights) || !Epic::DAO::Weight::find_bounds(m_weight_upper,m_weight_lower))
         {
             Epic::Logging::Error().log()  << "Unable to load weights from db";
             return EXIT_FAILURE;
         }
  
-        // find all portions
+        // find all portion
         if(!Epic::DAO::Portion::find_all(m_portions) || !Epic::DAO::Portion::find_bounds(m_portion_upper,m_portion_lower))
         {
             Epic::Logging::Error().log()  << "Unable to load milk portions from db";
@@ -45,14 +45,14 @@ Epic::Client::Application::run()
         }
 
 
-        // find all frequencies
+        // find all frequencie
         if(!Epic::DAO::Frequency::find_all(m_frequencies) || !Epic::DAO::Frequency::find_bounds(m_frequency_upper,m_frequency_lower))
         {
             Epic::Logging::Error().log()  << "Unable to load frequencies from db";
             return EXIT_FAILURE;
         }
 
-        // parse questionare data into constiuent nutrients
+        // parse questionare data into constiuent nutrient
         if(Application::InputFile == m_status)
         {
             Epic::DAO::Questionaire questionaire;
@@ -176,22 +176,22 @@ Epic::Client::Application::load_questionaire(Epic::DAO::Questionaire & questiona
             }
 
 
-            // handle the meals
+            // handle the meal
             person.process_meals(cnf,m_meals,m_frequencies,m_frequency_upper,m_frequency_lower);
 
             // handle visible fat
             person.process_visible_fat(cnf,m_weights,m_weight_upper, m_weight_lower);
 
-            // cereal food codes
+            // cereal food code
             person.process_cereals(cnf,"a1362");
 
-            // frying fat codes
+            // frying fat code
             person.process_frying_fats(cnf,"a7024");
 
-            // baking fat codes
+            // baking fat code
             person.process_baking_fats(cnf,"a7024");
 
-            // milk portions
+            // milk portion
             person.process_milk(cnf,m_portions,m_portion_upper, m_portion_lower,"a2002");
 
             ++size;
