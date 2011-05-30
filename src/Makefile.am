@@ -88,6 +88,7 @@ libEpic_la_SOURCES = \
                    $(top_srcdir)/include/import/NewLine.hpp  \
                    \
                    $(top_srcdir)/include/client/Application.hpp  \
+                   $(top_srcdir)/include/client/ReportWriter.hpp  \
                    \
                    $(top_srcdir)/include/dataset/Dataset.hpp  \
                    $(top_srcdir)/include/dataset/Database.hpp  \
@@ -1313,6 +1314,7 @@ libEpic_la_SOURCES = \
 	$(top_srcdir)/include/boost/exception/exception.hpp \
 	$(top_srcdir)/include/boost/aligned_storage.hpp \
 		  \
+		   ReportWriter.cpp	\
 		   FrequencyDAO.cpp	\
                    WeightDAO.cpp	\
                    FoodDAO.cpp		\
