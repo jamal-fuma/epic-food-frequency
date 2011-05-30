@@ -31,7 +31,7 @@ namespace Epic
             public:
                 DBConnection() : m_created(false),m_connected(false),m_db(NULL) {}
 
-                void connect(const std::string & filename);
+                void connect(const std::string & filename, bool with_logging=false);
                 void disconnect();
 
                 sqlite3* database() const
