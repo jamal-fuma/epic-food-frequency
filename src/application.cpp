@@ -346,7 +346,12 @@ bool Epic::Client::ReportWriter::meal_report(std::ostream & out)
                 Epic::Database::Transaction tr_2;
                 for(std::vector<Epic::DAO::MealNutrient>::const_iterator nut_it = meal_nutrients.begin(), nut_end = meal_nutrients.end(); nut_it != nut_end; ++nut_it)
                 {
-                    out << m_person_it->get_reference() << "," << nut_it->get_meal_id() << "," << std::setprecision(6) << std::fixed <<  totals[nut_it->get_meal_id()] << "," << nut_it->get_nutrient_code() << "," << std::setprecision(6) << std::fixed <<  nut_it->get_quantity() << "\n";
+                    out << m_person_it->get_reference() << "," 
+                        << nut_it->get_meal_id() << "," 
+                        << std::setprecision(6) << std::fixed <<  totals[nut_it->get_meal_id()] << "," 
+                        << nut_it->get_nutrient_code() << "," 
+                        << std::setprecision(6) << std::fixed <<  nut_it->get_quantity() 
+                        << "\n";
                 }
                 Epic::DAO::MealNutrient::clear();
                 tr_2.commit();
