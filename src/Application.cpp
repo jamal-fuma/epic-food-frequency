@@ -23,21 +23,21 @@ Epic::Client::Application::run()
 {
     try
     {
-        // find all meal
+        // find all meals
         if(!Epic::DAO::Meal::find_all(m_meals))
         {
             Epic::Logging::Error().log()  << "Unable to load meals from db";
             return EXIT_FAILURE;
         }
 
-        // find all weight
+        // find all weights
         if(!Epic::DAO::Weight::find_all(m_weights) || !Epic::DAO::Weight::find_bounds(m_weight_upper,m_weight_lower))
         {
             Epic::Logging::Error().log()  << "Unable to load weights from db";
             return EXIT_FAILURE;
         }
- 
-        // find all portion
+
+        // find all portions
         if(!Epic::DAO::Portion::find_all(m_portions) || !Epic::DAO::Portion::find_bounds(m_portion_upper,m_portion_lower))
         {
             Epic::Logging::Error().log()  << "Unable to load milk portions from db";
@@ -45,29 +45,29 @@ Epic::Client::Application::run()
         }
 
 
-        // find all frequencie
+        // find all frequencies
         if(!Epic::DAO::Frequency::find_all(m_frequencies) || !Epic::DAO::Frequency::find_bounds(m_frequency_upper,m_frequency_lower))
         {
             Epic::Logging::Error().log()  << "Unable to load frequencies from db";
             return EXIT_FAILURE;
         }
 
-        // parse questionare data into constiuent nutrient
+        // parse questionare data into constiuent nutrients
         if(Application::InputFile == m_status)
         {
             Epic::DAO::Questionaire questionaire;
             questionaire.set_filename(m_input_file);
             if(!questionaire.save())
             {
-                Epic::Logging::Error().log()  << "Questionaire: " << questionaire.get_filename() 
+                Epic::Logging::Error().log()  << "Questionaire: " << questionaire.get_filename()
                     << " cant be saved to db, skipping remainder of input" ;
                 return EXIT_FAILURE;
             }
-    
+
             size_t size=0;
             if(!load_questionaire(questionaire,size))
             {
-                Epic::Logging::Error().log()  << "Questionaire: " << questionaire.get_filename() 
+                Epic::Logging::Error().log()  << "Questionaire: " << questionaire.get_filename()
                     << " processing failed" ;
                 return EXIT_FAILURE;
             }
@@ -77,7 +77,7 @@ Epic::Client::Application::run()
             {
                 if(!write_report(questionaire,std::cout))
                 {
-                    Epic::Logging::Error().log()  << "Questionaire: " << questionaire.get_filename() 
+                    Epic::Logging::Error().log()  << "Questionaire: " << questionaire.get_filename()
                         << " import completed successfully, but reporting failed, imported (" << size << ") respondents" ;
                     return EXIT_FAILURE;
                 }
@@ -88,20 +88,20 @@ Epic::Client::Application::run()
                 if(!file.is_open())
                 {
                     std::cerr << "unable to open output file: " << m_output_file << std::endl;
-                   Epic::Logging::Error().log()  << "Questionaire: " << questionaire.get_filename() 
+                   Epic::Logging::Error().log()  << "Questionaire: " << questionaire.get_filename()
                         << " import completed successfully, but reporting failed, imported (" << size << ") respondents" ;
                     return EXIT_FAILURE;
                 }
-                
+
                 if(!write_report(questionaire,file))
                 {
-                    Epic::Logging::Error().log()  << "Questionaire: " << questionaire.get_filename() 
+                    Epic::Logging::Error().log()  << "Questionaire: " << questionaire.get_filename()
                         << " import completed successfully, but reporting failed, imported (" << size << ") respondents" ;
                     return EXIT_FAILURE;
                 }
             }
 
-            Epic::Logging::Note().log()  << "Questionaire: " << questionaire.get_filename() 
+            Epic::Logging::Note().log()  << "Questionaire: " << questionaire.get_filename()
                 << " processing completed successfully, processed(" << size << ") respondents" ;
             return EXIT_SUCCESS;
         }
@@ -132,7 +132,7 @@ Epic::Client::Application::load_questionaire(Epic::DAO::Questionaire & questiona
     Epic::Import::str_vector_t values,headers;
     Epic::Config::Config cnf;
     std::string value;
-   
+
 
     Epic::Import::CSVReader rdr;
     if(!rdr.open(questionaire.get_filename()))
@@ -167,8 +167,8 @@ Epic::Client::Application::load_questionaire(Epic::DAO::Questionaire & questiona
                 person.set_reference(value);
                 if(!person.save())
                 {
-                    Epic::Logging::Error().log() << "Respondent: " 
-                        << person.get_reference() 
+                    Epic::Logging::Error().log() << "Respondent: "
+                        << person.get_reference()
                         << " cant be saved to db, skipping remainder of input";
                     continue;
                 }
@@ -176,22 +176,22 @@ Epic::Client::Application::load_questionaire(Epic::DAO::Questionaire & questiona
             }
 
 
-            // handle the meal
+            // handle the meals
             person.process_meals(cnf,m_meals,m_frequencies,m_frequency_upper,m_frequency_lower);
 
             // handle visible fat
             person.process_visible_fat(cnf,m_weights,m_weight_upper, m_weight_lower);
 
-            // cereal food code
+            // cereal food codes
             person.process_cereals(cnf,"a1362");
 
-            // frying fat code
+            // frying fat codes
             person.process_frying_fats(cnf,"a7024");
 
-            // baking fat code
+            // baking fat codes
             person.process_baking_fats(cnf,"a7024");
 
-            // milk portion
+            // milk portions
             person.process_milk(cnf,m_portions,m_portion_upper, m_portion_lower,"a2002");
 
             ++size;
