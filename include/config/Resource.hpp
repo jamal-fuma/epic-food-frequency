@@ -1,83 +1,37 @@
 #ifndef EPIC_CONFIG_RESOURCE_HPP
 #define EPIC_CONFIG_RESOURCE_HPP
 
+#include <iterator>
+#include <fstream>
 #include <string>
-#include "config/Global.hpp"
+#include <stdexcept>
 
 namespace Epic
 {
     namespace Config
     {
-        class Resource
+        namespace Resource
         {
-            std::string m_data;
-            size_t m_size;
-            void *m_ptr;
-            public:
-            Resource() : m_ptr(NULL), m_size(0) {}
-            Resource(const std::string & filename) :m_ptr(NULL),m_size(0)
-            {
-                if(!load(filename))
-                {
-                    throw std::runtime_error("Loading Resource from file failed");
-                }
-            }
-            ~Resource()
-            {
-                clear();
-            }
-
-            static bool
+            static void
             load( const std::string & filename, std::string & dest)
             {
                 try
                 {
-                    Resource rs(filename);
-                    rs.data(dest);
-                    return true;
+                    std::ifstream infile(filename.c_str());
+
+                    std::string data(
+                            (std::istreambuf_iterator<char>(infile)),
+                            std::istreambuf_iterator<char>()
+                            );
+
+                    dest.assign(data);
                 }
                 catch(...)
                 {
-                    return false;
+                    throw std::runtime_error("Loading Resource from file failed");
                 }
             }
-
-
-
-            bool
-            load(const std::string & filename)
-            {
-                char *errmsg=NULL;
-
-                clear();
-                m_ptr = utility_slurp_with_sz(&m_size,filename.c_str());
-                if(!m_ptr)
-                {
-                    m_size = 0;
-                    return false;
-                }
-
-                return true;
-            }
-
-            private:
-
-            void
-            data(std::string & dest)
-            {
-                if(m_ptr)
-                {
-                    dest.assign(static_cast<char *>(m_ptr),m_size);
-                }
-            };
-
-            void
-            clear()
-            {
-                free(m_ptr);
-                m_ptr = NULL;
-            }
-        };
+        }
     } // Epic::Config
 } // Epic
 #endif /*ndef EPIC_CONFIG_RESOURCE_HPP */
