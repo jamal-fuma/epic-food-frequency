@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <string>
 #include <time.h>
 #include <stdexcept>
-#include "pattern/Singleton.hpp"
+#include "Singleton.hpp"
 #include <sstream>
 namespace Epic
 {

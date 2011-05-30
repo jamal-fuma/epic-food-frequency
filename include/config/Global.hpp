@@ -1,10 +1,12 @@
 #ifndef EPIC_CONFIG_GLOBAL_HPP
 #define EPIC_CONFIG_GLOBAL_HPP
 
-#include "pattern/Singleton.hpp"
+#include "Singleton.hpp"
 #include "config/Reader.hpp"
 #include <stdexcept>
 #include <sstream>
+#include <map>
+#include <string>
 
 namespace Epic
 {
