@@ -1,4 +1,13 @@
+
+#include <iterator>
+#include <fstream>
+
 #include "Epic_lib.hpp"
+
+#include <stdlib.h>
+#include <assert.h>
+
+#include "logging/Logger.hpp"
 
 #include "dao/Questionaire.hpp"
 #include "dao/Person.hpp"
@@ -28,15 +37,13 @@ void test_cereals();
 int
 main(int argc, char **argv)
 {
-    std::string conf    = "/home/me/workspace/clone/epic-food-frequency-0.0.1/build/client.conf";
-    std::string schema  = "/home/me/workspace/clone/epic-food-frequency-0.0.1/sql/model.sql" ;
-    std::string dbase   = "/home/me/workspace/clone/epic-food-frequency-0.0.1/build/test/foods.db" ;
+    std::string conf    = "./client.conf";
+    std::string schema  = "./sql/model.sql" ;
+    std::string dbase   = "./foods.db" ;
     
     if(!Epic::Config::load(conf))
     {
-        std::ostringstream ss;
-        ss << "Config file missing " << conf << std::endl;
-        Epic::Logging::error(ss.str());
+        Epic::Logging::Error().log() << "Config file missing " << conf << std::endl;
         return EXIT_FAILURE;
     }
 
@@ -62,6 +69,15 @@ main(int argc, char **argv)
     test_meal_foods();
     test_portions();
 
+    // load file into string
+    std::ifstream infile(schema.c_str());
+    std::string data(
+            (std::istreambuf_iterator<char>(infile)),
+            std::istreambuf_iterator<char>()
+            );
+    
+    std::cout << data << std::endl;
+    
     return EXIT_SUCCESS;
 }
 
