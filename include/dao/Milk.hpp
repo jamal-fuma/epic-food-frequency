@@ -18,7 +18,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef EPIC_DAO_MILK_HPP
 #define EPIC_DAO_MILK_HPP
 
-#include "Epic_lib.hpp"
+#include <vector>
+#include <string>
+#include <iostream>
+
 #include <iomanip>
 
 namespace Epic

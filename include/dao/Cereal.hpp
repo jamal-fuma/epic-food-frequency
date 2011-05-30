@@ -1,7 +1,9 @@
 #ifndef EPIC_DAO_CEREAL_HPP
 #define EPIC_DAO_CEREAL_HPP
 
-#include "Epic_lib.hpp"
+#include <vector>
+#include <string>
+#include <iostream>
 #include <iomanip>
 
 namespace Epic
