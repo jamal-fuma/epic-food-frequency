@@ -69,15 +69,12 @@ libEpic_la_SOURCES = \
                    $(top_srcdir)/include/dao/Questionaire.hpp	\
 		   \
                    $(top_srcdir)/include/import/MilkTypes.hpp  \
-                   $(top_srcdir)/include/import/CerealTypes.hpp  \
-                   $(top_srcdir)/include/import/Weight.hpp  \
                    $(top_srcdir)/include/import/Group.hpp  \
                    $(top_srcdir)/include/import/Parser.hpp  \
                    $(top_srcdir)/include/import/Frequency.hpp  \
                    $(top_srcdir)/include/import/LineInfo.hpp  \
                    $(top_srcdir)/include/import/Nutrient.hpp  \
                    $(top_srcdir)/include/import/Meal.hpp  \
-                   $(top_srcdir)/include/import/Ingredient.hpp  \
                    $(top_srcdir)/include/import/Config.hpp  \
                    $(top_srcdir)/include/import/Context.hpp  \
                    $(top_srcdir)/include/import/Food.hpp  \
@@ -93,8 +90,6 @@ libEpic_la_SOURCES = \
                    $(top_srcdir)/include/dataset/Dataset.hpp  \
                    $(top_srcdir)/include/dataset/Database.hpp  \
                    $(top_srcdir)/include/dataset/Statement.hpp  \
-                   $(top_srcdir)/include/dataset/ResultStatement.hpp  \
-                   $(top_srcdir)/include/dataset/Schema.hpp  \
                    \
                    $(top_srcdir)/include/pattern/TwoKeyMap.hpp  \
                    $(top_srcdir)/include/pattern/Singleton.hpp  \
