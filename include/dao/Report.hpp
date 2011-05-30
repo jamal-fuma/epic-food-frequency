@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef EPIC_DAO_REPORT_HPP
 #define EPIC_DAO_REPORT_HPP
 
-#include "Epic_lib.hpp"
 #include <vector>
 #include "dao/Meal.hpp"
 #include "dao/Food.hpp"
