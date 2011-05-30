@@ -234,36 +234,3 @@ bool Epic::Client::Application::write_report(Epic::DAO::Questionaire & questiona
     }
     return false;
 }
-
-bool Epic::Client::ReportWriter::preload()
-{
-    // find all foods and corresponding nutrients
-    if(!Epic::DAO::Food::find_all(m_foods))
-    {
-        Epic::Logging::error("Unable to load foods from db\n");
-        return false;
-    }
-
-    // find nutrients for foods
-    for( std::vector<Epic::DAO::Food>::const_iterator food_it = m_foods.begin(), food_end = m_foods.end(); food_it != food_end; ++food_it)
-    {
-        std::vector<Epic::DAO::FoodNutrient> nutrients;
-        if(food_it->find_nutrients(nutrients))
-        {
-            m_nutrients_by_food_id[food_it->get_id()] = nutrients;
-        }
-        else
-        {
-           Epic::Logging::Error().log() << "Unable to load nutrients for food_code: " << food_it->get_name() << ": " << food_it->get_description() << "\n";
-        }
-    }
-
-    // find nutrients 
-    if(!Epic::DAO::Nutrient::find_all(m_nutrients))
-    {
-        Epic::Logging::Error().log() << "Unable to load nutrients from db";
-        return false;
-    }
-
-    return true;
-}
