@@ -8,7 +8,8 @@ ACLOCAL_AMFLAGS= -I ${top_srcdir}/m4
 #                 > when configure.in is altered/timestamp changes after running ./autogen.sh
 #
 SUBDIRS = src \
-	  test
+	  test \
+	  import
 
 pkgsysconfdir = $(sysconfdir)/$(PACKAGE)
 pkgsysconf_DATA =
@@ -37,20 +38,6 @@ $(top_builddir)/client.conf: $(top_srcdir)/conf/client.conf.in stamp-h1
 sqldir = ${pkgsysconfdir}/sql
 sql_DATA = \
 	sql/schema.sql
-
-# application data imports
-importdir = ${pkgsysconfdir}/import
-import_DATA = \
-	import/frequencies.csv 		\
-	import/weights.csv		\
-	import/portions.csv 		\
-	import/meals.csv 		\
-	import/foods.csv 		\
-	import/nutrients.csv 		\
-	import/meal_foods.csv 		\
-	import/food_nutrients.csv 	\
-	import/cereals.csv 		\
-	import/milks.csv
 
 # docs and LICENSE
 epic_ffqdocdir  = ${prefix}/doc/epic_ffq
