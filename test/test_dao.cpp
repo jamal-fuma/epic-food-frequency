@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <assert.h>
 
+#include "util.h"
+
 #include "logging/Logger.hpp"
 
 #include "dao/Questionaire.hpp"

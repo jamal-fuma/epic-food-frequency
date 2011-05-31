@@ -18,7 +18,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "FoodDAO.hpp"
 #include "dao/Food.hpp"
 #include "dao/Nutrient.hpp"
-
+#include "libcsv/MatchedValues.hpp"
+#include "libcsv/CSVReader.hpp"
 #include "import/Import.hpp"
 #include "conversion/Conversion.hpp"
 
@@ -286,7 +287,7 @@ bool Epic::DAO::Food::load(const std::string & filename)
                 Epic::Import::str_vector_t expected;
                 expected.push_back("FOOD_CODE");
                 expected.push_back("DESC");
-                if(Epic::Import::DBModel::same_header("foods",expected,v))
+                if(Epic::Import::MatchedValues()("foods",expected,v))
                 {
                     h.swap(v);
                     continue;
@@ -367,7 +368,7 @@ bool Epic::DAO::FoodNutrient::load(const std::string & filename)
                 expected.push_back("FOOD_CODE");
                 expected.push_back("NUTRIENT");
                 expected.push_back("QUANTITY");
-                if(Epic::Import::DBModel::same_header("food_nutrients",expected,v))
+                if(Epic::Import::MatchedValues()("food_nutrients",expected,v))
                 {
                     h.swap(v);
                     continue;

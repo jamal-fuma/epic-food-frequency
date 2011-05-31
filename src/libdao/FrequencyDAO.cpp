@@ -19,6 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "dao/Frequency.hpp"
 #include "conversion/Conversion.hpp"
 #include "import/Import.hpp"
+#include "libcsv/MatchedValues.hpp"
+#include "libcsv/CSVReader.hpp"
 
 // find a frequency given an id
 bool Epic::FrequencyDAO::DataAccess::find_by_id(sqlite3_int64 id, Epic::DAO::Frequency & frequency)
@@ -168,7 +170,7 @@ bool Epic::DAO::Frequency::load(const std::string & filename)
         return false;
     }
 
-    Epic::Import::str_vector_t v,h;
+    std::vector< std::string > v,h;
     Epic::Config::Config cnf;
     Epic::DAO::Frequency frequency;
 
@@ -179,10 +181,10 @@ bool Epic::DAO::Frequency::load(const std::string & filename)
         {
             if(!line)
             {
-                Epic::Import::str_vector_t expected;
+                std::vector< std::string > expected;
                 expected.push_back("CODE");
                 expected.push_back("VALUE");
-                if(Epic::Import::DBModel::same_header("frequencies",expected,v))
+                if(Epic::Import::MatchedValues()("frequencies",expected,v))
                 {
                     h.swap(v);
                     continue;
@@ -190,8 +192,8 @@ bool Epic::DAO::Frequency::load(const std::string & filename)
                 return false;
             }
 
-            Epic::Import::str_vector_t::size_type end = v.size();
-            for(Epic::Import::str_vector_t::size_type pos=0; pos != end; ++pos)
+            std::vector< std::string >::size_type end = v.size();
+            for(std::vector< std::string >::size_type pos=0; pos != end; ++pos)
             {
                 cnf.insert(h[pos],v[pos],true);
             }

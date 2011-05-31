@@ -18,8 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef EPIC_DAO_MEAL_FOOD_DAO_HPP
 #define EPIC_DAO_MEAL_FOOD_DAO_HPP
 
-#include "Epic_lib.hpp"
 #include "dao/MealFood.hpp"
+#include "Statement.hpp"
+
 #include <vector>
 
 namespace Epic

@@ -19,7 +19,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "MealFoodDAO.hpp"
 #include "dao/Meal.hpp"
 #include "dao/MealFood.hpp"
+#include "config/Global.hpp"
 #include "import/Import.hpp"
+#include "libcsv/CSVReader.hpp"
+#include "libcsv/MatchedValues.hpp"
+
 
 // find a meal given an id
 bool Epic::MealDAO::DataAccess::find_by_id(sqlite3_int64 id, Epic::DAO::Meal & meal)
@@ -304,7 +308,7 @@ bool Epic::DAO::Meal::load(const std::string & filename)
                 expected.push_back("LINE NUMBER");
                 expected.push_back("FFQNAME");
                 expected.push_back("SGDESC");
-                 if(Epic::Import::DBModel::same_header("meals",expected,v))
+                 if(Epic::Import::MatchedValues()("meals",expected,v))
                 {
                     h.swap(v);
                     continue;

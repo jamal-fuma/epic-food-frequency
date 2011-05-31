@@ -19,6 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "dao/Weight.hpp"
 #include "conversion/Conversion.hpp"
 #include "import/Import.hpp"
+#include "libcsv/MatchedValues.hpp"
+#include "libcsv/CSVReader.hpp"
 
 // find a weight given an id
 bool Epic::WeightDAO::DataAccess::find_by_id(sqlite3_int64 id, Epic::DAO::Weight & weight)
@@ -183,7 +185,7 @@ bool Epic::DAO::Weight::load(const std::string & filename)
                 Epic::Import::str_vector_t expected;
                 expected.push_back("CODE");
                 expected.push_back("VALUE");
-                if(Epic::Import::DBModel::same_header("weights",expected,v))
+                if(Epic::Import::MatchedValues()("weights",expected,v))
                 {
                     h.swap(v);
                     continue;
