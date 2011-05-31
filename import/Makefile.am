@@ -1,5 +1,4 @@
 # Seed imports for questionare food tables
-importdir = ${pkgsysconfdir}/import
 import_DATA = \
 	frequencies.csv 	\
 	weights.csv		\

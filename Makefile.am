@@ -1,7 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 ## Created by Anjuta
 
-ACLOCAL_AMFLAGS= -I ${top_srcdir}/m4 
 #
 # Was ACLOCAL_AMFLAGS= -I m4 
 # which caused > aclocal: couldn't open directory `m4':
@@ -9,16 +8,20 @@ ACLOCAL_AMFLAGS= -I ${top_srcdir}/m4
 #
 SUBDIRS = src \
 	  test \
+	  sql \
 	  import
 
 pkgsysconfdir = $(sysconfdir)/$(PACKAGE)
-pkgsysconf_DATA =
 
 # shared application configs
 confdir = ${pkgsysconfdir}/conf
 conf_DATA = \
         conf/quantity.conf \
         $(top_builddir)/client.conf
+
+
+importdir = ${pkgsysconfdir}/import
+sqldir = ${pkgsysconfdir}/sql
 
 $(top_builddir)/client.conf: $(top_srcdir)/conf/client.conf.in stamp-h1
 	sed -e 's![@]prefix[@]!$(prefix)!g' \
@@ -34,11 +37,6 @@ $(top_builddir)/client.conf: $(top_srcdir)/conf/client.conf.in stamp-h1
 	    -e 's![@]KRB5_LIBS[@]!$(KRB5_LIBS)!g' \
 	    $(top_srcdir)/conf/client.conf.in > $@
 
-# application data imports
-sqldir = ${pkgsysconfdir}/sql
-sql_DATA = \
-	sql/schema.sql
-
 # docs and LICENSE
 epic_ffqdocdir  = ${prefix}/doc/epic_ffq
 epic_ffqdoc_DATA = \
@@ -52,8 +50,6 @@ epic_ffqdoc_DATA = \
 
 EXTRA_DIST = $(epic_ffqdoc_DATA) \
 	     $(conf_DATA) \
-	     $(sql_DATA) \
-	     $(import_DATA) \
 	     $(top_srcdir)/conf/client.conf.in \
 	     $(top_srcdir)/scripts/build-w32.sh \
 	     $(top_srcdir)/autogen.sh
