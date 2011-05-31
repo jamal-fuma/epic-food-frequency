@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "dao/MealNutrientDAO.hpp"
+#include "MealNutrientDAO.hpp"
 #include "dao/MealNutrient.hpp"
 
 // find agregated meal nutrient data

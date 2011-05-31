@@ -15,8 +15,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "dao/MealDAO.hpp"
-#include "dao/MealFoodDAO.hpp"
+#include "MealDAO.hpp"
+#include "MealFoodDAO.hpp"
 #include "dao/Meal.hpp"
 #include "dao/MealFood.hpp"
 #include "import/Import.hpp"

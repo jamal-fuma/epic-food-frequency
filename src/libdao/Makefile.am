@@ -40,19 +40,19 @@ libEpicDAO_la_SOURCES = \
                    ${top_srcdir}/src/PortionDAO.cpp	\
                    ${top_srcdir}/src/QuestionaireDAO.cpp	\
 		   \
-		   ${top_srcdir}/include/dao/FrequencyDAO.hpp	\
-                   ${top_srcdir}/include/dao/ReportDAO.hpp	\
-                   ${top_srcdir}/include/dao/WeightDAO.hpp	\
-                   ${top_srcdir}/include/dao/MilkDAO.hpp		\
-                   ${top_srcdir}/include/dao/CerealDAO.hpp	\
-                   ${top_srcdir}/include/dao/PortionDAO.hpp	\
-                   ${top_srcdir}/include/dao/FoodDAO.hpp		\
-		   ${top_srcdir}/include/dao/MealNutrientDAO.hpp	\
-                   ${top_srcdir}/include/dao/MealFoodDAO.hpp	\
-                   ${top_srcdir}/include/dao/MealDAO.hpp		\
-                   ${top_srcdir}/include/dao/NutrientDAO.hpp	\
-                   ${top_srcdir}/include/dao/PersonDAO.hpp	\
-                   ${top_srcdir}/include/dao/QuestionaireDAO.hpp	\
+		   FrequencyDAO.hpp	\
+                   ReportDAO.hpp	\
+                   WeightDAO.hpp	\
+                   MilkDAO.hpp		\
+                   CerealDAO.hpp	\
+                   PortionDAO.hpp	\
+                   FoodDAO.hpp		\
+		   MealNutrientDAO.hpp	\
+                   MealFoodDAO.hpp	\
+                   MealDAO.hpp		\
+                   NutrientDAO.hpp	\
+                   PersonDAO.hpp	\
+                   QuestionaireDAO.hpp	\
 		   \
  		   $(top_srcdir)/include/dao/Frequency.hpp	\
  		   $(top_srcdir)/include/dao/Report.hpp		\
