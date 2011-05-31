@@ -1,7 +1,5 @@
 ## Process this file with automake to produce Makefile.in
 
-ACLOCAL_AMFLAGS= -I m4
-
 AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" \
 	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
@@ -9,7 +7,6 @@ AM_CPPFLAGS = \
         -I$(top_srcdir)/include   	\
         -I$(top_srcdir)/include/boost   \
         -I$(top_srcdir)/include/import  \
-        -I$(top_srcdir)/include/pattern \
         -I$(top_srcdir)/include/conversion
 
 noinst_LTLIBRARIES = libEpicHelper.la
@@ -20,7 +17,7 @@ libEpicHelper_la_SOURCES = \
 			   Logger.hpp \
 			   $(top_srcdir)/include/config/Global.hpp  \
 			   $(top_srcdir)/include/config/Reader.hpp  \
-			   $(top_srcdir)/include/pattern/Singleton.hpp
+			   $(top_srcdir)/include/Singleton.hpp
 
 libEpicHelper_la_LDFLAGS = 
  # -lpthread -lrt -lltdl
