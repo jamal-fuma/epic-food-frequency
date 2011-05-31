@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Application.hpp"
 #include "cmdline/Parser.hpp"
 #include "libhelper/Logger.hpp"
+#include "libdao/Database.hpp"
 #include "license/GPL_License.hpp"
 
 static int help();

@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ReportWriter.hpp"
 #include "libhelper/Logger.hpp"
 #include "libcsv/CSVReader.hpp"
+#include "libdao/Database.hpp"
 
 int
 Epic::Client::Application::run()

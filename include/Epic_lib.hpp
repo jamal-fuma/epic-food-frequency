@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "logging/Logger.hpp"
 #include "config/Global.hpp"
-#include "dataset/Statement.hpp"
+#include "Statement.hpp"
 #include "license/License.hpp"
 
 #endif /*ndef EPIC_LIB_HPP */
