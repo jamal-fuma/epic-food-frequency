@@ -1,6 +1,5 @@
-SUBDIRS =  split logger csv config  .
+SUBDIRS =  split logger csv config database .
 check_PROGRAMS = \
-	       test_csv \
 	       test_dao \
 	       test_db \
 	       test_header \
@@ -12,7 +11,7 @@ BUILD_DEFS	=  -ggdb -O0
 LINK_DEPS	= \
 		   $(top_builddir)/src/libdao/libEpicDAO.la 		\
 		   $(top_builddir)/src/libhelper/libEpicHelper.la 	\
-		   $(top_builddir)/src/libhelper/libEpicCSV.la 
+		   $(top_builddir)/src/libcsv/libEpicCSV.la 
 
 AM_CFLAGS 	=  $(BUILD_DEFS)
 
@@ -40,10 +39,6 @@ test_dao_DEPENDENCIES = $(LINK_DEPS)
 test_db_SOURCES = test_db.cpp
 test_db_LDADD = $(LINK_DEPS)
 test_db_DEPENDENCIES = $(LINK_DEPS)
-
-test_csv_SOURCES = test_csv.cpp
-test_csv_LDADD = $(LINK_DEPS)
-test_csv_DEPENDENCIES = $(LINK_DEPS)
 
 test_util_split_SOURCES = 	test_util_split.cpp \
     				$(top_srcdir)/include/config/Resource.hpp \
