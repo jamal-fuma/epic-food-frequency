@@ -1,10 +1,8 @@
-ACLOCAL_AMFLAGS = -I m4
-
+SUBDIRS =  split .
 check_PROGRAMS = \
 	       test_csv \
 	       test_dao \
 	       test_db \
-	       test_split \
 	       test_header \
 	       test_dao_import \
 	       test_import	\
@@ -13,10 +11,11 @@ check_PROGRAMS = \
 BUILD_DEFS	=  -ggdb -O0
 LINK_DEPS	= \
 		   $(top_builddir)/src/libdao/libEpicDAO.la 		\
-		   $(top_builddir)/src/libhelper/libEpicHelper.la 
-
+		   $(top_builddir)/src/libhelper/libEpicHelper.la 	\
+		   $(top_builddir)/src/libhelper/libEpicCSV.la 
 
 AM_CFLAGS 	=  $(BUILD_DEFS)
+
 AM_CPPFLAGS 	=  -I$(top_srcdir)/libutility/src \
         -I$(top_srcdir)/include   \
         -I$(top_srcdir)/src/libdao   	\
@@ -45,10 +44,6 @@ test_db_DEPENDENCIES = $(LINK_DEPS)
 test_csv_SOURCES = test_csv.cpp
 test_csv_LDADD = $(LINK_DEPS)
 test_csv_DEPENDENCIES = $(LINK_DEPS)
-
-test_split_SOURCES = test_split.cpp $(top_srcdir)/include/config/Util.hpp 
-test_split_LDADD = $(LINK_DEPS)
-test_split_DEPENDENCIES = $(LINK_DEPS)
 
 test_util_split_SOURCES = 	test_util_split.cpp \
     				$(top_srcdir)/include/config/Resource.hpp \
