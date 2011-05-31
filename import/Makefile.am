@@ -1,3 +1,6 @@
+pkgsysconfdir 	= $(sysconfdir)/$(PACKAGE)
+importdir 	= ${pkgsysconfdir}/import
+
 # Seed imports for questionare food tables
 import_DATA = \
 	frequencies.csv 	\
@@ -12,3 +15,11 @@ import_DATA = \
 	milks.csv
 
 EXTRA_DIST = $(import_DATA)
+
+
+
+# Remove doc directory on uninstall
+uninstall-local:
+	-rm -r $(importdir)
+
+

@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.61])
-AC_INIT([epic-food-frequency],[0.0.3-a_TC1],[jamal.natour@fumasoftware.com])
+AC_INIT([epic-food-frequency],[0.0.3-a_TC3],[jamal.natour@fumasoftware.com])
 AC_CONFIG_SRCDIR([src/client/Application.cpp])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
@@ -86,19 +86,22 @@ AC_FUNC_MMAP
 AC_FUNC_REALLOC
 
 AC_CONFIG_FILES([Makefile
-                 import/Makefile
-                 sql/Makefile
+                 src/Makefile
+                 src/libhelper/Makefile
+                 src/libcsv/Makefile
+                 src/libdao/Makefile
+                 src/client/Makefile
                  test/Makefile
                  test/split/Makefile
                  test/logger/Makefile
                  test/config/Makefile
                  test/csv/Makefile
                  test/database/Makefile
-                 src/Makefile
-                 src/libdao/Makefile
-                 src/client/Makefile
-                 src/libhelper/Makefile
-                 src/libcsv/Makefile])
+                 sql/Makefile
+                 import/Makefile
+                 doc/Makefile
+                 conf/Makefile
+                 scripts/Makefile])
 AC_OUTPUT
 
 dnl  Compile banner

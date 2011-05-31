@@ -1,5 +1,3 @@
-ACLOCAL_AMFLAGS= -I m4
-
 bin_PROGRAMS = epic_ffq
 
 confdir = $(sysconfdir)/$(PACKAGE)/conf
