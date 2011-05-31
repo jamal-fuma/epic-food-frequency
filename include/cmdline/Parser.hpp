@@ -7,6 +7,7 @@
 #include <sstream>      // ostringstream
 #include <stdio.h>
 #include <iomanip>      //setw and friends
+#include <iostream>
 
 namespace Epic
 {
