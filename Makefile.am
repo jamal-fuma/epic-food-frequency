@@ -7,8 +7,7 @@ ACLOCAL_AMFLAGS= -I ${top_srcdir}/m4
 # which caused > aclocal: couldn't open directory `m4':
 #                 > when configure.in is altered/timestamp changes after running ./autogen.sh
 #
-SUBDIRS = libutility \
-	  src \
+SUBDIRS = src \
 	  test
 
 pkgsysconfdir = $(sysconfdir)/$(PACKAGE)
