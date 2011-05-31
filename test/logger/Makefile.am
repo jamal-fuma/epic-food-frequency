@@ -2,7 +2,7 @@ check_PROGRAMS = \
 	       test_logger
 
 BUILD_DEFS	=  -ggdb -O0
-LINK_DEPS	= 
+LINK_DEPS	= $(top_builddir)/src/libhelper/libEpicHelper.la 
 
 AM_CFLAGS 	=  $(BUILD_DEFS)
 AM_CPPFLAGS 	= \

@@ -1,4 +1,4 @@
-:x
+SUBDIRS =  split logger csv config  .
 check_PROGRAMS = \
 	       test_csv \
 	       test_dao \
