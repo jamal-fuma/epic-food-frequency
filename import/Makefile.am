@@ -1,8 +1,7 @@
-
 # Seed imports for questionare food tables
 importdir = ${pkgsysconfdir}/import
 import_DATA = \
-	frequencies.csv 		\
+	frequencies.csv 	\
 	weights.csv		\
 	portions.csv 		\
 	meals.csv 		\
@@ -14,4 +13,3 @@ import_DATA = \
 	milks.csv
 
 EXTRA_DIST = $(import_DATA)
-	

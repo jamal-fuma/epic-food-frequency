@@ -9,11 +9,9 @@ AM_CPPFLAGS = \
         -I$(top_srcdir)/include   	\
         -I$(top_srcdir)/libutility/src   \
         -I$(top_srcdir)/src/libdao   	\
-        -I$(top_srcdir)/src  		\
         -I$(top_srcdir)/include/boost   \
         -I$(top_srcdir)/include/dataset \
-        -I$(top_srcdir)/src/libdao   	\
-        -I$(top_srcdir)/src  		\
+        -I$(top_srcdir)/src		\
         -I$(top_srcdir)/include/boost   \
         -I$(top_srcdir)/include/import  \
         -I$(top_srcdir)/include/pattern \
@@ -24,7 +22,6 @@ libEpicDAO_la_SOURCES = \
  		   Database.cpp      	\
  		   Database.hpp  	\
                    Statement.hpp  	\
-                   Database.cpp      	\
 		   sqlite3.h		\
 		   sqlite3.c		\
 		   util.h		\
@@ -77,12 +74,10 @@ libEpicDAO_la_SOURCES = \
                    \
                    $(top_srcdir)/include/Singleton.hpp  \
                    \
-		   $(top_srcdir)/src/logger.cpp
-                   \
-		   $(top_srcdir)/src/libhelper/Logger.hpp
+		   $(top_srcdir)/src/libhelper/Logger.cpp $(top_srcdir)/src/libhelper/Logger.hpp
 
-libEpicDAO_la_LDFLAGS = 
+libEpicDAO_la_LDFLAGS =
  # -lpthread -lrt -lltdl
 
-libEpicDAO_la_LIBADD = 
+libEpicDAO_la_LIBADD =
 #$(top_builddir)/libutility/src/libUtility.la
