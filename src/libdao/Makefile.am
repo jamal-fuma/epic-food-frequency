@@ -71,6 +71,7 @@ libEpicDAO_la_SOURCES = \
                    $(top_srcdir)/include/dao/Questionaire.hpp	\
                    \
 		   $(top_srcdir)/include/config/Util.hpp  \
+		   $(top_srcdir)/include/conversion/Conversion.hpp	\
                    \
                    $(top_srcdir)/include/Singleton.hpp  \
                    \
