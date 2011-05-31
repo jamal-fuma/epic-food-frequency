@@ -1,4 +1,4 @@
-SUBDIRS =  split .
+:x
 check_PROGRAMS = \
 	       test_csv \
 	       test_dao \
