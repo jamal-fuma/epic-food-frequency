@@ -87,7 +87,6 @@ AC_FUNC_REALLOC
 
 AC_CONFIG_FILES([Makefile
                  test/Makefile
-                 src/libdao/Makefile
                  src/Makefile
                  src/libdao/Makefile
                  src/client/Makefile
