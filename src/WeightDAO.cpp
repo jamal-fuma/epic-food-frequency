@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "dao/WeightDAO.hpp"
+#include "WeightDAO.hpp"
 #include "dao/Weight.hpp"
 #include "conversion/Conversion.hpp"
 #include "import/Import.hpp"

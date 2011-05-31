@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "dao/FrequencyDAO.hpp"
+#include "FrequencyDAO.hpp"
 #include "dao/Frequency.hpp"
 #include "conversion/Conversion.hpp"
 #include "import/Import.hpp"
