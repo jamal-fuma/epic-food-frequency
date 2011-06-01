@@ -15,7 +15,7 @@ main(int argc, char **argv)
             && "Config loading should not fail");
     
     // connect to database which should seed the tables
-    assert(Epic::Database::connect();
+    assert(Epic::Database::connect()
             && "Opening the DB should work, right?");
 
     return EXIT_SUCCESS;
