@@ -7,7 +7,7 @@
 int
 main(int argc, char **argv)
 {
-    std::string conf    =  DDEFAULT_CONFIG_FILE;
+    std::string conf    =  DEFAULT_CONFIG_FILE;
 
     assert(Epic::Config::load(conf) && "Config loading should not fail");
 

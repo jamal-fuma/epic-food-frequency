@@ -6,7 +6,7 @@ int
 main(int argc, char **argv)
 {
 
-    std::string conf    =  DDEFAULT_CONFIG_FILE;
+    std::string conf    =  DEFAULT_CONFIG_FILE;
 
     if(!Epic::Config::load(conf))
     {
