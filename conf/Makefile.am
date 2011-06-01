@@ -10,7 +10,7 @@ conf_DATA = \
         client.conf.in \
         $(top_builddir)/client.conf
 
-$(top_builddir)/client.conf: client.conf.in stamp-h1
+$(top_builddir)/client.conf: client.conf.in $(top_builddir)/stamp-h1
 	sed -e 's![@]confdir[@]!$(confdir)!g' \
 	    -e 's![@]sqldir[@]!$(sqldir)!g' \
 	    -e 's![@]importdir[@]!$(importdir)!g' \
