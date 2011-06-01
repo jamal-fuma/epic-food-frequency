@@ -18,7 +18,7 @@ test_csv_import_LDADD 		= $(LINK_DEPS)
 test_csv_import_DEPENDENCIES 	= $(LINK_DEPS)
 test_csv_import_SOURCES = \
 	      test_csv_import.cpp \
-	      $(top_srcdir)/include/Global.hpp
+	      $(top_srcdir)/include/config/Global.hpp
 	      $(top_srcdir)/src/libcsv/CSVReader.hpp
 
 reallyclean: maintainer-clean
