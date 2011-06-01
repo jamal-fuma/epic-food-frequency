@@ -80,5 +80,6 @@ libEpicDAO_la_SOURCES = \
 libEpicDAO_la_LDFLAGS =
  # -lpthread -lrt -lltdl
 
-libEpicDAO_la_LIBADD =
+libEpicDAO_la_LIBADD = \
+	$(top_builddir)/src/libcsv/libEpicCSV.la
 #$(top_builddir)/libutility/src/libUtility.la
