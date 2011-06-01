@@ -1,8 +1,4 @@
-#include <iterator>
-#include <fstream>
-
-#include "Epic_lib.hpp"
-
+#include "config/Global.hpp"
 #include <stdlib.h>
 #include <assert.h>
 
@@ -38,24 +34,13 @@ void test_cereals();
 int
 main(int argc, char **argv)
 {
-    std::string conf    = "./client.conf";
-    std::string schema  = "./sql/model.sql" ;
-    std::string dbase   = "./foods.db" ;
-    
+    std::string conf    =  DEFAULT_CONFIG_FILE;
+
     if(!Epic::Config::load(conf))
     {
-        Epic::Logging::Error().log() << "Config file missing " << conf << std::endl;
         return EXIT_FAILURE;
     }
-
-    // overwrite the schema variable listed in config file with the new version
-    if(!Epic::Config::insert("schema",schema,true))
-        return EXIT_FAILURE;
-
-    // overwrite the database variable listed in config file with the new version
-    if(!Epic::Config::insert("database",dbase,true))
-        return EXIT_FAILURE;
-
+    
     Epic::Database::connect();
 
     test_questionaire();
@@ -70,15 +55,6 @@ main(int argc, char **argv)
     test_meal_foods();
     test_portions();
 
-    // load file into string
-    std::ifstream infile(schema.c_str());
-    std::string data(
-            (std::istreambuf_iterator<char>(infile)),
-            std::istreambuf_iterator<char>()
-            );
-    
-    std::cout << data << std::endl;
-    
     return EXIT_SUCCESS;
 }
 
