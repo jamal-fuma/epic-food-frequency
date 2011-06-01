@@ -13,7 +13,7 @@ main(int argc, char **argv)
     Epic::Import::CSVReader rdr;
 
     // load same config we ship to users
-    std::string conf    =  DDEFAULT_CONFIG_FILE;
+    std::string conf    =  DEFAULT_CONFIG_FILE;
     assert(Epic::Config::load(conf) 
             && "Config loading should not fail");
  

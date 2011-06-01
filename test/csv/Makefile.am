@@ -1,16 +1,17 @@
+# surely there is a better way then repeating declarations
+confdir = $(sysconfdir)/$(PACKAGE)/conf
 
 check_PROGRAMS = \
 	       test_csv_import
 
-BUILD_DEFS	=  -ggdb -O0
+AM_CPPFLAGS =  -ggdb -O0 \
+        -I$(top_srcdir)/include    \
+        -I$(top_srcdir)/src	   \
+	-DDEFAULT_CONFIG_FILE="\"${confdir}/client.conf\""
+
 LINK_DEPS	= \
 		  $(top_builddir)/src/libhelper/libEpicHelper.la \
 		  $(top_builddir)/src/libcsv/libEpicCSV.la 
-
-AM_CFLAGS 	=  $(BUILD_DEFS)
-AM_CPPFLAGS 	= \
-        -I$(top_srcdir)/include   \
-	-DDEFAULT_CONFIG_FILE="\"${confdir}/client.conf\""
 
 AM_LDFLAGS	=  $(LINK_DEPS)
 
