@@ -10,6 +10,7 @@ LINK_DEPS	= \
 AM_CFLAGS 	=  $(BUILD_DEFS)
 AM_CPPFLAGS 	= \
         -I$(top_srcdir)/include   \
+        -I$(top_srcdir)/src   \
 	-DDEFAULT_CONFIG_FILE="\"${confdir}/client.conf\""
 
 AM_LDFLAGS	=  $(LINK_DEPS)
@@ -18,7 +19,7 @@ test_database_import_LDADD 		= $(LINK_DEPS)
 test_database_import_DEPENDENCIES 	= $(LINK_DEPS)
 test_database_import_SOURCES = \
 	      test_database_import.cpp \
-	      $(top_srcdir)/include/Global.hpp
+	      $(top_srcdir)/include/config/Global.hpp
 	      $(top_srcdir)/src/libdao/Database.hpp
 
 reallyclean: maintainer-clean

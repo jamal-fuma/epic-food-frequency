@@ -16,7 +16,7 @@ test_config_loading_LDADD 		= $(LINK_DEPS)
 test_config_loading_DEPENDENCIES 	= $(LINK_DEPS)
 test_config_loading_SOURCES = \
 	      test_config_loading.cpp \
-	      $(top_srcdir)/include/Global.hpp
+	      $(top_srcdir)/include/config/Global.hpp
 
 test_config_finding_LDADD 		= $(LINK_DEPS)
 test_config_finding_DEPENDENCIES 	= $(LINK_DEPS)
