@@ -32,6 +32,8 @@ test_person_DEPENDENCIES  = $(LINK_DEPS)
 test_person_SOURCES = \
 	${top_srcdir}/src/libdao/Database.hpp \
 	${top_srcdir}/include/config/Global.hpp \
+	${top_srcdir}/include/dao/Person.hpp \
+	${top_srcdir}/include/dao/Weight.hpp \
 	test_person.cpp
 
 test_frequencies_LDADD = $(LINK_DEPS)

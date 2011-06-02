@@ -3,9 +3,9 @@
 #include <assert.h>
 
 #include "libdao/Database.hpp"
-#include "dao/Food.hpp"
-#include "dao/Nutrient.hpp"
 #include "config/Global.hpp"
+#include "dao/Person.hpp"
+#include "dao/Weight.hpp"
 
 void test_creating_a_person_with_reference_foo();
 void test_creating_a_weight();
