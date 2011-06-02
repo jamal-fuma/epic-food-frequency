@@ -2,6 +2,7 @@
 confdir = $(sysconfdir)/$(PACKAGE)/conf
 
 check_PROGRAMS = \
+	       test_csv_pair \
 	       test_csv_import
 
 AM_CPPFLAGS =  -ggdb -O0 \
@@ -21,6 +22,12 @@ test_csv_import_SOURCES = \
 	      test_csv_import.cpp \
 	      $(top_srcdir)/include/config/Global.hpp
 	      $(top_srcdir)/src/libcsv/CSVReader.hpp
+
+test_csv_pair_LDADD 		= $(LINK_DEPS)
+test_csv_pair_DEPENDENCIES 	= $(LINK_DEPS)
+test_csv_pair_SOURCES = \
+	      test_csv_pair.cpp \
+	      $(top_srcdir)/src/libcsv/MatchedValues.hpp
 
 reallyclean: maintainer-clean
 	rm -f Makefile
