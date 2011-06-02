@@ -9,7 +9,7 @@
 
 #include "util.h"
 
-#include "logging/Logger.hpp"
+#include "libhelper/Logger.hpp"
 
 #include "dao/Questionaire.hpp"
 #include "dao/Person.hpp"
