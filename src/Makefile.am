@@ -101,7 +101,6 @@ libEpic_la_SOURCES = \
                    \
                    $(top_srcdir)/include/logging/Logger.hpp  \
                    \
-                   $(top_srcdir)/include/config/Quantity.hpp  \
                    $(top_srcdir)/include/config/Global.hpp  \
                    $(top_srcdir)/include/config/Reader.hpp  \
                    $(top_srcdir)/include/config/Resource.hpp  \
