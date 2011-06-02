@@ -121,6 +121,6 @@ test_retrieving_nutrients_65_and_77_from_food_called_apple()
     assert(food.find_nutrients(nutrients) && "Finding previously created Nutrients with codes [65,77] is expected to work");
     assert(!nutrients.empty() && "Expected [2] elements but instead was empty");
     assert( (nutrients.size() == 2) && "Expected exactly [2] elements");
-    assert( nutrients.begin()->get_code() == 65) && "Expected nutrient 65 to be first entry");
-    assert( nutrients.rbegin()->get_code() == 77) && "Expected nutrient 77 to be last entry");
+    assert( nutrients.begin()->get_nutrient_code() == 65 && "Expected nutrient 65 to be first entry");
+    assert( nutrients.rbegin()->get_nutrient_code() == 77 && "Expected nutrient 77 to be last entry");
 }

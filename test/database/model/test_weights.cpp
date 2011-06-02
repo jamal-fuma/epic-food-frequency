@@ -2,6 +2,7 @@
 #include <assert.h>
 
 #include "libdao/Database.hpp"
+#include "libdao/util.h"
 #include "config/Global.hpp"
 #include "dao/Weight.hpp"
 
@@ -29,7 +30,8 @@ void test_creating_weights()
     Epic::DAO::Weight weight ;
     double d_list[] = { 1.00, 0.50, 0.0, 0.0, 0.0 };
     
-    for(double *p = &d_list[0], double *end_p = (p+(sizeof(d_list)/sizeof(*d_list))); p != end_p; ++p)
+    double *end_p = ( &d_list[0] + ( sizeof(d_list) / sizeof(*d_list) ) ); 
+    for(double *p = &d_list[0]; p != end_p; ++p)
     {
         weight.set_amount(*p);
         assert(weight.save() && "Creating Weights should not fail");

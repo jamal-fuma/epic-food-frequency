@@ -33,6 +33,6 @@ test_creating_a_questionaire_called_foo()
 void
 test_finding_a_previously_created_questionaire_called_foo()
 {
-    Epic::DAO::Questionaire questionaire = Epic::DAO::Questionaire.find_by_filename("foo");
+    Epic::DAO::Questionaire questionaire = Epic::DAO::Questionaire::find_by_filename("foo");
     assert(questionaire.save() && "Finding previously created Questionaire called foo should not fail");
 }

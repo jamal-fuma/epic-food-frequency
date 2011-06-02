@@ -30,7 +30,8 @@ void test_creating_frequencies()
     Epic::DAO::Frequency frequency ;
     double d_list[] = { 0.0, 0.07, 0.14, 0.43, 0.79, 1.00, 2.50, 4.50, 6.0 };
     
-    for(double *p = &d_list[0], double *end_p = (p+(sizeof(d_list)/sizeof(*d_list))); p != end_p; ++p)
+    double *end_p = ( &d_list[0] + ( sizeof(d_list) / sizeof(*d_list) ) ); 
+    for(double *p = &d_list[0]; p != end_p; ++p)
     {
         frequency.set_amount(*p);
         assert(frequency.save() && "Creating Frequencies should not fail");

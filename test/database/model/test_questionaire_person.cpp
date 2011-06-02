@@ -42,7 +42,7 @@ test_creating_a_questionaire_called_foo()
 void
 test_finding_a_previously_created_questionaire_called_foo()
 {
-    Epic::DAO::Questionaire questionaire = Epic::DAO::Questionaire.find_by_filename("foo");
+    Epic::DAO::Questionaire questionaire = Epic::DAO::Questionaire::find_by_filename("foo");
     assert(questionaire.valid() && "Finding previously created Questionaire called foo should be valid");
 }
 
@@ -60,7 +60,7 @@ test_attaching_person_to_questionaire()
     Epic::DAO::Person person  = Epic::DAO::Person::find_by_reference("bar");
     assert(person.valid() && "previously created Person with reference foo is expected to be valid");
 
-    Epic::DAO::Questionaire questionaire = Epic::DAO::Questionaire.find_by_filename("foo");
+    Epic::DAO::Questionaire questionaire = Epic::DAO::Questionaire::find_by_filename("foo");
     assert(questionaire.valid() && "Finding previously created Questionaire called foo should be valid");
     
     assert( questionaire.attach(person) &&  "Attaching Person to the Questionaire should not fail");
@@ -72,7 +72,7 @@ test_retrieving_person_called_bar_from_questionaire_with_ref_foo()
     Epic::DAO::Person person  = Epic::DAO::Person::find_by_reference("bar");
     assert(person.valid() && "previously created Person with reference foo is expected to be valid");
 
-    Epic::DAO::Questionaire questionaire = Epic::DAO::Questionaire.find_by_filename("foo");
+    Epic::DAO::Questionaire questionaire = Epic::DAO::Questionaire::find_by_filename("foo");
     assert(questionaire.valid() && "Finding previously created Questionaire called foo should be valid");
 
     std::vector<Epic::DAO::Person> people;
@@ -81,6 +81,6 @@ test_retrieving_person_called_bar_from_questionaire_with_ref_foo()
 
     assert(!people.empty() && "Expected [1] elements but instead was empty");
     assert( (people.size() == 1) && "Expected exactly [1] elements");
-    assert( people.begin()->get_reference() == "bar") && "Expected person bar to be first entry");
-    assert( people.begin()->get_reference() == "bar") && "Expected person bar to be last entry");
+    assert( people.begin()->get_reference() == "bar" && "Expected person bar to be first entry");
+    assert( people.begin()->get_reference() == "bar" && "Expected person bar to be last entry");
 }

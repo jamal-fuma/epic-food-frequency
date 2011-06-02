@@ -1,6 +1,8 @@
-#include "config/Global.hpp"
 #include <stdlib.h>
 #include <assert.h>
+
+#include "libdao/Database.hpp"
+#include "config/Global.hpp"
 
 #include "dao/Food.hpp"
 
