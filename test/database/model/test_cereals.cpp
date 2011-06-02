@@ -2,33 +2,11 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#include "util.h"
-
-#include "libhelper/Logger.hpp"
-
-#include "dao/Questionaire.hpp"
 #include "dao/Person.hpp"
-#include "dao/Nutrient.hpp"
-#include "dao/Meal.hpp"
 #include "dao/Food.hpp"
-#include "dao/Weight.hpp"
-#include "dao/Frequency.hpp"
-#include "dao/MealFood.hpp"
-#include "dao/Portion.hpp"
 #include "dao/Cereal.hpp"
 
 
-void test_person();
-void test_weights();
-void test_nutrient();
-void test_questionaire();
-void test_meal();
-void test_food();
-void test_frequencies();
-void test_questionaire_person();
-void test_food_nutrient();
-void test_meal_foods();
-void test_portions();
 void test_cereals();
 
 int
@@ -36,25 +14,45 @@ main(int argc, char **argv)
 {
     std::string conf    =  DEFAULT_CONFIG_FILE;
 
-    if(!Epic::Config::load(conf))
-    {
-        return EXIT_FAILURE;
-    }
-    
+    assert(Epic::Config::load(conf) && "Config loading should not fail");
+
     Epic::Database::connect();
-
-    test_questionaire();
-    test_nutrient();
-    test_meal();
-    test_food();
-    test_weights();
-    test_person();
-    test_frequencies();
-    test_questionaire_person();
-    test_food_nutrient();
-    test_meal_foods();
-    test_portions();
-
+    test_cereals();
     return EXIT_SUCCESS;
 }
 
+
+void test_cereals()
+{
+    Epic::DAO::Cereal cereal;
+    Epic::DAO::Person person;
+    Epic::DAO::Food food ;
+    
+    person.set_reference("Fred");
+    person.save();
+    
+    sqlite3_int64 food_ids[] = {0,0};
+
+    food.set_name("11136");
+    food.set_description("Frosties");
+    food.save();
+    food_ids[0] = food.get_id();
+    
+    food.set_name("11137");
+    food.set_description("Museli");
+    food.save();
+    food_ids[1] = food.get_id();
+
+
+    cereal.set_food_id(food_ids[0]);
+    cereal.set_weight_id(1);
+    cereal.save();
+
+    person.attach_cereal(cereal);
+
+    cereal.set_food_id(food_ids[1]);
+    cereal.set_weight_id(2);
+    cereal.save();
+
+    person.attach_cereal(cereal);
+}

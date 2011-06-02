@@ -1,60 +1,126 @@
-#include "config/Global.hpp"
 #include <stdlib.h>
 #include <assert.h>
 
-#include "util.h"
-
-#include "libhelper/Logger.hpp"
-
-#include "dao/Questionaire.hpp"
-#include "dao/Person.hpp"
-#include "dao/Nutrient.hpp"
-#include "dao/Meal.hpp"
+#include "libdao/Database.hpp"
 #include "dao/Food.hpp"
-#include "dao/Weight.hpp"
-#include "dao/Frequency.hpp"
-#include "dao/MealFood.hpp"
-#include "dao/Portion.hpp"
-#include "dao/Cereal.hpp"
+#include "dao/Nutrient.hpp"
+#include "config/Global.hpp"
 
+void test_creating_a_food_called_apple();
 
-void test_person();
-void test_weights();
-void test_nutrient();
-void test_questionaire();
-void test_meal();
-void test_food();
-void test_frequencies();
-void test_questionaire_person();
-void test_food_nutrient();
-void test_meal_foods();
-void test_portions();
-void test_cereals();
+void test_creating_a_nutrient_with_code_65();
+void test_finding_a_previously_created_nutrient_with_code_65();
+void test_attaching_nutrient_65_to_food_called_apple();
+
+void test_creating_a_nutrient_with_code_77();
+void test_finding_a_previously_created_nutrient_with_code_77();
+void test_attaching_nutrient_77_to_food_called_apple();
+
+void test_retrieving_nutrients_65_and_77_from_food_called_apple();
 
 int
 main(int argc, char **argv)
 {
     std::string conf    =  DEFAULT_CONFIG_FILE;
 
-    if(!Epic::Config::load(conf))
-    {
-        return EXIT_FAILURE;
-    }
-    
+    assert(Epic::Config::load(conf) && "Config loading should not fail");
+
     Epic::Database::connect();
 
-    test_questionaire();
-    test_nutrient();
-    test_meal();
-    test_food();
-    test_weights();
-    test_person();
-    test_frequencies();
-    test_questionaire_person();
-    test_food_nutrient();
-    test_meal_foods();
-    test_portions();
+
+    test_creating_a_nutrient_with_code_65();
+    test_finding_a_previously_created_nutrient_with_code_65();
+
+    test_creating_a_nutrient_with_code_77();
+    test_finding_a_previously_created_nutrient_with_code_77();
+    
+    test_creating_a_food_called_apple();
+    test_attaching_nutrient_65_to_food_called_apple();
+    test_attaching_nutrient_77_to_food_called_apple();
+    test_retrieving_nutrients_65_and_77_from_food_called_apple();
 
     return EXIT_SUCCESS;
 }
 
+void
+test_creating_a_nutrient_with_code_65()
+{
+    Epic::DAO::Nutrient nutrient;
+    nutrient.set_code(65);
+    nutrient.set_description("foo bar");
+    nutrient.set_units("grams");
+    nutrient.save();
+    assert(nutrient.save() && "Saving should not fail");
+}
+
+void
+test_finding_a_previously_created_nutrient_with_code_65()
+{
+    Epic::DAO::Nutrient nutrient = Epic::DAO::Nutrient::find_by_code(65);
+    assert(nutrient.valid() && "previously created Nutrient with code 65 is expected to be valid");
+}
+
+void
+test_creating_a_nutrient_with_code_77()
+{
+    Epic::DAO::Nutrient nutrient;
+    nutrient.set_code(77);
+    nutrient.set_description("foo bar");
+    nutrient.set_units("grams");
+    nutrient.save();
+    assert(nutrient.save() && "Saving should not fail");
+}
+
+void
+test_finding_a_previously_created_nutrient_with_code_77()
+{
+    Epic::DAO::Nutrient nutrient = Epic::DAO::Nutrient::find_by_code(77);
+    assert(nutrient.valid() && "previously created Nutrient with code 77 is expected to be valid");
+}
+
+void
+test_creating_a_food_called_apple()
+{
+    Epic::DAO::Food food ;
+    food.set_name("Apple");
+    food.set_description("apple treat");
+    assert(food.save() && "Saving should not fail");
+}
+
+void
+test_attaching_nutrient_65_to_food_called_apple()
+{
+    Epic::DAO::Food food = Epic::DAO::Food::find_by_name("apple");
+    assert(food.valid() && "Food called apple is expected to be valid");
+
+    Epic::DAO::Nutrient nutrient = Epic::DAO::Nutrient::find_by_code(65);
+    assert(nutrient.valid() && "previously created Nutrient with code 65 is expected to be valid");
+    
+    assert( food.attach(nutrient,10.5) && "Attaching a Nutrient (code 65) to a Food (named apple) should not fail");
+}
+
+void
+test_attaching_nutrient_77_to_food_called_apple()
+{
+    Epic::DAO::Food food = Epic::DAO::Food::find_by_name("apple");
+    assert(food.valid() && "Food called apple is expected to be valid");
+
+    Epic::DAO::Nutrient nutrient = Epic::DAO::Nutrient::find_by_code(77);
+    assert(nutrient.valid() && "previously created Nutrient with code 77 is expected to be valid");
+    
+    assert( food.attach(nutrient,55.5) && "Attaching a Nutrient (code 77) to a Food (named apple) should not fail");
+}
+
+void
+test_retrieving_nutrients_65_and_77_from_food_called_apple()
+{
+    Epic::DAO::Food food = Epic::DAO::Food::find_by_name("apple");
+    assert(food.valid() && "Food called apple is expected to be valid");
+    
+    std::vector<Epic::DAO::FoodNutrient> nutrients;
+    assert(food.find_nutrients(nutrients) && "Finding previously created Nutrients with codes [65,77] is expected to work");
+    assert(!nutrients.empty() && "Expected [2] elements but instead was empty");
+    assert( (nutrients.size() == 2) && "Expected exactly [2] elements");
+    assert( nutrients.begin()->get_code() == 65) && "Expected nutrient 65 to be first entry");
+    assert( nutrients.rbegin()->get_code() == 77) && "Expected nutrient 77 to be last entry");
+}

@@ -1,60 +1,86 @@
-#include "config/Global.hpp"
 #include <stdlib.h>
 #include <assert.h>
 
-#include "util.h"
-
-#include "libhelper/Logger.hpp"
+#include "libdao/Database.hpp"
+#include "config/Global.hpp"
 
 #include "dao/Questionaire.hpp"
 #include "dao/Person.hpp"
-#include "dao/Nutrient.hpp"
-#include "dao/Meal.hpp"
-#include "dao/Food.hpp"
-#include "dao/Weight.hpp"
-#include "dao/Frequency.hpp"
-#include "dao/MealFood.hpp"
-#include "dao/Portion.hpp"
-#include "dao/Cereal.hpp"
 
-
-void test_person();
-void test_weights();
-void test_nutrient();
-void test_questionaire();
-void test_meal();
-void test_food();
-void test_frequencies();
-void test_questionaire_person();
-void test_food_nutrient();
-void test_meal_foods();
-void test_portions();
-void test_cereals();
+void test_creating_a_questionaire_called_foo();
+void test_finding_a_previously_created_questionaire_called_foo();
+void test_creating_a_person_with_reference_bar();
+void test_attaching_person_to_questionaire();
+void test_retrieving_person_called_bar_from_questionaire_with_ref_foo();
 
 int
 main(int argc, char **argv)
 {
     std::string conf    =  DEFAULT_CONFIG_FILE;
 
-    if(!Epic::Config::load(conf))
-    {
-        return EXIT_FAILURE;
-    }
-    
+    assert(Epic::Config::load(conf) && "Config loading should not fail");
+
     Epic::Database::connect();
 
-    test_questionaire();
-    test_nutrient();
-    test_meal();
-    test_food();
-    test_weights();
-    test_person();
-    test_frequencies();
-    test_questionaire_person();
-    test_food_nutrient();
-    test_meal_foods();
-    test_portions();
-
+    test_creating_a_questionaire_called_foo();
+    test_finding_a_previously_created_questionaire_called_foo();
+    test_creating_a_person_with_reference_bar();
+    test_attaching_person_to_questionaire();
+    test_retrieving_person_called_bar_from_questionaire_with_ref_foo();
+    
     return EXIT_SUCCESS;
 }
 
+void
+test_creating_a_questionaire_called_foo()
+{
+    Epic::DAO::Questionaire questionaire ;
+    questionaire.set_filename("foo");
+    assert(questionaire.save() && "Saving Questionaire should not fail");
+}
+
+void
+test_finding_a_previously_created_questionaire_called_foo()
+{
+    Epic::DAO::Questionaire questionaire = Epic::DAO::Questionaire.find_by_filename("foo");
+    assert(questionaire.valid() && "Finding previously created Questionaire called foo should be valid");
+}
+
+void
+test_creating_a_person_with_reference_bar()
+{
+    Epic::DAO::Person person ;
+    person.set_reference("bar");
+    assert(person.save() && "Saving a Person should not fail");
+}
+
+void
+test_attaching_person_to_questionaire()
+{
+    Epic::DAO::Person person  = Epic::DAO::Person::find_by_reference("bar");
+    assert(person.valid() && "previously created Person with reference foo is expected to be valid");
+
+    Epic::DAO::Questionaire questionaire = Epic::DAO::Questionaire.find_by_filename("foo");
+    assert(questionaire.valid() && "Finding previously created Questionaire called foo should be valid");
+    
+    assert( questionaire.attach(person) &&  "Attaching Person to the Questionaire should not fail");
+}
+
+void
+test_retrieving_person_called_bar_from_questionaire_with_ref_foo()
+{
+    Epic::DAO::Person person  = Epic::DAO::Person::find_by_reference("bar");
+    assert(person.valid() && "previously created Person with reference foo is expected to be valid");
+
+    Epic::DAO::Questionaire questionaire = Epic::DAO::Questionaire.find_by_filename("foo");
+    assert(questionaire.valid() && "Finding previously created Questionaire called foo should be valid");
+
+    std::vector<Epic::DAO::Person> people;
+    questionaire.find_people(people);
+    assert(questionaire.find_people(people) && "Finding people on the questionaire is expected to work");
+
+    assert(!people.empty() && "Expected [1] elements but instead was empty");
+    assert( (people.size() == 1) && "Expected exactly [1] elements");
+    assert( people.begin()->get_reference() == "bar") && "Expected person bar to be first entry");
+    assert( people.begin()->get_reference() == "bar") && "Expected person bar to be last entry");
+}

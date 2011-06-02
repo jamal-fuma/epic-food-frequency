@@ -1,4 +1,6 @@
 
+SUBDIRS= . model
+
 check_PROGRAMS = \
 	       test_database_import
 

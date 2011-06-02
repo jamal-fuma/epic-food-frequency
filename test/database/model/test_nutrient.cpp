@@ -1,60 +1,42 @@
-#include "config/Global.hpp"
 #include <stdlib.h>
 #include <assert.h>
 
-#include "util.h"
-
-#include "libhelper/Logger.hpp"
-
-#include "dao/Questionaire.hpp"
-#include "dao/Person.hpp"
+#include "libdao/Database.hpp"
 #include "dao/Nutrient.hpp"
-#include "dao/Meal.hpp"
-#include "dao/Food.hpp"
-#include "dao/Weight.hpp"
-#include "dao/Frequency.hpp"
-#include "dao/MealFood.hpp"
-#include "dao/Portion.hpp"
-#include "dao/Cereal.hpp"
+#include "config/Global.hpp"
 
-
-void test_person();
-void test_weights();
-void test_nutrient();
-void test_questionaire();
-void test_meal();
-void test_food();
-void test_frequencies();
-void test_questionaire_person();
-void test_food_nutrient();
-void test_meal_foods();
-void test_portions();
-void test_cereals();
+void test_creating_a_nutrient_with_code_65();
+void test_finding_a_previously_created_nutrient_with_code_65();
 
 int
 main(int argc, char **argv)
 {
     std::string conf    =  DEFAULT_CONFIG_FILE;
 
-    if(!Epic::Config::load(conf))
-    {
-        return EXIT_FAILURE;
-    }
-    
+    assert(Epic::Config::load(conf) && "Config loading should not fail");
+
     Epic::Database::connect();
 
-    test_questionaire();
-    test_nutrient();
-    test_meal();
-    test_food();
-    test_weights();
-    test_person();
-    test_frequencies();
-    test_questionaire_person();
-    test_food_nutrient();
-    test_meal_foods();
-    test_portions();
+    test_creating_a_nutrient_with_code_65();
+    test_finding_a_previously_created_nutrient_with_code_65();
 
     return EXIT_SUCCESS;
 }
 
+void
+test_creating_a_nutrient_with_code_65()
+{
+    Epic::DAO::Nutrient nutrient;
+    nutrient.set_code(65);
+    nutrient.set_description("foo bar");
+    nutrient.set_units("grams");
+    nutrient.save();
+    assert(nutrient.save() && "Saving should not fail");
+}
+
+void
+test_finding_a_previously_created_nutrient_with_code_65()
+{
+    Epic::DAO::Nutrient nutrient = Epic::DAO::Nutrient::find_by_code(65);
+    assert(nutrient.valid() && "previously created Nutrient with code 65 is expected to be valid");
+}

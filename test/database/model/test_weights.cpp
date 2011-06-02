@@ -1,60 +1,60 @@
-#include "config/Global.hpp"
 #include <stdlib.h>
 #include <assert.h>
 
-#include "util.h"
-
-#include "libhelper/Logger.hpp"
-
-#include "dao/Questionaire.hpp"
-#include "dao/Person.hpp"
-#include "dao/Nutrient.hpp"
-#include "dao/Meal.hpp"
-#include "dao/Food.hpp"
+#include "libdao/Database.hpp"
+#include "config/Global.hpp"
 #include "dao/Weight.hpp"
-#include "dao/Frequency.hpp"
-#include "dao/MealFood.hpp"
-#include "dao/Portion.hpp"
-#include "dao/Cereal.hpp"
 
-
-void test_person();
-void test_weights();
-void test_nutrient();
-void test_questionaire();
-void test_meal();
-void test_food();
-void test_frequencies();
-void test_questionaire_person();
-void test_food_nutrient();
-void test_meal_foods();
-void test_portions();
-void test_cereals();
+void test_creating_weights();
+void test_weights_have_correct_ids_and_values();
+void test_weights_have_correct_upper_and_lower_bounds();
 
 int
 main(int argc, char **argv)
 {
     std::string conf    =  DEFAULT_CONFIG_FILE;
 
-    if(!Epic::Config::load(conf))
-    {
-        return EXIT_FAILURE;
-    }
-    
+    assert(Epic::Config::load(conf) && "Config loading should not fail");
+
     Epic::Database::connect();
 
-    test_questionaire();
-    test_nutrient();
-    test_meal();
-    test_food();
-    test_weights();
-    test_person();
-    test_frequencies();
-    test_questionaire_person();
-    test_food_nutrient();
-    test_meal_foods();
-    test_portions();
-
+    test_creating_weights();
+    test_weights_have_correct_ids_and_values();
+    test_weights_have_correct_upper_and_lower_bounds();
     return EXIT_SUCCESS;
 }
 
+void test_creating_weights()
+{
+    Epic::DAO::Weight weight ;
+    double d_list[] = { 1.00, 0.50, 0.0, 0.0, 0.0 };
+    
+    for(double *p = &d_list[0], double *end_p = (p+(sizeof(d_list)/sizeof(*d_list))); p != end_p; ++p)
+    {
+        weight.set_amount(*p);
+        assert(weight.save() && "Creating Weights should not fail");
+    }
+}
+
+void test_weights_have_correct_ids_and_values()
+{
+    Epic::DAO::Weight weight  = Epic::DAO::Weight::find_by_id(1);
+    assert("weight should be valid and have amount equal to 1.0" && weight.valid() && utility_same_double(weight.get_amount(),1.0));
+
+    weight  = Epic::DAO::Weight::find_by_id(2);
+    assert("weight should be valid and have amount equal to 0.5" && weight.valid() && utility_same_double(weight.get_amount(),0.5));
+
+    for(int x = 3; x<6; ++x)
+    {
+        weight  = Epic::DAO::Weight::find_by_id(x);
+        assert("weight should be valid and have amount equal to 0.0" && weight.valid() && utility_same_double(weight.get_amount(),0.0));
+    }
+}
+
+void test_weights_have_correct_upper_and_lower_bounds()
+{
+    sqlite3_int64 upper,lower;
+    Epic::DAO::Weight::find_bounds(upper,lower);
+    assert("weight upper bounds should be == 5 " && upper == 5);
+    assert("weight lower bounds should be == 1 " && lower == 1);
+}
