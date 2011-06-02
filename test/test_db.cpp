@@ -1,17 +1,16 @@
-#include "Epic_lib.hpp"
 
-#include "dao/Questionaire.hpp"
-#include "dao/Person.hpp"
+#include <stdlib.h>
+#include <assert.h>
+#undef NDEBUG
+
+#include "config/Global.hpp"
+#include "libhelper/Logger.hpp"
+#include "libdao/Database.hpp"
+
 #include "dao/Nutrient.hpp"
 #include "dao/Meal.hpp"
 #include "dao/Food.hpp"
 #include "dao/MealFood.hpp"
-#include "dao/Weight.hpp"
-#include "dao/Frequency.hpp"
-#include "dao/Portion.hpp"
-#include "dao/Cereal.hpp"
-#include "dao/Milk.hpp"
-#include "import/Import.hpp"
 
 std::string double_to_formatted_string(double value);
 
@@ -22,25 +21,18 @@ std::string double_to_formatted_string(double value)
     return str.str(); 
 } 
 
-
 int
 main(int argc, char **argv)
 {
-    std::string conf    = "/home/me/workspace/clone/epic-food-frequency-0.0.1/build/client.conf";
-    
-    Epic::Logging::open("./test.log");
+    std::string conf    =  DEFAULT_CONFIG_FILE;
+    assert(Epic::Config::load(conf) && "Config loading should not fail");
+    assert(Epic::Logging::open("log.out") && "Opening Log should not fail");
 
-    if(!Epic::Config::load(conf))
-    {
-        std::ostringstream ss;
-        ss << "Config file missing " << conf << std::endl;
-        Epic::Logging::error(ss.str());
-        return EXIT_FAILURE;
-    }
+    // connect to database which should seed the tables
+    assert(Epic::Database::connect()
+            && "Opening the DB should work, right?");
 
-    Epic::Database::connect();
-
-    // find all meals with visible fat
+    // find all meals
     std::vector<Epic::DAO::Meal> meals; 
     if(Epic::DAO::Meal::find_all(meals))
     {
