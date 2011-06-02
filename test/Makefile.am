@@ -1,6 +1,5 @@
 SUBDIRS =  split logger csv config database .
 check_PROGRAMS = \
-	       test_dao \
 	       test_db \
 	       test_header \
 	       test_dao_import \
@@ -31,10 +30,6 @@ AM_CPPFLAGS 	=  -I$(top_srcdir)/libutility/src \
 	-DDEFAULT_CONFIG_FILE="\"${confdir}/client.conf\""
 
 AM_LDFLAGS	=  $(LINK_DEPS)
-
-test_dao_SOURCES = test_dao.cpp
-test_dao_LDADD = $(LINK_DEPS)
-test_dao_DEPENDENCIES = $(LINK_DEPS)
 
 test_db_SOURCES = test_db.cpp
 test_db_LDADD = $(LINK_DEPS)

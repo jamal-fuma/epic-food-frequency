@@ -1,11 +1,13 @@
+#include <stdlib.h>
+#include <assert.h>
+#undef NDEBUG
+
 #include "libhelper/Logger.hpp"
 
-#include <stdlib.h>
 int
 main(int argc, char **argv)
 {
-    if(!Epic::Logging::open("log.out"))
-        return EXIT_FAILURE;
+    assert(Epic::Logging::open("log.out") && "Opening Log should not fail");
     
     return EXIT_SUCCESS;
 }
