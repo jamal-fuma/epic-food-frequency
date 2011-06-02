@@ -1,10 +1,9 @@
 #include <stdlib.h>
 #include <assert.h>
 
+#include "libdao/util.h"
 #include "libdao/Database.hpp"
-#include "dao/Food.hpp"
-#include "dao/Nutrient.hpp"
-#include "config/Global.hpp"
+#include "dao/Frequency.hpp"
 
 void test_creating_frequencies();
 void test_frequencies_have_correct_ids_and_values();

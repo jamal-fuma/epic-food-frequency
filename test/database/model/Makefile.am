@@ -40,7 +40,9 @@ test_frequencies_LDADD = $(LINK_DEPS)
 test_frequencies_DEPENDENCIES  = $(LINK_DEPS)
 test_frequencies_SOURCES = \
 	${top_srcdir}/src/libdao/Database.hpp \
+	${top_srcdir}/src/libdao/util.h \
 	${top_srcdir}/include/config/Global.hpp \
+	${top_srcdir}/include/dao/Frequency.hpp \
 	test_frequencies.cpp
 
 test_questionaire_LDADD = $(LINK_DEPS)
@@ -97,6 +99,7 @@ test_weights_DEPENDENCIES  = $(LINK_DEPS)
 test_weights_SOURCES = \
 	${top_srcdir}/src/libdao/Database.hpp \
 	${top_srcdir}/include/config/Global.hpp \
+	${top_srcdir}/src/libdao/util.h \
 	test_weights.cpp
 
 test_food_nutrient_LDADD = $(LINK_DEPS)
