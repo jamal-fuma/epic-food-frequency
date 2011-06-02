@@ -3,6 +3,7 @@
 
 #include "libdao/util.h"
 #include "libdao/Database.hpp"
+#include "config/Global.hpp"
 #include "dao/Frequency.hpp"
 
 void test_creating_frequencies();
