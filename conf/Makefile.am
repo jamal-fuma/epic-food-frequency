@@ -18,3 +18,6 @@ $(top_builddir)/client.conf: client.conf.in $(top_srcdir)/stamp-h1
 
 EXTRA_DIST= client.conf.in quantity.conf
 
+# not explicitly removing this causes distclean to fail and so breaks distcheck
+DISTCLEANFILES= $(top_builddir)/client.conf
+
