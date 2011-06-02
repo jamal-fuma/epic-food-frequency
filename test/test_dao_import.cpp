@@ -1,5 +1,9 @@
-#include "Epic_lib.hpp"
-#include "imp.hpp"
+#include <vector>
+#include <string>
+
+#include "libdao/Database.hpp"
+#include "libcsv/CSVReader.hpp"
+#include "config/Util.hpp"
 
 #include "dao/Report.hpp"
 #include "dao/Person.hpp"
@@ -14,7 +18,6 @@
 #include "dao/MealNutrient.hpp"
 
 #include "config/Resource.hpp"
-#include "import/Import.hpp"
 #include "conversion/Conversion.hpp"
 
 struct response
@@ -33,11 +36,19 @@ typedef std::map< sqlite3_int64, std::vector<Epic::DAO::FoodNutrient> >::const_i
 class ReportWriter
 {
 public:
-    ReportWriter(person_iterator_t begin, person_iterator_t end) : m_person_it(begin), m_end(end) 
+    ReportWriter(person_iterator_t begin, person_iterator_t end) : 
+            m_person_it(begin), 
+            m_end(end) 
     {
         Epic::DAO::Report::create();
     }
     
+    virtual ~ReportWriter() 
+    {
+        // drop all the data that's been processed
+        Epic::DAO::Report::destroy();
+    }
+
     bool preload()
     {
         // find all foods and corresponding nutrients
@@ -73,11 +84,6 @@ public:
         return true;
     }
 
-    virtual ~ReportWriter() 
-    {
-        // drop all the data that's been processed
-        Epic::DAO::Report::destroy();
-    }
  
     bool food_report(std::ostream & out)
     {
@@ -423,7 +429,7 @@ main(int argc, char **argv)
         return EXIT_FAILURE;
     }
 
-    Epic::Import::str_vector_t v,h;
+    std::vector<std::string> v,h;
 
     Epic::Config::Config cnf;
 
@@ -480,8 +486,8 @@ main(int argc, char **argv)
                 h = v;
                 continue;
             }
-            Epic::Import::str_vector_t::size_type size = v.size();
-            for(Epic::Import::str_vector_t::size_type pos=0; pos != size; ++pos)
+            std::vector<std::string>::size_type size = v.size();
+            for(std::vector<std::string>::size_type pos=0; pos != size; ++pos)
             {
                 // wire in alternative fields names here
                 cnf.insert(h[pos],v[pos],true);
@@ -677,7 +683,7 @@ main(int argc, char **argv)
 }
 
 
-void person_milks(Person & person, const Epic::Config::Config & cnf)
+void person_milks(Epic::DAO::Person & person, const Epic::Config::Config & cnf)
 {
     std::string value;
 
