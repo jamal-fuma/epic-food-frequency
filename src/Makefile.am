@@ -25,7 +25,7 @@ AM_CFLAGS =\
 
 noinst_LTLIBRARIES = libEpic.la
 libEpic_la_SOURCES = \
-                   database.cpp      	\
+                   Database.cpp      	\
                 $(top_srcdir)/include/conversion/Conversion.hpp  \
                  $(top_srcdir)/include/Epic_lib.hpp  \
 		   \
