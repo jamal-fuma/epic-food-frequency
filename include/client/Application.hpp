@@ -32,64 +32,6 @@ namespace Epic
         
         typedef std::map< sqlite3_int64, std::vector<Epic::DAO::FoodNutrient> >::const_iterator food_nutrient_map_iterator_t;
 
-        class ReportWriter
-        {
-            public:
-                ReportWriter(person_iterator_t begin, person_iterator_t end) : m_person_it(begin), m_end(end) 
-            {
-                Epic::DAO::Report::create();
-            }
-                ~ReportWriter() 
-                {
-                    // drop all the data that's been processed
-                    Epic::DAO::Report::destroy();
-                }
-
-                bool preload();
-                
-                // most detailed
-                std::ostream & write_food_header(std::ostream & out);
-                bool food_report(std::ostream & out);
-                
-                // summarise food_report
-                std::ostream & write_meal_header(std::ostream & out);
-                bool meal_report(std::ostream & out);
-         
-
-                // summarise meal_report
-                std::ostream & write_nutrient_header(std::ostream & out);
-                bool nutrient_report(std::ostream & out);
-
-                // pretty printed nutrient_report
-                std::ostream & write_spreadsheet_header(std::ostream & out);
-                bool spreadsheet_report(std::ostream & out);
-
-            private:
-                std::vector<Epic::DAO::Report> m_reports;
-                std::map< sqlite3_int64, 
-                       std::vector<Epic::DAO::FoodNutrient> > m_nutrients_by_food_id;
-                std::vector<Epic::DAO::Food> m_foods;
-                std::vector<Epic::DAO::Nutrient> m_nutrients;
-                person_iterator_t m_person_it;
-                person_iterator_t m_end;
-
-
-                std::ostream & write_food_line(  std::ostream & out, 
-                        person_iterator_t person_it,
-                        sqlite3_int64 meal_id, 
-                        const Epic::DAO::Food & food,
-                        double amount, 
-                        food_nutrient_iterator_t nutrient_it,
-                        food_nutrient_iterator_t nutrient_end);
-
-
-                bool store_nutrients(
-                        sqlite3_int64 meal_id, 
-                        double amount, 
-                        food_nutrient_iterator_t nutrient_it, 
-                        food_nutrient_iterator_t nutrient_end);
-        };
-
         class Application
         {
             enum FileType { InputFile=1, JobFile} ;
