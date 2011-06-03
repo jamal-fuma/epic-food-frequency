@@ -25,6 +25,7 @@ AM_CFLAGS =\
 
 noinst_LTLIBRARIES = libEpic.la
 libEpic_la_SOURCES = \
+                   database.cpp      	\
                 $(top_srcdir)/include/conversion/Conversion.hpp  \
                  $(top_srcdir)/include/Epic_lib.hpp  \
 		   \
@@ -1314,6 +1315,7 @@ libEpic_la_SOURCES = \
 	$(top_srcdir)/include/boost/exception/exception.hpp \
 	$(top_srcdir)/include/boost/aligned_storage.hpp \
 		  \
+		   ReportWriter.cpp	\
 		   FrequencyDAO.cpp	\
                    WeightDAO.cpp	\
                    FoodDAO.cpp		\
@@ -1328,9 +1330,7 @@ libEpic_la_SOURCES = \
                    PortionDAO.cpp	\
                    QuestionaireDAO.cpp	\
                                         \
-                   application.cpp      \
-                   ReportWriter.cpp     \
-                   database.cpp      	\
+                   Application.cpp      \
                    config.cpp      	\
                    logger.cpp      	\
                    config_reader.cpp
