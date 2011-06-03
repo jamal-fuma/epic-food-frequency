@@ -36,7 +36,7 @@ Epic::Client::Application::run()
             Epic::Logging::Error().log()  << "Unable to load weights from db";
             return EXIT_FAILURE;
         }
- 
+
         // find all portions
         if(!Epic::DAO::Portion::find_all(m_portions) || !Epic::DAO::Portion::find_bounds(m_portion_upper,m_portion_lower))
         {
@@ -59,15 +59,15 @@ Epic::Client::Application::run()
             questionaire.set_filename(m_input_file);
             if(!questionaire.save())
             {
-                Epic::Logging::Error().log()  << "Questionaire: " << questionaire.get_filename() 
+                Epic::Logging::Error().log()  << "Questionaire: " << questionaire.get_filename()
                     << " cant be saved to db, skipping remainder of input" ;
                 return EXIT_FAILURE;
             }
-    
+
             size_t size=0;
             if(!load_questionaire(questionaire,size))
             {
-                Epic::Logging::Error().log()  << "Questionaire: " << questionaire.get_filename() 
+                Epic::Logging::Error().log()  << "Questionaire: " << questionaire.get_filename()
                     << " processing failed" ;
                 return EXIT_FAILURE;
             }
@@ -77,7 +77,7 @@ Epic::Client::Application::run()
             {
                 if(!write_report(questionaire,std::cout))
                 {
-                    Epic::Logging::Error().log()  << "Questionaire: " << questionaire.get_filename() 
+                    Epic::Logging::Error().log()  << "Questionaire: " << questionaire.get_filename()
                         << " import completed successfully, but reporting failed, imported (" << size << ") respondents" ;
                     return EXIT_FAILURE;
                 }
@@ -88,20 +88,20 @@ Epic::Client::Application::run()
                 if(!file.is_open())
                 {
                     std::cerr << "unable to open output file: " << m_output_file << std::endl;
-                   Epic::Logging::Error().log()  << "Questionaire: " << questionaire.get_filename() 
+                   Epic::Logging::Error().log()  << "Questionaire: " << questionaire.get_filename()
                         << " import completed successfully, but reporting failed, imported (" << size << ") respondents" ;
                     return EXIT_FAILURE;
                 }
-                
+
                 if(!write_report(questionaire,file))
                 {
-                    Epic::Logging::Error().log()  << "Questionaire: " << questionaire.get_filename() 
+                    Epic::Logging::Error().log()  << "Questionaire: " << questionaire.get_filename()
                         << " import completed successfully, but reporting failed, imported (" << size << ") respondents" ;
                     return EXIT_FAILURE;
                 }
             }
 
-            Epic::Logging::Note().log()  << "Questionaire: " << questionaire.get_filename() 
+            Epic::Logging::Note().log()  << "Questionaire: " << questionaire.get_filename()
                 << " processing completed successfully, processed(" << size << ") respondents" ;
             return EXIT_SUCCESS;
         }
@@ -132,7 +132,7 @@ Epic::Client::Application::load_questionaire(Epic::DAO::Questionaire & questiona
     Epic::Import::str_vector_t values,headers;
     Epic::Config::Config cnf;
     std::string value;
-   
+
 
     Epic::Import::CSVReader rdr;
     if(!rdr.open(questionaire.get_filename()))
@@ -167,8 +167,8 @@ Epic::Client::Application::load_questionaire(Epic::DAO::Questionaire & questiona
                 person.set_reference(value);
                 if(!person.save())
                 {
-                    Epic::Logging::Error().log() << "Respondent: " 
-                        << person.get_reference() 
+                    Epic::Logging::Error().log() << "Respondent: "
+                        << person.get_reference()
                         << " cant be saved to db, skipping remainder of input";
                     continue;
                 }
@@ -234,6 +234,3 @@ bool Epic::Client::Application::write_report(Epic::DAO::Questionaire & questiona
     }
     return false;
 }
-
-
-
