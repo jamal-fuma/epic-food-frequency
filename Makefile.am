@@ -1,7 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 ## Created by Anjuta
 
-ACLOCAL_AMFLAGS= -I ${top_srcdir}/m4 
+ACLOCAL_AMFLAGS= -I m4 
 #
 # Was ACLOCAL_AMFLAGS= -I m4 
 # which caused > aclocal: couldn't open directory `m4':
