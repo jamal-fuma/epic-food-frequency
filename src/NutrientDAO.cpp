@@ -19,6 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "dao/Nutrient.hpp"
 
 #include "conversion/Conversion.hpp"
+#include "libcsv/MatchedValues.hpp"
+#include "libcsv/CSVReader.hpp"
 #include "import/Import.hpp"
 
 // find a nutrient given an id
@@ -219,7 +221,7 @@ bool Epic::DAO::Nutrient::load(const std::string & filename)
                 expected.push_back("CODE");
                 expected.push_back("DESCRIPTION");
                 expected.push_back("UNITS");
-                if( Epic::Import::DBModel::same_header("nutrients",expected,v))
+                if( Epic::Import::MatchedValues()("nutrients",expected,v))
                 {
                     h.swap(v);
                     continue;
