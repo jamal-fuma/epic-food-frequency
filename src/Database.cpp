@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "Database.hpp"
 
-#include "logging/Logger.hpp"
+#include "libhelper/Logger.hpp"
 #include "config/Global.hpp"
 #include "config/Resource.hpp"
 
