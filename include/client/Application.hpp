@@ -1,7 +1,6 @@
 #ifndef EPIC_APPLICATION_HPP
 #define EPIC_APPLICATION_HPP
 
-#include "Epic_lib.hpp"
 
 #include "dao/Report.hpp"
 #include "dao/Person.hpp"
@@ -17,7 +16,7 @@
 
 #include "config/Resource.hpp"
 #include "import/Import.hpp"
-#include "conversion/Conversion.hpp"
+//#include "conversion/Conversion.hpp"
 
 
 namespace Epic
