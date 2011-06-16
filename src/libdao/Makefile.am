@@ -9,36 +9,37 @@ AM_CPPFLAGS = \
         -I$(top_srcdir)/include   	\
         -I$(top_srcdir)/libutility/src   \
         -I$(top_srcdir)/src/libdao   	\
-        -I$(top_srcdir)/src  		\
         -I$(top_srcdir)/include/boost   \
         -I$(top_srcdir)/include/dataset \
+        -I$(top_srcdir)/src		\
+        -I$(top_srcdir)/include/boost   \
         -I$(top_srcdir)/include/import  \
         -I$(top_srcdir)/include/pattern \
         -I$(top_srcdir)/include/conversion
 
 noinst_LTLIBRARIES = libEpicDAO.la
 libEpicDAO_la_SOURCES = \
- 		   $(top_srcdir)/include/dataset/Database.hpp  \
-                   $(top_srcdir)/include/dataset/Statement.hpp  \
- 		   ${top_srcdir}/src/Database.cpp      	\
+ 		   Database.cpp      	\
+ 		   Database.hpp  	\
+                   Statement.hpp  	\
 		   sqlite3.h		\
 		   sqlite3.c		\
 		   util.h		\
 		   util.c		\
 		   \
- 		   ${top_srcdir}/src/FrequencyDAO.cpp	\
-                   ${top_srcdir}/src/WeightDAO.cpp	\
-                   ${top_srcdir}/src/FoodDAO.cpp		\
-                   ${top_srcdir}/src/CerealDAO.cpp	\
-                   ${top_srcdir}/src/MealDAO.cpp		\
-                   ${top_srcdir}/src/MilkDAO.cpp		\
-                   ${top_srcdir}/src/MealFoodDAO.cpp	\
-                   ${top_srcdir}/src/NutrientDAO.cpp	\
-                   ${top_srcdir}/src/PersonDAO.cpp	\
-                   ${top_srcdir}/src/MealNutrientDAO.cpp	\
-                   ${top_srcdir}/src/ReportDAO.cpp	\
-                   ${top_srcdir}/src/PortionDAO.cpp	\
-                   ${top_srcdir}/src/QuestionaireDAO.cpp	\
+ 		   FrequencyDAO.cpp	\
+                   WeightDAO.cpp	\
+                   FoodDAO.cpp		\
+                   CerealDAO.cpp	\
+                   MealDAO.cpp		\
+                   MilkDAO.cpp		\
+                   MealFoodDAO.cpp	\
+                   NutrientDAO.cpp	\
+                   PersonDAO.cpp	\
+                   MealNutrientDAO.cpp	\
+                   ReportDAO.cpp	\
+                   PortionDAO.cpp	\
+                   QuestionaireDAO.cpp	\
 		   \
 		   FrequencyDAO.hpp	\
                    ReportDAO.hpp	\
@@ -70,13 +71,15 @@ libEpicDAO_la_SOURCES = \
                    $(top_srcdir)/include/dao/Questionaire.hpp	\
                    \
 		   $(top_srcdir)/include/config/Util.hpp  \
+		   $(top_srcdir)/include/conversion/Conversion.hpp	\
                    \
                    $(top_srcdir)/include/Singleton.hpp  \
                    \
-		   $(top_srcdir)/src/logger.cpp
+		   $(top_srcdir)/src/libhelper/Logger.cpp $(top_srcdir)/src/libhelper/Logger.hpp
 
-libEpicDAO_la_LDFLAGS = 
+libEpicDAO_la_LDFLAGS =
  # -lpthread -lrt -lltdl
 
-libEpicDAO_la_LIBADD = 
+libEpicDAO_la_LIBADD = \
+	$(top_builddir)/src/libcsv/libEpicCSV.la
 #$(top_builddir)/libutility/src/libUtility.la
