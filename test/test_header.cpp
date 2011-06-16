@@ -1,4 +1,9 @@
-#include "import/Import.hpp"
+#include "libcsv/MatchedValues.hpp"
+#include <stdlib.h>
+#include <assert.h>
+
+#include <vector>
+#include <string>
 #include <iostream>
 
 int
@@ -12,7 +17,7 @@ main(int argc, char **argv)
     expected.push_back("Foo");
     expected.push_back("Bar");
 
-    if(Epic::Import::DBModel::same_header("meals",expected,actual))
+    if(Epic::Import::MatchedValues()("meals",expected,actual))
     {
         std::cout << "Passed" <<std::endl;
     }
@@ -25,7 +30,7 @@ main(int argc, char **argv)
     actual.clear();
     actual.push_back("Bar");
     actual.push_back("Foo");
-    if(Epic::Import::DBModel::same_header("meals",expected,actual))
+    if(Epic::Import::MatchedValues()("meals",expected,actual))
     {
         std::cout << "Passed" <<std::endl;
     }
@@ -38,7 +43,7 @@ main(int argc, char **argv)
     actual.clear();
     actual.push_back("Foo");
     actual.push_back("Bar");
-    if(Epic::Import::DBModel::same_header("meals",expected,actual))
+    if(Epic::Import::MatchedValues()("meals",expected,actual))
     {
         std::cout << "Passed" <<std::endl;
     }
