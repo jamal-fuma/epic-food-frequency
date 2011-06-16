@@ -3,40 +3,40 @@ This text file is to document data testing conditions
 
 1.  free text (to be converted into food codes)
     - milk_other, cerial1, type1, cerial2, type2, fat_frying_type, fat_baking_type
-   
+
 2.  multiple entries in free text columns (to be converted into ';' seperated food codes)
     - milk_other, cerial1, type1, cerial2, type2, fat_frying_type, fat_baking_type
-   
-3.  negative codes 
+
+3.  negative codes
     - first 130 columns
 
-4.  multiple ticks 
+4.  multiple ticks
     - first 130 columns, milk, milk_other, fat_frying, fat_frying_type, fat_baking, fat_baking_type
-  
-5.  don't eat porridge i.e. porridge='1' 
+
+5.  don't eat porridge i.e. porridge='1'
     but mentioned porridge in cerial(1/2) OR type(1/2)
 
-6.  don't eat breakfast i.e. eat_breakfast='2' 
+6.  don't eat breakfast i.e. eat_breakfast='2'
     but free-text entered in cerial(1/2) OR type(1/2)
 
-7.  don't eat other breakfast cereal i.e. cerial='1' 
+7.  don't eat other breakfast cereal i.e. cerial='1'
     but free-text entered  in cerial(1/2) OR type(1/2)
 
 8.  baking fat is not 'margarine' i.e. fat_baking is not equal to '5'
     but free-text entered in fat_baking_type
-   
+
 9.  baking fat is not 'margarine' i.e. fat_baking is not equal to '5'
-    but multiple ticks and/or free-text entered in fat_baking_type 
-   
+    but multiple ticks and/or free-text entered in fat_baking_type
+
 10. frying fat is not 'vegetable oil' i.e. fat_frying is not equal to '3'
     but free-text entered in fat_frying_type
-   
+
 11. frying fat is not 'vegetable oil' i.e. fat_frying is not equal to '3'
-    but multiple ticks and/or free-text entered in fat_frying_type 
-    
-12. multiple ticks(-4) entered in column: milk and/or 
-    multiple ticks/free-text entered in column: milk_other           
-  
+    but multiple ticks and/or free-text entered in fat_frying_type
+
+12. multiple ticks(-4) entered in column: milk and/or
+    multiple ticks/free-text entered in column: milk_other
+
 *************************************************************************************
 
 MILK
@@ -53,7 +53,7 @@ i.e. the ticked option is selected and free-text is ignored
 
 Check No.: 2
 
-If MILK=-4 and no free text is available, 
+If MILK=-4 and no free text is available,
 then "standard milk" is assumed.
 Checked for ID: 0320077J
 
@@ -89,7 +89,7 @@ Check No.:1
 
 If CERIAL>1 and EAT_BREAKFAST=1, and free-text is available,
 the the free text is mapped to a food code to get the nutrient data.
-Currently, a maximum of two distinct cerial types (from possible 30) 
+Currently, a maximum of two distinct cerial types (from possible 30)
 irrespective of the no. of cereals mentioned in the FFQ.
 
 To Check: 1
@@ -108,7 +108,7 @@ Suggestion 1: all free text mapped to food code: 11018 i.e. porridge
 should be dropped before calculating nutrients.
 
 Suggestion 2: If more than two cereal types (e.g. 4) are mentioned in the FFQ,
-then nutrient data should be obtained from (1/4)th of all these cereal types. 
+then nutrient data should be obtained from (1/4)th of all these cereal types.
 
 Check No.3:
 ID: 0330014K
@@ -178,5 +178,5 @@ ID: 0210483K
 FAT_FRYING=6 (i.e. none) and free-text is not available
 The program seems to use some unknown very-low fat type to calculate nutrients
 We've worked out the nutrient(kcal) for standard fat in roast potatoes using food code=17020
-but we cannot work-out modified fat (from back of FFQ) nutrient calculations for chips and roast potatoes 
+but we cannot work-out modified fat (from back of FFQ) nutrient calculations for chips and roast potatoes
 

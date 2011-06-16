@@ -90,6 +90,12 @@ AC_CONFIG_FILES([Makefile
                  libutility/Makefile
                  libutility/src/Makefile 
                  test/Makefile
+                 test/split/Makefile
+                 test/logger/Makefile
+                 test/config/Makefile
+                 test/csv/Makefile
+                 test/database/Makefile
+                 test/database/model/Makefile
                  src/libdao/Makefile
                  src/Makefile])
 AC_OUTPUT

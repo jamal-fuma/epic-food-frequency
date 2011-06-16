@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <assert.h>
 
+#include "util.h"
+
 #include "logging/Logger.hpp"
 
 #include "dao/Questionaire.hpp"
@@ -40,7 +42,7 @@ main(int argc, char **argv)
     std::string conf    = "./client.conf";
     std::string schema  = "./sql/model.sql" ;
     std::string dbase   = "./foods.db" ;
-    
+
     if(!Epic::Config::load(conf))
     {
         Epic::Logging::Error().log() << "Config file missing " << conf << std::endl;
@@ -75,9 +77,9 @@ main(int argc, char **argv)
             (std::istreambuf_iterator<char>(infile)),
             std::istreambuf_iterator<char>()
             );
-    
+
     std::cout << data << std::endl;
-    
+
     return EXIT_SUCCESS;
 }
 
@@ -113,7 +115,7 @@ void test_food_nutrient()
     food.set_description("apple treat");
     food.save();
     food.attach(nutrient,10.5);
-     
+
     nutrient.set_code(77);
     nutrient.save();
     food.attach(nutrient,55.5);
@@ -145,7 +147,7 @@ void test_person()
     person.set_reference("bar");
     person.save();
 
-    Epic::DAO::Weight weight; 
+    Epic::DAO::Weight weight;
     weight.set_amount(55.0);
     weight.save();
 
@@ -265,28 +267,28 @@ void test_meal()
 void test_weights()
 {
     Epic::DAO::Weight weight ;
-    
+
     weight.set_amount(1.0);
     weight.save();
     std::cout << weight;
-    
+
     weight.set_amount(0.5);
     weight.save();
     std::cout << weight;
- 
-    weight.set_amount(0.0);
-    weight.save();
-    std::cout << weight;
-    
-    weight.set_amount(0.0);
-    weight.save();
-    std::cout << weight;
-    
+
     weight.set_amount(0.0);
     weight.save();
     std::cout << weight;
 
-    
+    weight.set_amount(0.0);
+    weight.save();
+    std::cout << weight;
+
+    weight.set_amount(0.0);
+    weight.save();
+    std::cout << weight;
+
+
     Epic::DAO::Weight foo  = Epic::DAO::Weight::find_by_id(1);
     assert("weight should be valid and have amount equal to 1.0" && foo.valid() && utility_same_double(foo.get_amount(),1.0));
 
@@ -313,27 +315,27 @@ void test_weights()
 void test_frequencies()
 {
     Epic::DAO::Frequency frequency ;
-    
+
     frequency.set_amount(0.0);
     frequency.save();
     std::cout << frequency;
-    
+
     frequency.set_amount(0.07);
     frequency.save();
     std::cout << frequency;
- 
+
     frequency.set_amount(0.14);
     frequency.save();
     std::cout << frequency;
-    
+
     frequency.set_amount(0.43);
     frequency.save();
     std::cout << frequency;
-    
+
     frequency.set_amount(0.79);
     frequency.save();
     std::cout << frequency;
- 
+
     frequency.set_amount(1.00);
     frequency.save();
     std::cout << frequency;
@@ -350,21 +352,21 @@ void test_frequencies()
     frequency.save();
     std::cout << frequency;
 
-    
+
     Epic::DAO::Frequency foo  = Epic::DAO::Frequency::find_by_id(1);
     assert("frequency should be valid and have amount equal to 0.0" && foo.valid() && utility_same_double(foo.get_amount(),0.0));
 
     foo  = Epic::DAO::Frequency::find_by_id(2);
     assert("frequency should be valid and have amount equal to 0.07" && foo.valid() && utility_same_double(foo.get_amount(),0.07));
- 
+
     foo  = Epic::DAO::Frequency::find_by_id(3);
     assert("frequency should be valid and have amount equal to 0.14" && foo.valid() && utility_same_double(foo.get_amount(),0.14));
 
     foo  = Epic::DAO::Frequency::find_by_id(4);
     assert("frequency should be valid and have amount equal to 0.43" && foo.valid() && utility_same_double(foo.get_amount(),0.43));
- 
+
     sqlite3_int64 upper,lower;
-    
+
     Epic::DAO::Frequency::find_bounds(upper,lower);
     assert("frequency upper bounds should be == 9 " && upper == 9);
     assert("frequency lower bounds should be == 1 " && lower == 1);
@@ -382,39 +384,39 @@ void test_meal_foods()
     assert("meal_food should be invalid" && !meal_food.valid());
 
     std::cout << "1st " << meal_food;
-    
+
     std::cout << "MealFood [ok]" << std::endl << std::endl;
 }
 
 void test_portions()
 {
     Epic::DAO::Portion portion ;
-    
+
     portion.set_amount(1.0);
     portion.save();
     std::cout << portion;
-    
+
     portion.set_amount(0.5);
     portion.save();
     std::cout << portion;
 }
- 
+
 void test_cereals()
 {
     Epic::DAO::Cereal cereal;
     Epic::DAO::Person person;
     Epic::DAO::Food food ;
-    
+
     person.set_reference("Fred");
     person.save();
-    
+
     sqlite3_int64 food_ids[] = {0,0};
 
     food.set_name("11136");
     food.set_description("Frosties");
     food.save();
     food_ids[0] = food.get_id();
-    
+
     food.set_name("11137");
     food.set_description("Museli");
     food.save();
@@ -435,4 +437,4 @@ void test_cereals()
 
     std::cout << "Cereal [ok]" << std::endl << std::endl;
 }
- 
+

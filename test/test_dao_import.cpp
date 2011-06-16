@@ -1,5 +1,9 @@
-#include "Epic_lib.hpp"
-#include "imp.hpp"
+#include <vector>
+#include <string>
+
+#include "libdao/Database.hpp"
+#include "libcsv/CSVReader.hpp"
+#include "config/Util.hpp"
 
 #include "dao/Report.hpp"
 #include "dao/Person.hpp"
@@ -14,7 +18,6 @@
 #include "dao/MealNutrient.hpp"
 
 #include "config/Resource.hpp"
-#include "import/Import.hpp"
 #include "conversion/Conversion.hpp"
 
 struct response
@@ -33,11 +36,19 @@ typedef std::map< sqlite3_int64, std::vector<Epic::DAO::FoodNutrient> >::const_i
 class ReportWriter
 {
 public:
-    ReportWriter(person_iterator_t begin, person_iterator_t end) : m_person_it(begin), m_end(end) 
+    ReportWriter(person_iterator_t begin, person_iterator_t end) :
+            m_person_it(begin),
+            m_end(end)
     {
         Epic::DAO::Report::create();
     }
-    
+
+    virtual ~ReportWriter()
+    {
+        // drop all the data that's been processed
+        Epic::DAO::Report::destroy();
+    }
+
     bool preload()
     {
         // find all foods and corresponding nutrients
@@ -62,8 +73,8 @@ public:
                 Epic::Logging::error(ss.str());
             }
         }
-        
-        // find nutrients 
+
+        // find nutrients
         if(!Epic::DAO::Nutrient::find_all(m_nutrients))
         {
             Epic::Logging::error("Unable to load nutrients from db\n");
@@ -73,18 +84,13 @@ public:
         return true;
     }
 
-    virtual ~ReportWriter() 
-    {
-        // drop all the data that's been processed
-        Epic::DAO::Report::destroy();
-    }
- 
+
     bool food_report(std::ostream & out)
     {
         std::ostringstream ss;
         if(m_person_it != m_end)
             write_food_header(out);
-        
+
         person_iterator_t begin = m_person_it;
 
         for(; m_person_it != m_end; ++m_person_it)
@@ -110,14 +116,14 @@ public:
         m_person_it = begin;
         return true;
     }
-  
+
     bool meal_report(std::ostream & out)
     {
         std::ostringstream ss;
 
         if(m_person_it != m_end)
             write_meal_header(out);
-        
+
         person_iterator_t begin = m_person_it;
 
         for(; m_person_it != m_end; ++m_person_it)
@@ -125,14 +131,14 @@ public:
             if(Epic::DAO::Report::find_all(m_person_it->get_id(),m_reports))
             {
                   Epic::Database::Transaction tr;
-                
+
                   std::map<sqlite3_int64, double> totals;
 
                   for(report_iterator_t report_it = m_reports.begin(), report_end = m_reports.end(); report_it != report_end; ++report_it)
                   {
                       Epic::DAO::Food food = m_foods.at(report_it->get_food_id() -1);
                       food_nutrient_map_iterator_t map_itr = m_nutrients_by_food_id.find(food.get_id());
-                      
+
                       // acculate food_code totals
                       totals[report_it->get_meal_id()]  += report_it->get_amount();
 
@@ -158,7 +164,7 @@ public:
                       Epic::DAO::MealNutrient::clear();
                       tr_2.commit();
                   }
-                
+
                 ss << "Processing completed for Respondent: " << m_person_it->get_reference() << "\n";
                 Epic::Logging::note(ss.str());
                 ss.str(std::string());
@@ -167,14 +173,14 @@ public:
         m_person_it = begin;
         return true;
     }
-    
+
     bool nutrient_report(std::ostream & out)
     {
         std::ostringstream ss;
 
         if(m_person_it != m_end)
             write_nutrient_header(out);
-        
+
         person_iterator_t begin = m_person_it;
 
         for(; m_person_it != m_end; ++m_person_it)
@@ -182,14 +188,14 @@ public:
             if(Epic::DAO::Report::find_all(m_person_it->get_id(),m_reports))
             {
                   Epic::Database::Transaction tr;
-                
+
                   std::map<sqlite3_int64, double> totals;
 
                   for(report_iterator_t report_it = m_reports.begin(), report_end = m_reports.end(); report_it != report_end; ++report_it)
                   {
                       Epic::DAO::Food food = m_foods.at(report_it->get_food_id() -1);
                       food_nutrient_map_iterator_t map_itr = m_nutrients_by_food_id.find(food.get_id());
-                      
+
                       if(map_itr != m_nutrients_by_food_id.end())
                       {
                           if(!store_nutrients(report_it->get_meal_id(),report_it->get_amount(),map_itr->second.begin(),map_itr->second.end()))
@@ -209,7 +215,7 @@ public:
                       {
                             // acculate nutrient totals
                             totals[nut_it->get_nutrient_code()]  += nut_it->get_quantity();
-                      } 
+                      }
                       for(std::vector<Epic::DAO::MealNutrient>::const_iterator nut_it = meal_nutrients.begin(), nut_end = meal_nutrients.end(); nut_it != nut_end; ++nut_it)
                       {
                           out << m_person_it->get_reference() << "," << nut_it->get_nutrient_code() << "," << std::setprecision(6) << std::fixed <<  totals[nut_it->get_nutrient_code()] << "\n";
@@ -217,7 +223,7 @@ public:
                       Epic::DAO::MealNutrient::clear();
                       tr_2.commit();
                   }
-                
+
                 ss << "Processing completed for Respondent: " << m_person_it->get_reference() << "\n";
                 Epic::Logging::note(ss.str());
                 ss.str(std::string());
@@ -233,7 +239,7 @@ public:
 
         if(m_person_it != m_end)
             write_nutrient_wide_header(out);
-        
+
         person_iterator_t begin = m_person_it;
 
         for(; m_person_it != m_end; ++m_person_it)
@@ -241,14 +247,14 @@ public:
             if(Epic::DAO::Report::find_all(m_person_it->get_id(),m_reports))
             {
                   Epic::Database::Transaction tr;
-                
+
                   std::map<sqlite3_int64, double> totals;
 
                   for(report_iterator_t report_it = m_reports.begin(), report_end = m_reports.end(); report_it != report_end; ++report_it)
                   {
                       Epic::DAO::Food food = m_foods.at(report_it->get_food_id() -1);
                       food_nutrient_map_iterator_t map_itr = m_nutrients_by_food_id.find(food.get_id());
-                      
+
                       if(map_itr != m_nutrients_by_food_id.end())
                       {
                           if(!store_nutrients(report_it->get_meal_id(),report_it->get_amount(),map_itr->second.begin(),map_itr->second.end()))
@@ -268,7 +274,7 @@ public:
                       {
                             // acculate nutrient totals
                             totals[nut_it->get_nutrient_code()]  += nut_it->get_quantity();
-                      } 
+                      }
 
                       // transpose rows to columns
                       out << m_person_it->get_reference() << ",";
@@ -280,7 +286,7 @@ public:
                       Epic::DAO::MealNutrient::clear();
                       tr_2.commit();
                   }
-                
+
                 ss << "Processing completed for Respondent: " << m_person_it->get_reference() << "\n";
                 Epic::Logging::note(ss.str());
                 ss.str(std::string());
@@ -295,23 +301,23 @@ public:
         out << "ID,MEAL_ID,FOOD_CODE,FOOD_PORTION,NUTRIENT_CODE,NUTRIENT_QUANTITY\n" ;
         return out;
     }
- 
+
     std::ostream & write_meal_header(std::ostream & out)
     {
         out << "ID,MEAL_ID,MEAL_PORTION,NUTRIENT_CODE,NUTRIENT_QUANTITY\n" ;
         return out;
     }
- 
+
     std::ostream & write_nutrient_header(std::ostream & out)
     {
         out << "ID,NUTRIENT_CODE,NUTRIENT_QUANTITY\n" ;
         return out;
     }
- 
+
     std::ostream & write_nutrient_wide_header(std::ostream & out)
     {
         out << "ID,";
-        
+
         for(std::vector<Epic::DAO::Nutrient>::const_iterator nut_it = m_nutrients.begin(), nut_end = m_nutrients.end(); nut_it != nut_end; )
         {
             out << "NUTRIENT_" << nut_it->get_code() ;
@@ -320,18 +326,18 @@ public:
         return out;
     }
 
-    std::ostream & write_food_line(  std::ostream & out, 
+    std::ostream & write_food_line(  std::ostream & out,
                                         person_iterator_t person_it,
-                                        sqlite3_int64 meal_id, 
+                                        sqlite3_int64 meal_id,
                                         const Epic::DAO::Food & food,
-                                        double amount, 
+                                        double amount,
                                         food_nutrient_iterator_t nutrient_it,
                                         food_nutrient_iterator_t nutrient_end)
     {
         std::ostringstream ss;
         ss << person_it->get_reference() << "," << meal_id << "," << food.get_name() << "," << amount << "," ;
         std::string line = ss.str();
-        
+
         // list scaled nutrients for food
         for(; nutrient_it != nutrient_end; ++nutrient_it)
         {
@@ -339,13 +345,13 @@ public:
         }
         return out;
     }
-    
+
     bool store_nutrients(sqlite3_int64 meal_id, double amount, food_nutrient_iterator_t nutrient_it, food_nutrient_iterator_t nutrient_end)
     {
         Epic::DAO::MealNutrient meal_nutrient;
-        
+
         meal_nutrient.set_meal_id(meal_id);
-        
+
         // store scaled nutrients for food
         for(; nutrient_it != nutrient_end; ++nutrient_it)
         {
@@ -402,41 +408,41 @@ main(int argc, char **argv)
     {
         import = argv[1] ;
     }
-    
+
     if(!rdr.open(import))
     {
         return EXIT_FAILURE;
     }
-    
+
 
     std::ostringstream ss;
 
     Epic::DAO::Questionaire questionaire;
     questionaire.set_filename(import);
-    
+
     if(!questionaire.save())
     {
         ss << "Questionaire: " << questionaire.get_filename() << " cant be saved to db ";
-        ss << "skipping remainder of input" << std::endl; 
+        ss << "skipping remainder of input" << std::endl;
         Epic::Logging::error(ss.str());
         ss.str(std::string());
         return EXIT_FAILURE;
     }
 
-    Epic::Import::str_vector_t v,h;
+    std::vector<std::string> v,h;
 
     Epic::Config::Config cnf;
 
-    
+
     std::vector<response> responses;
     sqlite3_int64 frequency_upper,frequency_lower;
     sqlite3_int64 weight_upper,weight_lower;
-    
+
     Epic::DAO::Frequency::find_bounds(frequency_upper,frequency_lower);
     Epic::DAO::Weight::find_bounds(weight_upper,weight_lower);
 
     // find all meals
-    std::vector<Epic::DAO::Meal> meals; 
+    std::vector<Epic::DAO::Meal> meals;
     if(!Epic::DAO::Meal::find_all(meals))
     {
         ss << "Unable to load meals from db\n";
@@ -444,7 +450,7 @@ main(int argc, char **argv)
         ss.str(std::string());
         return EXIT_FAILURE;
     }
-  
+
     // find all weights
     std::vector<Epic::DAO::Weight> weights;
     if(!Epic::DAO::Weight::find_all(weights))
@@ -454,7 +460,7 @@ main(int argc, char **argv)
         ss.str(std::string());
         return EXIT_FAILURE;
     }
-    
+
     // find all frequencies
     std::vector<Epic::DAO::Frequency> frequencies;
     if(!Epic::DAO::Frequency::find_all(frequencies))
@@ -464,11 +470,11 @@ main(int argc, char **argv)
         ss.str(std::string());
         return EXIT_FAILURE;
     }
- 
 
-    
+
+
     Epic::Database::Transaction tr;
-    
+
     std::vector<sqlite3_int64> people_ids;
 
     for(size_t line=0; (rdr.more_rows()); ++line)
@@ -480,8 +486,8 @@ main(int argc, char **argv)
                 h = v;
                 continue;
             }
-            Epic::Import::str_vector_t::size_type size = v.size();
-            for(Epic::Import::str_vector_t::size_type pos=0; pos != size; ++pos)
+            std::vector<std::string>::size_type size = v.size();
+            for(std::vector<std::string>::size_type pos=0; pos != size; ++pos)
             {
                 // wire in alternative fields names here
                 cnf.insert(h[pos],v[pos],true);
@@ -496,7 +502,7 @@ main(int argc, char **argv)
                 if(!person.save())
                 {
                     ss << "Respondent: " << person.get_reference() << " cant be saved to db ";
-                    ss << "skipping remainder of input" << std::endl; 
+                    ss << "skipping remainder of input" << std::endl;
                     Epic::Logging::error(ss.str());
                     ss.str(std::string());
                     continue;
@@ -509,7 +515,7 @@ main(int argc, char **argv)
             {
                 if(cnf.find(ci->get_name(),value))
                 {
-                    // need to validate frequency 
+                    // need to validate frequency
                     sqlite3_int64 frequency_id   = Epic::Conversion::IntegerString(value);
                     if(frequency_id >= frequency_lower && frequency_id <= frequency_upper)
                     {
@@ -519,7 +525,7 @@ main(int argc, char **argv)
                     else
                     {
                         ss << "Respondent: " << person.get_reference() << " supplied ";
-                        ss << "invalid frequency:  " << value << " for meal: " << ci->get_name() << std::endl; 
+                        ss << "invalid frequency:  " << value << " for meal: " << ci->get_name() << std::endl;
                         Epic::Logging::error(ss.str());
                         ss.str(std::string());
                     }
@@ -538,11 +544,11 @@ main(int argc, char **argv)
                 else
                 {
                     ss << "Respondent: " << person.get_reference() << " supplied ";
-                    ss << "invalid weight:  " << value << " for visible fat" << std::endl; 
+                    ss << "invalid weight:  " << value << " for visible fat" << std::endl;
                     Epic::Logging::error(ss.str());
                     ss.str(std::string());
 
-                    // default weighting 
+                    // default weighting
                 }
             }
 
@@ -551,7 +557,7 @@ main(int argc, char **argv)
                 if(value == "")
                 {
                     ss << "Respondent: " << person.get_reference() << " supplied ";
-                    ss << "no cereals:  " << std::endl; 
+                    ss << "no cereals:  " << std::endl;
                     Epic::Logging::error(ss.str());
                     ss.str(std::string());
                     // default cereal
@@ -559,7 +565,7 @@ main(int argc, char **argv)
                 else
                 {
                     std::vector< std::string > food_codes;
-                    Epic::Util::Token(value).split(';').values(food_codes);
+                    Epic::Util::split(food_codes,value,";");
                     std::vector< std::string >::const_iterator it, it_end = food_codes.end();
                     for(it = food_codes.begin(); it != it_end; ++it)
                     {
@@ -582,7 +588,7 @@ main(int argc, char **argv)
                 if(value == "")
                 {
                     ss << "Respondent: " << person.get_reference() << " supplied ";
-                    ss << "no frying fats:  " << std::endl; 
+                    ss << "no frying fats:  " << std::endl;
                     Epic::Logging::error(ss.str());
                     ss.str(std::string());
                     // default frying fat
@@ -590,7 +596,7 @@ main(int argc, char **argv)
                 else
                 {
                     std::vector< std::string > food_codes;
-                    Epic::Util::Token(value).split(';').values(food_codes);
+                    Epic::Util::split(food_codes,value,";");
                     std::vector< std::string >::const_iterator it, it_end = food_codes.end();
                     for(it = food_codes.begin(); it != it_end; ++it)
                     {
@@ -605,7 +611,7 @@ main(int argc, char **argv)
                 if(value == "")
                 {
                     ss << "Respondent: " << person.get_reference() << " supplied ";
-                    ss << "no baking fats:  " << std::endl; 
+                    ss << "no baking fats:  " << std::endl;
                     Epic::Logging::error(ss.str());
                     ss.str(std::string());
                     // default baking fat
@@ -613,7 +619,7 @@ main(int argc, char **argv)
                 else
                 {
                     std::vector< std::string > food_codes;
-                    Epic::Util::Token(value).split(';').values(food_codes);
+                    Epic::Util::split(food_codes,value,";");
                     std::vector< std::string >::const_iterator it, it_end = food_codes.end();
                     for(it = food_codes.begin(); it != it_end; ++it)
                     {
@@ -626,7 +632,7 @@ main(int argc, char **argv)
     tr.commit();
 
     std::vector<Epic::DAO::Person> people;
-    
+
     if(questionaire.find_people(people))
     {
         ReportWriter meal_wtr(people.begin(),people.end());
@@ -640,7 +646,7 @@ main(int argc, char **argv)
             }
             meal_wtr.meal_report(m_file);
             m_file.close();
-            
+
             std::ofstream f_file("food_report.csv");
             if(!f_file.is_open())
             {
@@ -677,7 +683,7 @@ main(int argc, char **argv)
 }
 
 
-void person_milks(Person & person, const Epic::Config::Config & cnf)
+void person_milks(Epic::DAO::Person & person, const Epic::Config::Config & cnf)
 {
     std::string value;
 

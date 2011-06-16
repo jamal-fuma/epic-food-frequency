@@ -49,7 +49,7 @@ main(int argc, char **argv)
     {
         import = argv[1] ;
     }
-    
+
     if(!rdr.open(import))
     {
         return EXIT_FAILURE;
@@ -58,21 +58,21 @@ main(int argc, char **argv)
 
     Epic::Config::Config cnf;
 
-    
+
     std::vector<response> responses;
     sqlite3_int64 frequency_upper,frequency_lower;
     sqlite3_int64 weight_upper,weight_lower;
-    
+
     Epic::DAO::Frequency::find_bounds(frequency_upper,frequency_lower);
     Epic::DAO::Weight::find_bounds(weight_upper,weight_lower);
 
     std::ostringstream ss;
-    
+
     std::map<sqlite3_int64,Epic::DAO::Frequency> frequency_by_id;
     std::map<sqlite3_int64,Epic::DAO::Weight>    weight_by_id;
-    
+
     // find all meals
-    std::vector<Epic::DAO::Meal> meals; 
+    std::vector<Epic::DAO::Meal> meals;
     if(!Epic::DAO::Meal::find_all(meals))
     {
         ss << "Unable to load meals from db\n";
@@ -80,7 +80,7 @@ main(int argc, char **argv)
         ss.str("");
         return EXIT_FAILURE;
     }
-            
+
     for(size_t line=0; (rdr.more_rows()); ++line)
     {
         if(rdr.read_row(v))
@@ -103,7 +103,7 @@ main(int argc, char **argv)
             {
                 person.set_reference(value);
             }
-            
+
             // find all the meal frequencies
             std::vector<Epic::DAO::Meal>::const_iterator ci,end;
             end = meals.end();
@@ -115,14 +115,14 @@ main(int argc, char **argv)
                     resp.line           = line;
                     resp.meal_id        = ci->get_id();
 
-                    // need to validate frequency 
+                    // need to validate frequency
                     resp.frequency_id   = Epic::Conversion::IntegerString(value);
                     if(resp.frequency_id >= frequency_lower && resp.frequency_id <= frequency_upper)
                         responses.push_back(resp);
                     else
                     {
                         ss << "Respondent: " << person.get_reference() << " supplied ";
-                        ss << "invalid frequency:  " << value << " for meal: " << ci->get_name() << std::endl; 
+                        ss << "invalid frequency:  " << value << " for meal: " << ci->get_name() << std::endl;
                         Epic::Logging::error(ss.str());
                         ss.str("");
                     }
