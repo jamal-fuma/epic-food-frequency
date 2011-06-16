@@ -7,6 +7,7 @@
 #include <sstream>      // ostringstream
 #include <stdio.h>
 #include <iomanip>      //setw and friends
+#include <iostream>
 
 namespace Epic
 {
@@ -189,6 +190,7 @@ namespace Epic
                     int pos = 0;
                     // all remaining arguments are treated
                     // as purely positional following this terminator
+                    std::cout << "Argc=[" << argc << "]\n";
                     if(!strcmp("--",argv[i]))
                     {
                         positional = true;
