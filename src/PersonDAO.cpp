@@ -577,7 +577,7 @@ Epic::DAO::Person::str_to_foods(std::vector<Epic::DAO::Food> & foods, const std:
     }
 
     std::vector< std::string > food_codes;
-    Epic::Util::Token(value).split(';').values(food_codes);
+    Epic::Util::split(food_codes,value,";");
 
     for(std::vector< std::string >::const_iterator it = food_codes.begin(), it_end = food_codes.end(); it != it_end; ++it)
     {
