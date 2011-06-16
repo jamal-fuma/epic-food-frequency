@@ -16,7 +16,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "config/Global.hpp"
-#include "logging/Logger.hpp"
+#include "Logger.hpp"
 
 void Epic::Config::Config::load(const std::string & filename)
 {
