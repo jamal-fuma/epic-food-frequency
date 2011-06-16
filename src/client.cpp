@@ -15,10 +15,12 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "Epic_lib.hpp"
 
-#include "client/Application.hpp"
+#include "Application.hpp"
 #include "cmdline/Parser.hpp"
+#include "libhelper/Logger.hpp"
+#include "libdao/Database.hpp"
+#include "license/GPL_License.hpp"
 
 static int help();
 static int version();
