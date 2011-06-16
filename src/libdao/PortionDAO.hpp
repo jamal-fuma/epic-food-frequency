@@ -18,8 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef EPIC_DAO_PORTION_DAO_HPP
 #define EPIC_DAO_PORTION_DAO_HPP
 
-#include "Epic_lib.hpp"
 #include "dao/Portion.hpp"
+#include "sqlite3.h"
+#include "Statement.hpp"
 #include <vector>
 
 namespace Epic
