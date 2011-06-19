@@ -2,11 +2,14 @@
 #define EPIC_CONVERSION_HPP
 
 #include <cstdlib>
-#include <stdlib.h>
 
-#include "Epic_lib.hpp"
 #include <string>
 #include <map>
+
+#include <ostream>
+
+#include "config/Global.hpp"
+#include "libhelper/Logger.hpp"
 
 namespace Epic
 {
@@ -18,9 +21,9 @@ namespace Epic
             bool m_valid;
             IntegerString(const std::string & s) : m_num(0),m_valid(true)
             {
-                const char *c_str = s.c_str();
-                if(-1 == ::utility_sntol(&m_num,c_str,strlen(c_str)))
-                    m_valid = false;
+
+                std::istringstream ss(s);
+                ss >> m_num;
             }
             operator long() const
             {
@@ -43,10 +46,10 @@ namespace Epic
                 else 
                 {
                     char * end=NULL;
-                    double d =  strtod(s.c_str(),&end);
+                    double d =  std::strtod(s.c_str(),&end);
                     if(end == s)
                     {
-                        Epic::Logging::Error().log() << "Turning [" << s << "] into a decimal number failed" << "\n";
+                     //   Epic::Logging::Error().log() << "Turning [" << s << "] into a decimal number failed" << "\n";
                         m_valid = false;
                     }
                     else
