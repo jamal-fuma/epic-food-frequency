@@ -1,2 +1,2 @@
 ## Process this file with automake to produce Makefile.in
-SUBDIRS = libhelper libcsv libdao client
+SUBDIRS = libsqlite libhelper libcsv libdao client
