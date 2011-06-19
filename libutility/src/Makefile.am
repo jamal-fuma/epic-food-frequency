@@ -5,9 +5,7 @@
 AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" \
 	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
-	-DPACKAGE_DATA_DIR=\""$(datadir)"\" \
-	-DSQLITE_OMIT_LOAD_EXTENSION=1	\
-	-DSQLITE_THREADSAFE=0
+	-DPACKAGE_DATA_DIR=\""$(datadir)"\"
 
 AM_CFLAGS =\
 	 -Wall\
@@ -17,7 +15,6 @@ noinst_LTLIBRARIES = libUtility.la
 
 
 libUtility_la_SOURCES = \
-	sqlite3.c             \
 	Utility_p2p_os.c             \
 	Utility_p_vector.c             \
 	Utility_state.c             \
@@ -29,7 +26,6 @@ libUtility_la_SOURCES = \
 	Utility_push_buffer.c             \
 	Utility_find.c             \
 	Utility_debug.c             \
-	SQLite3_comp.c             \
 	libUtility.c             \
 	Utility_lib.c             \
 	Utility_pack.c             \
@@ -56,8 +52,7 @@ noinst_HEADERS = \
        libUtility.h             \
        Utility_internal.h             \
        Utility_pack.h             \
-       Utility_p2p_comms.h		\
-	sqlite3.h
+       Utility_p2p_comms.h
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = libUtility-0.1.pc
