@@ -17,8 +17,10 @@ check_PROGRAMS = \
 
 BUILD_DEFS	=  -ggdb -O0 -DDEFAULT_CONFIG_FILE="\"${confdir}/client.conf\""
 LINK_DEPS	= \
-		   $(top_builddir)/src/libhelper/libEpicHelper.la 	\
-		   $(top_builddir)/src/libdao/libEpicDAO.la
+		  $(top_builddir)/src/libhelper/libEpicHelper.la \
+		  $(top_builddir)/src/libsqlite/libSqlite.la \
+		  $(top_builddir)/src/libcsv/libEpicCSV.la   \
+		  $(top_builddir)/src/libdao/libEpicDAO.la
 
 AM_CPPFLAGS 	= \
 	$(BUILD_DEFS) \

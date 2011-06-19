@@ -5,7 +5,6 @@ confdir = $(sysconfdir)/$(PACKAGE)/conf
 epic_ffq_CPPFLAGS=  \
         -I$(top_srcdir)/include    \
         -I$(top_srcdir)/src	   \
-        -I$(top_srcdir)/src/client \
 	-DPACKAGE_VERSION="\"${PACKAGE_VERSION}\"" \
 	-DDEFAULT_CONFIG_FILE="\"${confdir}/client.conf\""
 
@@ -20,10 +19,11 @@ epic_ffq_SOURCES = \
 		   ReportWriter.cpp
 
 epic_ffq_LDADD   = \
-		   $(top_builddir)/src/libhelper/libEpicHelper.la	\
-		   $(top_builddir)/src/libcsv/libEpicCSV.la		\
-		   $(top_builddir)/src/libdao/libEpicDAO.la
+		  $(top_builddir)/src/libhelper/libEpicHelper.la \
+		  $(top_builddir)/src/libcsv/libEpicCSV.la   \
+		  $(top_builddir)/src/libsqlite/libSqlite.la \
+		  $(top_builddir)/src/libdao/libEpicDAO.la
 
-epic_ffq_LDFLAGS = 
+epic_ffq_LDFLAGS =
 
 

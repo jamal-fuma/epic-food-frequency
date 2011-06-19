@@ -68,5 +68,6 @@ libEpicDAO_la_LDFLAGS =
 # -lpthread -lrt -lltdl
 
 libEpicDAO_la_LIBADD = \
-	$(top_builddir)/src/libsqlite/libSqlite.la
-	$(top_builddir)/src/libcsv/libEpicCSV.la
+		      $(top_builddir)/src/libhelper/libEpicHelper.la \
+		      $(top_builddir)/src/libcsv/libEpicCSV.la   \
+		      $(top_builddir)/src/libsqlite/libSqlite.la

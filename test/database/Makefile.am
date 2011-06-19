@@ -8,6 +8,8 @@ check_PROGRAMS = \
 BUILD_DEFS	=  -ggdb -O0
 LINK_DEPS	= \
 		  $(top_builddir)/src/libhelper/libEpicHelper.la \
+		  $(top_builddir)/src/libsqlite/libSqlite.la \
+		  $(top_builddir)/src/libcsv/libEpicCSV.la   \
 		  $(top_builddir)/src/libdao/libEpicDAO.la
 
 AM_CFLAGS 	=  $(BUILD_DEFS)
