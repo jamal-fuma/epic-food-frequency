@@ -40,23 +40,23 @@ libUtility_la_LDFLAGS =
 libUtility_la_LIBADD = 
 
 noinst_HEADERS = \
-        Utility_s_vector.h             \
-        Utility_state.h             \
-        Utility_push_buffer.h             \
-        Utility_p_vector.h             \
-        Utility_state_rule.h             \
-        Utility_types.h             \
-        Utility_token.h             \
-        Utility_sz_vector.h             \
-        Utility_string.h             \
-        Utility_vector.h             \
-        Utility_includes.h             \
-        Utility_find.h             \
-        Utility_errors.h             \
-        libUtility.h             \
-        Utility_internal.h             \
-        Utility_pack.h             \
-        Utility_p2p_comms.h		\
+       Utility_s_vector.h             \
+       Utility_state.h             \
+       Utility_push_buffer.h             \
+       Utility_p_vector.h             \
+       Utility_state_rule.h             \
+       Utility_types.h             \
+       Utility_token.h             \
+       Utility_sz_vector.h             \
+       Utility_string.h             \
+       Utility_vector.h             \
+       Utility_includes.h             \
+       Utility_find.h             \
+       Utility_errors.h             \
+       libUtility.h             \
+       Utility_internal.h             \
+       Utility_pack.h             \
+       Utility_p2p_comms.h		\
 	sqlite3.h
 
 pkgconfigdir = $(libdir)/pkgconfig

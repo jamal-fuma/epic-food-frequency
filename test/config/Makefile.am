@@ -7,7 +7,7 @@ LINK_DEPS	= $(top_builddir)/src/libhelper/libEpicHelper.la
 
 AM_CFLAGS 	=  $(BUILD_DEFS)
 AM_CPPFLAGS 	= \
-        -I$(top_srcdir)/include   \
+       -I$(top_srcdir)/include   \
 	-DDEFAULT_CONFIG_FILE="\"${confdir}/client.conf\""
 
 AM_LDFLAGS	=  $(LINK_DEPS)

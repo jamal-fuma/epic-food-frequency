@@ -17,8 +17,8 @@ pkgsysconf_DATA =
 # shared application configs
 confdir = ${pkgsysconfdir}/conf
 conf_DATA = \
-        conf/quantity.conf \
-        $(top_builddir)/client.conf
+       conf/quantity.conf \
+       $(top_builddir)/client.conf
 
 $(top_builddir)/client.conf: $(top_srcdir)/conf/client.conf.in stamp-h1
 	sed -e 's![@]prefix[@]!$(prefix)!g' \
@@ -67,17 +67,17 @@ epic_ffqdoc_DATA = \
 bin_PROGRAMS = epic_ffq
 
 epic_ffq_CPPFLAGS=  -I$(top_srcdir)/libutility/src \
-        -I$(top_srcdir)/include   \
-        -I$(top_srcdir)/include/boost   \
-        -I$(top_srcdir)/include/import  \
-        -I$(top_srcdir)/include/client \
-        -I$(top_srcdir)/include/dataset \
-        -I$(top_srcdir)/include/pattern \
-        -I$(top_srcdir)/include/logging \
-        -I$(top_srcdir)/include/config \
-        -I$(top_srcdir)/include/license \
-        -I$(top_srcdir)/include/cmdline \
-        -I$(top_srcdir)/include/conversion \
+       -I$(top_srcdir)/include   \
+       -I$(top_srcdir)/include/boost   \
+       -I$(top_srcdir)/include/import  \
+       -I$(top_srcdir)/include/client \
+       -I$(top_srcdir)/include/dataset \
+       -I$(top_srcdir)/include/pattern \
+       -I$(top_srcdir)/include/logging \
+       -I$(top_srcdir)/include/config \
+       -I$(top_srcdir)/include/license \
+       -I$(top_srcdir)/include/cmdline \
+       -I$(top_srcdir)/include/conversion \
 	-DDEFAULT_CONFIG_FILE="\"${confdir}/client.conf\""
 
 epic_ffq_SOURCES = $(top_srcdir)/src/client.cpp

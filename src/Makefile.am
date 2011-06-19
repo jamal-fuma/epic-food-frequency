@@ -8,17 +8,17 @@ AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" \
 	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
 	-DPACKAGE_DATA_DIR=\""$(datadir)"\"  \
-        -I$(top_srcdir)/libutility/src \
-        -I$(top_srcdir)/include   \
-        -I$(top_srcdir)/include/boost   \
-        -I$(top_srcdir)/include/import  \
-        -I$(top_srcdir)/include/client \
-        -I$(top_srcdir)/include/dataset \
-        -I$(top_srcdir)/include/logging \
-        -I$(top_srcdir)/include/config \
-        -I$(top_srcdir)/include/license \
-        -I$(top_srcdir)/include/cmdline \
-        -I$(top_srcdir)/include/conversion
+       -I$(top_srcdir)/libutility/src \
+       -I$(top_srcdir)/include   \
+       -I$(top_srcdir)/include/boost   \
+       -I$(top_srcdir)/include/import  \
+       -I$(top_srcdir)/include/client \
+       -I$(top_srcdir)/include/dataset \
+       -I$(top_srcdir)/include/logging \
+       -I$(top_srcdir)/include/config \
+       -I$(top_srcdir)/include/license \
+       -I$(top_srcdir)/include/cmdline \
+       -I$(top_srcdir)/include/conversion
 
 AM_CFLAGS =\
 	 -Wall\
@@ -26,62 +26,62 @@ AM_CFLAGS =\
 
 noinst_LTLIBRARIES = libEpic.la
 libEpic_la_SOURCES = \
-                $(top_srcdir)/include/conversion/Conversion.hpp  \
-                 $(top_srcdir)/include/Epic_lib.hpp  \
+               $(top_srcdir)/include/conversion/Conversion.hpp  \
+                $(top_srcdir)/include/Epic_lib.hpp  \
 		   \
- 		   $(top_srcdir)/include/dao/Frequency.hpp	\
+		   $(top_srcdir)/include/dao/Frequency.hpp	\
 		   \
- 		   $(top_srcdir)/include/dao/Report.hpp		\
+		   $(top_srcdir)/include/dao/Report.hpp		\
 		   \
- 		   $(top_srcdir)/include/dao/Weight.hpp		\
+		   $(top_srcdir)/include/dao/Weight.hpp		\
 		   \
- 		   $(top_srcdir)/include/dao/Milk.hpp		\
+		   $(top_srcdir)/include/dao/Milk.hpp		\
 		   \
- 		   $(top_srcdir)/include/dao/Cereal.hpp		\
+		   $(top_srcdir)/include/dao/Cereal.hpp		\
 		   \
- 		   $(top_srcdir)/include/dao/Portion.hpp	\
+		   $(top_srcdir)/include/dao/Portion.hpp	\
 		   \
- 		   $(top_srcdir)/include/dao/Food.hpp		\
- 		   $(top_srcdir)/include/dao/FoodNutrient.hpp	\
+		   $(top_srcdir)/include/dao/Food.hpp		\
+		   $(top_srcdir)/include/dao/FoodNutrient.hpp	\
 		   \
-                   $(top_srcdir)/include/dao/MealNutrient.hpp	\
- 		    \
- 		   $(top_srcdir)/include/dao/MealFood.hpp	\
- 		   $(top_srcdir)/include/dao/Meal.hpp		\
+                  $(top_srcdir)/include/dao/MealNutrient.hpp	\
+		    \
+		   $(top_srcdir)/include/dao/MealFood.hpp	\
+		   $(top_srcdir)/include/dao/Meal.hpp		\
 		   \
- 		   $(top_srcdir)/include/dao/Nutrient.hpp	\
+		   $(top_srcdir)/include/dao/Nutrient.hpp	\
 		   \
- 		   $(top_srcdir)/include/dao/Person.hpp		\
+		   $(top_srcdir)/include/dao/Person.hpp		\
 		   \
-                   $(top_srcdir)/include/dao/Questionaire.hpp	\
+                  $(top_srcdir)/include/dao/Questionaire.hpp	\
 		   \
-                   $(top_srcdir)/include/import/Parser.hpp  \
-                   $(top_srcdir)/include/import/LineInfo.hpp  \
-                   $(top_srcdir)/include/import/Context.hpp  \
-                   $(top_srcdir)/include/import/Import.hpp  \
-                   $(top_srcdir)/include/import/InsertValue.hpp  \
-                   $(top_srcdir)/include/import/NewLine.hpp  \
-                   \
-                   $(top_srcdir)/include/client/Application.hpp  \
-                   $(top_srcdir)/include/client/ReportWriter.hpp  \
-                   \
-                   $(top_srcdir)/include/dataset/Dataset.hpp  \
-                   $(top_srcdir)/include/dataset/Database.hpp  \
-                   $(top_srcdir)/include/dataset/Statement.hpp  \
-                   \
-                   $(top_srcdir)/include/pattern/TwoKeyMap.hpp  \
-                   $(top_srcdir)/include/Singleton.hpp  \
-                   \
-                   $(top_srcdir)/include/logging/Logger.hpp  \
-                   \
-                   $(top_srcdir)/include/config/Global.hpp  \
-                   $(top_srcdir)/include/config/Reader.hpp  \
-                   $(top_srcdir)/include/config/Resource.hpp  \
-                   \
-                   $(top_srcdir)/include/license/License.hpp  \
-                   \
-                   $(top_srcdir)/include/cmdline/Parser.hpp  \
-            \
+                  $(top_srcdir)/include/import/Parser.hpp  \
+                  $(top_srcdir)/include/import/LineInfo.hpp  \
+                  $(top_srcdir)/include/import/Context.hpp  \
+                  $(top_srcdir)/include/import/Import.hpp  \
+                  $(top_srcdir)/include/import/InsertValue.hpp  \
+                  $(top_srcdir)/include/import/NewLine.hpp  \
+                  \
+                  $(top_srcdir)/include/client/Application.hpp  \
+                  $(top_srcdir)/include/client/ReportWriter.hpp  \
+                  \
+                  $(top_srcdir)/include/dataset/Dataset.hpp  \
+                  $(top_srcdir)/include/dataset/Database.hpp  \
+                  $(top_srcdir)/include/dataset/Statement.hpp  \
+                  \
+                  $(top_srcdir)/include/pattern/TwoKeyMap.hpp  \
+                  $(top_srcdir)/include/Singleton.hpp  \
+                  \
+                  $(top_srcdir)/include/logging/Logger.hpp  \
+                  \
+                  $(top_srcdir)/include/config/Global.hpp  \
+                  $(top_srcdir)/include/config/Reader.hpp  \
+                  $(top_srcdir)/include/config/Resource.hpp  \
+                  \
+                  $(top_srcdir)/include/license/License.hpp  \
+                  \
+                  $(top_srcdir)/include/cmdline/Parser.hpp  \
+           \
 	$(top_srcdir)/include/boost/lexical_cast.hpp \
 	$(top_srcdir)/include/boost/preprocessor/iterate.hpp \
 	$(top_srcdir)/include/boost/preprocessor/tuple/eat.hpp \
@@ -1288,13 +1288,13 @@ libEpic_la_SOURCES = \
 	$(top_srcdir)/include/boost/aligned_storage.hpp \
 		  \
 		   ReportWriter.cpp	\
-                                        \
-                   Application.cpp      \
-                   config.cpp      	\
-                   config_reader.cpp
+                                       \
+                  Application.cpp      \
+                  config.cpp      	\
+                  config_reader.cpp
 
 libEpic_la_LDFLAGS = 
- # -lpthread -lrt -lltdl
+# -lpthread -lrt -lltdl
 
 #libEpic_la_LIBADD = $(top_builddir)/libutility/src/libUtility.la
 libEpic_la_LIBADD = $(top_builddir)/src/libdao/libEpicDAO.la

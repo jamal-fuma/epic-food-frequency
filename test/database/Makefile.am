@@ -12,8 +12,8 @@ LINK_DEPS	= \
 
 AM_CFLAGS 	=  $(BUILD_DEFS)
 AM_CPPFLAGS 	= \
-        -I$(top_srcdir)/include   \
-        -I$(top_srcdir)/src   \
+       -I$(top_srcdir)/include   \
+       -I$(top_srcdir)/src   \
 	-DDEFAULT_CONFIG_FILE="\"${confdir}/client.conf\""
 
 AM_LDFLAGS	=  $(LINK_DEPS)

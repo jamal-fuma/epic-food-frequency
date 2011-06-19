@@ -6,8 +6,8 @@ check_PROGRAMS = \
 	       test_csv_import
 
 AM_CPPFLAGS =  -ggdb -O0 \
-        -I$(top_srcdir)/include    \
-        -I$(top_srcdir)/src	   \
+       -I$(top_srcdir)/include    \
+       -I$(top_srcdir)/src	   \
 	-DDEFAULT_CONFIG_FILE="\"${confdir}/client.conf\""
 
 LINK_DEPS	= \
