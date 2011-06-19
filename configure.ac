@@ -100,6 +100,7 @@ AC_CONFIG_FILES([Makefile
                  test/database/Makefile
                  test/database/model/Makefile
                  src/libhelper/Makefile
+                 src/libcsv/Makefile
                  src/libdao/Makefile
                  src/Makefile])
 AC_OUTPUT
