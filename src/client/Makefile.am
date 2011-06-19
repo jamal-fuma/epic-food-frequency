@@ -21,6 +21,7 @@ epic_ffq_SOURCES = \
 
 epic_ffq_LDADD   = \
 		   $(top_builddir)/src/libhelper/libEpicHelper.la	\
+		   $(top_builddir)/src/libcsv/libEpicCSV.la		\
 		   $(top_builddir)/src/libdao/libEpicDAO.la
 
 epic_ffq_LDFLAGS = 
