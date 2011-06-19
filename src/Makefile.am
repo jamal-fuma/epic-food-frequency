@@ -2,7 +2,7 @@
 
 ## Created by Anjuta
 
-SUBDIRS = libhelper libcsv libdao .
+SUBDIRS = libhelper libcsv libdao client .
 
 AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" \

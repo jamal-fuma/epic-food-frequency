@@ -102,6 +102,7 @@ AC_CONFIG_FILES([Makefile
                  src/libhelper/Makefile
                  src/libcsv/Makefile
                  src/libdao/Makefile
+                 src/client/Makefile
                  src/Makefile])
 AC_OUTPUT
 
