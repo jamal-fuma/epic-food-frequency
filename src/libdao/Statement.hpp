@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define EPIC_DATABASE_STATEMENT_HPP
 
 #include "Database.hpp"
-#include "logging/Logger.hpp"
+#include "libhelper/Logger.hpp"
 
 namespace Epic
 {
