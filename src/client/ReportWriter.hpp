@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #if defined( __cplusplus)
 
-#include "client/Application.hpp"
+#include "Application.hpp"
 
 namespace Epic
 {
