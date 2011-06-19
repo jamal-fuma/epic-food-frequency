@@ -7,11 +7,8 @@ AM_CPPFLAGS = \
 	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
 	-DPACKAGE_DATA_DIR=\""$(datadir)"\"  \
         -I$(top_srcdir)/include   \
-        -I$(top_srcdir)/include/boost   \
-        -I$(top_srcdir)/include/import \
-        -I$(top_srcdir)/src/libcsv	\
         -I$(top_srcdir)/src
- 	
+
 noinst_LTLIBRARIES = libEpicCSV.la
 libEpicCSV_la_SOURCES = \
 			CSVReader.hpp  \
