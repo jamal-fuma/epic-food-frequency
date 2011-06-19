@@ -18,9 +18,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef EPIC_DAO_WEIGHT_DAO_HPP
 #define EPIC_DAO_WEIGHT_DAO_HPP
 
-#include "Epic_lib.hpp"
 
 #include <vector>
+#include "sqlite3.h"
+#include "Statement.hpp"
 
 namespace Epic
 {
@@ -28,17 +29,19 @@ namespace Epic
     {
         class Weight; //forward declaration
     } // DAO namespace
-
+ 
     namespace WeightDAO
     {
         class DataAccess
         {
         public:
-            DataAccess() :
-                m_insert("INSERT INTO weights (amount) VALUES (?) ;"),
-                m_find_all("SELECT id,amount from weights ;"),
-                m_find_bounds("SELECT min(id), max(id) FROM weights ;"),
-                m_find_by_id("SELECT amount FROM weights WHERE id = ? ;") { }
+         DataAccess() :
+             m_insert("INSERT INTO weights (amount) VALUES (?) ;"),
+             m_find_all( "SELECT id,amount from weights ;"),
+             m_find_bounds( "SELECT min(id), max(id) FROM weights ;"),
+             m_find_by_id( "SELECT amount FROM weights WHERE id = ? ;")
+             { 
+             }
 
             // find a weight given an id
             bool find_by_id(sqlite3_int64 id, Epic::DAO::Weight & weight);
