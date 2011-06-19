@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.61])
-AC_INIT([epic-food-frequency],[0.0.2-k],[jamal.natour@fumasoftware.com])
+AC_INIT([epic-food-frequency],[0.0.2-l_rc1],[jamal.natour@fumasoftware.com])
 AC_CONFIG_SRCDIR([src/client/Application.cpp])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
@@ -100,6 +100,7 @@ AC_CONFIG_FILES([Makefile
                  test/database/Makefile
                  test/database/model/Makefile
                  src/libhelper/Makefile
+                 src/libsqlite/Makefile
                  src/libcsv/Makefile
                  src/libdao/Makefile
                  src/client/Makefile
