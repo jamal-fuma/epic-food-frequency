@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.61])
-AC_INIT([epic-food-frequency],[0.0.3-a_TC6],[jamal.natour@fumasoftware.com])
+AC_INIT([epic-food-frequency],[0.0.3-a_TC7],[jamal.natour@fumasoftware.com])
 AC_CONFIG_SRCDIR([src/client/Application.cpp])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
@@ -18,6 +18,9 @@ AM_INIT_AUTOMAKE([foreign 1.10 no-define tar-pax])
 
 # Use the latest short output macro if available
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
+
+make sure $ACLOCAL_FLAGS are used during a rebuild.
+AC_SUBST([ACLOCAL_AMFLAGS], ["-I $ac_macro_dir \${ACLOCAL_FLAGS}"])
 
 # I like maintainer mode
 AM_MAINTAINER_MODE
