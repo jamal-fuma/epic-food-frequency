@@ -91,6 +91,7 @@ AC_CONFIG_FILES([Makefile
                  src/libcsv/Makefile
                  src/libdao/Makefile
                  src/client/Makefile
+                 src/libsqlite/Makefile
                  test/Makefile
                  test/split/Makefile
                  test/logger/Makefile
