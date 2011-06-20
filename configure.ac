@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.61])
-AC_INIT([epic-food-frequency],[0.0.2-l_rc1],[jamal.natour@fumasoftware.com])
+AC_INIT([epic-food-frequency],[0.0.3-a_TC6],[jamal.natour@fumasoftware.com])
 AC_CONFIG_SRCDIR([src/client/Application.cpp])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
@@ -18,9 +18,6 @@ AM_INIT_AUTOMAKE([foreign 1.10 no-define tar-pax])
 
 # Use the latest short output macro if available
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
-
-# make sure $ACLOCAL_FLAGS are used during a rebuild.
-AC_SUBST([ACLOCAL_AMFLAGS], ["-I $ac_macro_dir \${ACLOCAL_FLAGS}"])
 
 # I like maintainer mode
 AM_MAINTAINER_MODE
@@ -89,9 +86,11 @@ AC_FUNC_MMAP
 AC_FUNC_REALLOC
 
 AC_CONFIG_FILES([Makefile
-                 libutility/src/libUtility-0.1.pc
-                 libutility/Makefile
-                 libutility/src/Makefile 
+                 src/Makefile
+                 src/libhelper/Makefile
+                 src/libcsv/Makefile
+                 src/libdao/Makefile
+                 src/client/Makefile
                  test/Makefile
                  test/split/Makefile
                  test/logger/Makefile
@@ -99,12 +98,11 @@ AC_CONFIG_FILES([Makefile
                  test/csv/Makefile
                  test/database/Makefile
                  test/database/model/Makefile
-                 src/libhelper/Makefile
-                 src/libsqlite/Makefile
-                 src/libcsv/Makefile
-                 src/libdao/Makefile
-                 src/client/Makefile
-                 src/Makefile])
+                 sql/Makefile
+                 import/Makefile
+                 doc/Makefile
+                 conf/Makefile
+                 scripts/Makefile])
 AC_OUTPUT
 
 dnl  Compile banner
