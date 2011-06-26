@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef EPIC_DATABASE_HPP
 #define EPIC_DATABASE_HPP
 
-#include "sqlite3.h"
+#include "libsqlite/sqlite3.h"
 #include <string>
 #include <stdexcept>
 
