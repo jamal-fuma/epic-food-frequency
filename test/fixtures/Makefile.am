@@ -1,6 +1,6 @@
 SUBDIRS = sql import conf .
 
-fixturedir = $(builddir)
+fixturedir = $(abs_builddir)
 fixture_DATA = \
 		$(fixturedir)/test.conf 	\
 		$(fixturedir)/test.conf.in
