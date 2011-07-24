@@ -38,5 +38,3 @@ dist-hook:
 # Remove doc directory on uninstall
 uninstall-local:
 	-rm -r $(pkgsysconfdir)
-
-
