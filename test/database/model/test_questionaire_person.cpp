@@ -58,12 +58,12 @@ void
 test_attaching_person_to_questionaire()
 {
     Epic::DAO::Person person  = Epic::DAO::Person::find_by_reference("bar");
-    assert(person.valid() && "previously created Person with reference foo is expected to be valid");
+    assert(person.valid() && "previously created Person with reference bar is expected to be valid");
 
     Epic::DAO::Questionaire questionaire = Epic::DAO::Questionaire::find_by_filename("foo");
     assert(questionaire.valid() && "Finding previously created Questionaire called foo should be valid");
 
-    assert( questionaire.attach(person) &&  "Attaching Person to the Questionaire should not fail");
+    assert( questionaire.attach(person) &&  "Attaching Person bar to the Questionaire foo should not fail");
 }
 
 void
@@ -76,10 +76,10 @@ test_retrieving_person_called_bar_from_questionaire_with_ref_foo()
     assert(questionaire.valid() && "Finding previously created Questionaire called foo should be valid");
 
     std::vector<Epic::DAO::Person> people;
-    questionaire.find_people(people);
     assert(questionaire.find_people(people) && "Finding people on the questionaire is expected to work");
 
     assert(!people.empty() && "Expected [1] elements but instead was empty");
+    std::cerr << "people.size() -> " << people.size() << std::endl;
     assert( (people.size() == 1) && "Expected exactly [1] elements");
     assert( people.begin()->get_reference() == "bar" && "Expected person bar to be first entry");
     assert( people.begin()->get_reference() == "bar" && "Expected person bar to be last entry");

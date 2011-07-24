@@ -1,5 +1,4 @@
 # surely there is a better way then repeating declarations
-confdir = $(sysconfdir)/$(PACKAGE)/conf
 
 check_PROGRAMS = \
 	test_person \
@@ -15,19 +14,22 @@ check_PROGRAMS = \
 	test_food_nutrient \
 	test_portions
 
-BUILD_DEFS	=  -ggdb -O0 -DDEFAULT_CONFIG_FILE="\"${confdir}/client.conf\""
+BUILD_DEFS	=  -ggdb -O0 \
+		   -DDEFAULT_CONFIG_FILE="\"${abs_top_builddir}/test/fixtures/test.conf\""
+TESTS=$(check_PROGRAMS)
+
 LINK_DEPS	= \
 		  $(top_builddir)/src/libhelper/libEpicHelper.la \
 		  $(top_builddir)/src/libsqlite/libSqlite.la \
 		  $(top_builddir)/src/libcsv/libEpicCSV.la   \
 		  $(top_builddir)/src/libdao/libEpicDAO.la
 
+AM_LDFLAGS	=  $(LINK_DEPS) -static-libgcc
+
 AM_CPPFLAGS 	= \
 	$(BUILD_DEFS) \
        -I$(top_srcdir)/include   \
        -I$(top_srcdir)/src
-
-AM_LDFLAGS	=  $(LINK_DEPS)
 
 test_person_LDADD = $(LINK_DEPS)
 test_person_DEPENDENCIES  = $(LINK_DEPS)

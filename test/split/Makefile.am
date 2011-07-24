@@ -7,10 +7,9 @@ LINK_DEPS	=
 AM_CFLAGS 	=  $(BUILD_DEFS)
 AM_CPPFLAGS 	= \
        -I$(top_srcdir)/include   \
-	-DDEFAULT_CONFIG_FILE="\"${confdir}/client.conf\""
+       -DDEFAULT_CONFIG_FILE="\"${abs_top_builddir}/test/fixtures/test.conf\""
 
-AM_LDFLAGS	=  $(LINK_DEPS)
-
+AM_LDFLAGS	=  $(LINK_DEPS) -static-libgcc
 test_split_SOURCES = 		test_split.cpp \
    				$(top_srcdir)/include/config/Util.hpp \
    				$(top_srcdir)/include/config/Resource.hpp \

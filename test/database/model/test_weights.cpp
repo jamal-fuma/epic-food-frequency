@@ -19,9 +19,9 @@ main(int argc, char **argv)
 
     Epic::Database::connect();
 
-    test_creating_weights();
     test_weights_have_correct_ids_and_values();
     test_weights_have_correct_upper_and_lower_bounds();
+    test_creating_weights();
     return EXIT_SUCCESS;
 }
 

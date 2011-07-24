@@ -1,9 +1,8 @@
-#include "config/Global.hpp"
 #include <stdlib.h>
 #include <assert.h>
 
-#include "libdao/Database.hpp"
 #include "config/Global.hpp"
+#include "libdao/Database.hpp"
 #include "dao/Person.hpp"
 #include "dao/Weight.hpp"
 
@@ -44,7 +43,7 @@ test_creating_a_weight()
     Epic::DAO::Weight weight;
     weight.set_amount(55.0);
     assert(weight.save() && "Saving a Weight should not fail");
-    assert( (weight.get_id() == 1) && "Weight should have id of 1");
+    assert( (weight.get_id() == 6) && "Weight should have id of 6");
 }
 
 void

@@ -90,7 +90,7 @@ test_creating_a_food_called_apple()
 void
 test_attaching_nutrient_65_to_food_called_apple()
 {
-    Epic::DAO::Food food = Epic::DAO::Food::find_by_name("apple");
+    Epic::DAO::Food food = Epic::DAO::Food::find_by_name("Apple");
     assert(food.valid() && "Food called apple is expected to be valid");
 
     Epic::DAO::Nutrient nutrient = Epic::DAO::Nutrient::find_by_code(65);
@@ -102,7 +102,7 @@ test_attaching_nutrient_65_to_food_called_apple()
 void
 test_attaching_nutrient_77_to_food_called_apple()
 {
-    Epic::DAO::Food food = Epic::DAO::Food::find_by_name("apple");
+    Epic::DAO::Food food = Epic::DAO::Food::find_by_name("Apple");
     assert(food.valid() && "Food called apple is expected to be valid");
 
     Epic::DAO::Nutrient nutrient = Epic::DAO::Nutrient::find_by_code(77);
@@ -114,7 +114,7 @@ test_attaching_nutrient_77_to_food_called_apple()
 void
 test_retrieving_nutrients_65_and_77_from_food_called_apple()
 {
-    Epic::DAO::Food food = Epic::DAO::Food::find_by_name("apple");
+    Epic::DAO::Food food = Epic::DAO::Food::find_by_name("Apple");
     assert(food.valid() && "Food called apple is expected to be valid");
 
     std::vector<Epic::DAO::FoodNutrient> nutrients;

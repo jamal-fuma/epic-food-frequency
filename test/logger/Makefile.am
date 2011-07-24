@@ -8,7 +8,7 @@ AM_CFLAGS 	=  $(BUILD_DEFS)
 AM_CPPFLAGS 	= \
        -I$(top_srcdir)/include   \
        -I$(top_srcdir)/src   \
-	-DDEFAULT_CONFIG_FILE="\"${confdir}/client.conf\""
+       -DDEFAULT_CONFIG_FILE="\"${abs_top_builddir}/test/fixtures/test.conf\""
 
 AM_LDFLAGS	=  $(LINK_DEPS)
 

@@ -1,9 +1,11 @@
 
-SUBDIRS= . model
+SUBDIRS=  model .
 
 check_PROGRAMS = \
 	       test_database_report \
 	       test_database_import
+
+TESTS=$(check_PROGRAMS)
 
 BUILD_DEFS	=  -ggdb -O0
 LINK_DEPS	= \
@@ -16,9 +18,9 @@ AM_CFLAGS 	=  $(BUILD_DEFS)
 AM_CPPFLAGS 	= \
        -I$(top_srcdir)/include   \
        -I$(top_srcdir)/src   \
-	-DDEFAULT_CONFIG_FILE="\"${confdir}/client.conf\""
+       -DDEFAULT_CONFIG_FILE="\"${abs_top_builddir}/test/fixtures/test.conf\""
 
-AM_LDFLAGS	=  $(LINK_DEPS)
+AM_LDFLAGS	=  $(LINK_DEPS) -static-libgcc
 
 test_database_import_LDADD 		= $(LINK_DEPS)
 test_database_import_DEPENDENCIES 	= $(LINK_DEPS)
@@ -37,7 +39,6 @@ test_database_report_SOURCES = \
 	      ${top_srcdir}/include/dao/MealFood.hpp \
 	      $(top_srcdir)/include/config/Global.hpp
 	      $(top_srcdir)/src/libdao/Database.hpp
-
 
 reallyclean: maintainer-clean
 	rm -f Makefile

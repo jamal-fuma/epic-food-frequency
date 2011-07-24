@@ -19,7 +19,7 @@ main(int argc, char **argv)
 
     // grab the contents of the meal food table, it's a valid but short csv file
     std::string import;
-    assert(Epic::Config::find("meal",import)
+    assert(Epic::Config::find("meals",import)
             && "A value for the meal food table should be present in config file");
 
     // get ready to slurp the contents of the csv file
