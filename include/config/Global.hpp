@@ -23,6 +23,7 @@ namespace Epic
 
             public:
                 Config() {}
+                virtual ~Config(){}
 
                 bool find(const std::string & key, std::string & dest) const ;
                 bool insert(const std::string & key, const std::string & value, bool overwrite=false);
