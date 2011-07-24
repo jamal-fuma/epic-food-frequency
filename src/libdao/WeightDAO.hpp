@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 #include <vector>
-#include "sqlite3.h"
+#include "libsqlite/sqlite3.h"
 #include "Statement.hpp"
 
 namespace Epic

@@ -75,23 +75,23 @@ bool Epic::CerealDAO::DataAccess::save(Epic::DAO::Cereal & cereal)
 }
 
 // singleton versions
-
+#define DAO_SINGLETON  (Epic::Pattern::Singleton< Epic::CerealDAO::DataAccess >::instance())
 // find a cereal given an id
 bool Epic::CerealDAO::find_by_id(sqlite3_int64 id, Epic::DAO::Cereal & cereal)
 {
-    return Epic::Pattern::Singleton< Epic::CerealDAO::DataAccess >::instance().find_by_id(id,cereal);
+    return DAO_SINGLETON.find_by_id(id,cereal);
 }
 
 // find a cereal given a name
 bool Epic::CerealDAO::find_by_food_id(sqlite3_int64 food_id, Epic::DAO::Cereal & cereal)
 {
-    return Epic::Pattern::Singleton< Epic::CerealDAO::DataAccess >::instance().find_by_food_id(food_id,cereal);
+    return DAO_SINGLETON.find_by_food_id(food_id,cereal);
 }
 
 // save a cereal
 bool Epic::CerealDAO::save(Epic::DAO::Cereal & cereal)
 {
-    return Epic::Pattern::Singleton< Epic::CerealDAO::DataAccess >::instance().save(cereal);
+    return DAO_SINGLETON.save(cereal);
 }
 
 // wire up saving the model to the DAO

@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef EPIC_DAO_MILK_DAO_HPP
 #define EPIC_DAO_MILK_DAO_HPP
 
-#include "sqlite3.h"
+#include "libsqlite/sqlite3.h"
 #include "Statement.hpp"
 
 namespace Epic

@@ -1,7 +1,6 @@
 #ifndef EPIC_APPLICATION_HPP
 #define EPIC_APPLICATION_HPP
 
-
 #include "dao/Report.hpp"
 #include "dao/Person.hpp"
 #include "dao/Food.hpp"
@@ -16,8 +15,6 @@
 
 #include "config/Resource.hpp"
 #include "import/Import.hpp"
-//#include "conversion/Conversion.hpp"
-
 
 namespace Epic
 {
@@ -79,8 +76,8 @@ namespace Epic
 
             bool load_questionaire(Epic::DAO::Questionaire & questionaire, size_t & size);
             bool write_report(Epic::DAO::Questionaire & questionaire, std::ostream & file);
-           private:
 
+           private:
             std::string         m_input_file;
             std::string         m_output_file;
             Application::FileType m_status;

@@ -18,6 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "config/Global.hpp"
 #include "Logger.hpp"
 
+#define CONFIG_SINGLETON        (Epic::Pattern::Singleton< Config >::instance())
+#define QUANTITY_SINGLETON      (Epic::Pattern::Singleton< Quantity::QuantityConfig >::instance())
+
 void Epic::Config::Config::load(const std::string & filename)
 {
     Epic::Config::Reader rdr(filename);
@@ -59,11 +62,12 @@ bool Epic::Config::load(const std::string & filename)
 {
     try
     {
-        Epic::Pattern::Singleton< Config >::instance().load(filename);
+        CONFIG_SINGLETON.load(filename);
         return Epic::Config::Quantity::load();
     }
-    catch(...)
+    catch( const std::runtime_error & e)
     {
+        Epic::Logging::error(e.what());
         return false;
     }
 }
@@ -72,7 +76,7 @@ bool Epic::Config::find(const std::string & key, std::string & dest)
 {
     try
     {
-        bool ret = Epic::Pattern::Singleton< Config >::instance().find(key,dest);
+        bool ret = CONFIG_SINGLETON.find(key,dest);
         if(!ret)
         {
             std::ostringstream ss;
@@ -92,7 +96,7 @@ bool Epic::Config::insert(const std::string & key, const std::string & value, bo
 {
     try
     {
-        bool ret = Epic::Pattern::Singleton< Config >::instance().insert(key,value,overwrite);
+        bool ret = CONFIG_SINGLETON.insert(key,value,overwrite);
         if(!ret && !overwrite)
         {
             std::ostringstream ss;
@@ -156,7 +160,7 @@ bool Epic::Config::Quantity::load()
             return false;
         }
 
-        Epic::Pattern::Singleton< Quantity::QuantityConfig >::instance().load(config_file);
+        QUANTITY_SINGLETON.load(config_file);
         return true;
     }
     catch(...)
@@ -170,7 +174,7 @@ bool Epic::Config::Quantity::find(const std::string & key, std::string & dest)
 {
     try
     {
-        bool ret = Epic::Pattern::Singleton< Quantity::QuantityConfig >::instance().find(key,dest);
+        bool ret = QUANTITY_SINGLETON.find(key,dest);
         if(ret)
         {
 #if(0)

@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define EPIC_DAO_QUESTIONAIRE_DAO_HPP
 
 #include "dao/Person.hpp"
-#include "sqlite3.h"
+#include "libsqlite/sqlite3.h"
 #include "Statement.hpp"
 
 #include <vector>
