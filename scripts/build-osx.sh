@@ -1,10 +1,10 @@
 # build for relatively old machines
-HOST=${HOST:-i686-apple-darwin10}
-TOOLS_DIR=${TOOLS_DIR:-/opt/${HOST}/toolchain/bin}
+TARGET_ARCH=${TARGET_ARCH:-i686-apple-darwin10}
+TOOLS_DIR=${TOOLS_DIR:-/opt/${TARGET_ARCH}/toolchain/bin}
 
 # use ccache to speed up compilation if in path
-export CC="ccache ${TOOLS_DIR}/${HOST}-gcc";
-export CXX="ccache ${TOOLS_DIR}/${HOST}-g++";
+export CC="ccache /opt/i686-apple-darwin10/toolchain/bin/i686-apple-darwin10-gcc";
+export CXX="ccache /opt/i686-apple-darwin10/toolchain/bin/i686-apple-darwin10-g++";
 
 # cross builds for windows need these set otherwise the cross-configure fails
 #export ac_cv_func_realloc_0_nonnull=yes
@@ -23,34 +23,17 @@ project=`grep AC_INIT configure.ac | cut -f 1 -d',' | tr -d '[[]]' | sed -e '/^[
 echo "${project_with_version}" > version.txt
 echo "Building ${project_with_version}"
 
+./autogen.sh
+
 # cross-configure
 mkdir -p build-osx/dest;
 cd build-osx;
 
 # default prefix is under the /Applications folder
-PREFIX=${PREFIX:-"/Applications/${project_with_version}.app/Contents/MacOSX"}
-( cd ../; autoreconf; );
-../configure --prefix=${PREFIX} --host=${HOST}  --enable-maintainer-mode
+PREFIX=${PREFIX:-"/Applications/${project}.app/Contents/MacOSX"}
 
-echo $CC
-echo $CXX
-
-exit 
-# cross-compile
-make;
-make check;
-# hand compile one
-
-# install to staging
-make DESTDIR="`pwd`/dest/" install;
-
-# package
-tar -cvjf ${project_with_version}_osx.tbz `pwd`/dest
-
-( 
-export CC="ccache /opt/i686-apple-darwin10/toolchain/bin/i686-apple-darwin10-gcc";
-export CXX="ccache /opt/i686-apple-darwin10/toolchain/bin/i686-apple-darwin10-g++";
- ../configure --enable-maintainer-mode  --host=i686-apple-darwin10 --prefix="/Applications/epic-food-frequency.app";
- make 
-)
-
+# cross-compile and install to staging for packaging
+../configure --prefix=${PREFIX} --host=${TARGET_ARCH}  --enable-maintainer-mode && \
+        make && \
+        make DESTDIR="`pwd`/dest/" install && \
+        tar -cvjf ${project_with_version}_osx.tbz `pwd`/dest ;

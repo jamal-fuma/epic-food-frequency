@@ -10,15 +10,8 @@ project=`grep AC_INIT configure.ac | cut -f 1 -d',' | tr -d '[[]]' | sed -e '/^[
 echo "${project_with_version}" > version.txt
 echo "Building ${project_with_version}"
 
-f=$( cat << 'EOF'
-aclocal -I m4 && \
-autoheader && \
-libtoolize --force --no-warn && \
-automake --foreign --add-missing && \
-autoreconf -fi && \
-autoconf
-EOF
-);
+# cross-configure
+./autogen.sh;
 
 # cross-configure
 mkdir -p build-native/root;
