@@ -6,6 +6,7 @@ importdir 	= ${pkgsysconfdir}/import
 
 # shared application configs
 conf_DATA = \
+        defaults.conf \
         quantity.conf \
         $(top_builddir)/client.conf
 
@@ -16,7 +17,7 @@ $(top_builddir)/client.conf: client.conf.in $(top_builddir)/stamp-h1
 	    -e 's![@]PACKAGE_VERSION[@]!$(PACKAGE_VERSION)!g' \
 	    $< > $@
 
-EXTRA_DIST= client.conf.in quantity.conf
+EXTRA_DIST= client.conf.in quantity.conf defaults.conf
 
 # not explicitly removing this causes distclean to fail and so breaks distcheck
 DISTCLEANFILES= $(top_builddir)/client.conf
