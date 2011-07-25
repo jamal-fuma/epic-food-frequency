@@ -17,10 +17,6 @@
 #      REVISION:  ---
 #===============================================================================
 
-mkdir -p build-darwin/dest;
-
-cd build-darwin/;
-
 export CC="ccache /opt/i686-apple-darwin10/toolchain/bin/i686-apple-darwin10-gcc";
 export CXX="ccache /opt/i686-apple-darwin10/toolchain/bin/i686-apple-darwin10-g++";
 
@@ -28,6 +24,9 @@ export CXX="ccache /opt/i686-apple-darwin10/toolchain/bin/i686-apple-darwin10-g+
 project_with_version=`grep AC_INIT configure.ac | cut -f 1,2 -d',' | tr -d '[[]]' | sed -e '/^[^(]\+./{ s///; s/,/-/; }'`
 
 project=`grep AC_INIT configure.ac | cut -f 1 -d',' | tr -d '[[]]' | sed -e '/^[^(]\+./{ s///; s/,/-/; }'`
+
+mkdir -p build-darwin/dest;
+cd build-darwin/;
 
 ../configure    --enable-maintainer-mode   \
                 --host=i686-apple-darwin10 \
