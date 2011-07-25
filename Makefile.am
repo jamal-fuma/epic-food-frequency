@@ -17,7 +17,7 @@ SUBDIRS = src \
 
 pkgsysconfdir = $(sysconfdir)/$(PACKAGE)
 
-EXTRA_DIST = autogen.sh ChangeLog
+EXTRA_DIST = autogen.sh
 
 ####################################
 # Hook to make the ChangeLog
@@ -34,7 +34,7 @@ dist-hook:
 	else \
 		echo A git clone is required to generate a ChangeLog >&2; \
 	fi
-
-# Remove doc directory on uninstall
+# Remove config directory on uninstall
 uninstall-local:
 	-rm -r $(pkgsysconfdir)
+
