@@ -25,17 +25,17 @@ CREATE UNIQUE INDEX index_nutrients_on_code ON nutrients(code);
 
 CREATE TABLE weights (
 	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-	amount REAL NOT NULL
+	amount REAL NOT NULL default 0
 );
 
 CREATE TABLE frequencies (
 	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-	amount REAL NOT NULL
+	amount REAL NOT NULL default 0
 );
 
 CREATE TABLE portions (
 	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-	amount REAL NOT NULL
+	amount REAL NOT NULL default 0
 );
 
 CREATE TABLE foods (
@@ -64,7 +64,7 @@ CREATE TABLE meal_foods (
 	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 	meal_id INTEGER NOT NULL,
 	food_id INTEGER default NULL,
-	amount  REAL   NOT NULL,
+	amount REAL NOT NULL default 0,
 	modifier INTEGER NOT NULL default 0
 );
 CREATE INDEX index_meal_foods_on_meal ON meal_foods(meal_id);
