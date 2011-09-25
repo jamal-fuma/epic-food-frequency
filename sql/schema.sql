@@ -50,7 +50,7 @@ CREATE TABLE questionaire_people (
 	person_id INTEGER NOT NULL,
 	UNIQUE(questionaire_id,person_id)
 );
-CREATE INDEX index_questionaire_people_on_questionaire ON questionaire_people(questionaire_id);
+CREATE INDEX index_questionaire_people_on_questionaire_id ON questionaire_people(questionaire_id);
 
 CREATE TABLE food_nutrients (
 	food_id INTEGER NOT NULL,
@@ -58,7 +58,7 @@ CREATE TABLE food_nutrients (
 	amount REAL NOT NULL default 0,
 	UNIQUE(food_id,nutrient_id)
 );
-CREATE INDEX index_food_nutrients_on_food ON food_nutrients(food_id);
+CREATE INDEX index_food_nutrients_on_food_id ON food_nutrients(food_id);
 
 CREATE TABLE meal_foods (
 	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
