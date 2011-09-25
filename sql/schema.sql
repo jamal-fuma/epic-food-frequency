@@ -35,7 +35,7 @@ CREATE TABLE frequencies (
 
 CREATE TABLE portions (
 	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-	amount FLOAT NOT NULL
+	amount REAL NOT NULL
 );
 
 CREATE TABLE foods (
@@ -55,7 +55,7 @@ CREATE INDEX index_questionaire_people_on_questionaire ON questionaire_people(qu
 CREATE TABLE food_nutrients (
 	food_id INTEGER NOT NULL,
 	nutrient_id INTEGER NOT NULL,
-	amount FLOAT NOT NULL default 0,
+	amount REAL NOT NULL default 0,
 	UNIQUE(food_id,nutrient_id)
 );
 CREATE INDEX index_food_nutrients_on_food ON food_nutrients(food_id);
@@ -64,7 +64,7 @@ CREATE TABLE meal_foods (
 	id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 	meal_id INTEGER NOT NULL,
 	food_id INTEGER default NULL,
-	amount  FLOAT   NOT NULL,
+	amount  REAL   NOT NULL,
 	modifier INTEGER NOT NULL default 0
 );
 CREATE INDEX index_meal_foods_on_meal ON meal_foods(meal_id);
@@ -284,7 +284,7 @@ ORDER BY person_id,meal_id,food_id;
 CREATE TABLE meal_nutrients_tmp (
 	meal_id INTEGER NOT NULL,
 	nutrient_code INTEGER NOT NULL,
-	quantity  FLOAT   NOT NULL
+	quantity  REAL   NOT NULL
 );
 CREATE INDEX index_meal_nutrients_tmp_on_meal_and_nutrient ON meal_nutrients_tmp(meal_id,nutrient_code);
 
