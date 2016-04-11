@@ -1,0 +1,61 @@
+CODE,DESCRIPTION,UNITS
+1 ,Alpha carotene ,mcg
+2 ,Alcohol ,g
+5 ,Beta carotene ,mcg
+8 ,Calcium ,mg
+9 ,Carotene - total (carotene equivalents) ,mcg
+11 ,Carbohydrate - total ,g
+12 ,Cholesterol ,mg
+13 ,Chloride ,mg
+15 ,Copper ,mg
+20 ,Englyst Fibre - Non Starch Polysaccharides (NSP) ,g
+22 ,Iron ,mg
+55 ,Total folate ,mcg
+56 ,Carbohydrate - fructose ,g
+57 ,Carbohydrate - galactose ,g
+58 ,Carbohydrate - glucose ,g
+61 ,Iodine ,mcg
+63 ,Potassium ,mg
+64 ,Energy_kcal ,kcal
+65 ,Energy_kj ,kJ
+66 ,Carbohydrate - lactose ,g
+68 ,Carbohydrate - maltose ,g
+69 ,Magnesium ,mg
+70 ,Manganese ,mg
+72 ,Sodium ,mg
+74 ,Niacin ,mg
+77 ,Phosphorus ,mg
+83 ,Protein ,g
+86 ,Vitamin A - retinol ,mcg
+88 ,Vitamin A - retinol equivalents ,mcg
+89 ,Vitamin B2 - riboflavin ,mg
+92 ,Selenium ,mcg
+97 ,Carbohydrate - starch ,g
+98 ,Carbohydrate - sucrose ,g
+99 ,Vitamin B1 - thiamin ,mg
+100 ,Nitrogen ,g
+101 ,Carbohydrate - sugars(total) ,g
+103 ,Vitamin B12 - cobalamin ,mcg
+104 ,Vitamin B6 - pyridoxine ,mg
+105 ,Vitamin C - ascorbic acid ,mg
+106 ,Vitamin D ,mcg
+107 ,Vitamin E - alpha tocopherol equivalents ,mg
+109 ,Zinc ,mg
+600 ,Fat - total ,g
+601 ,Monounsaturated fatty acids (MUFA) - total ,g
+603 ,Polyunsaturated fatty acids (PUFA) - total ,g
+607 ,Saturated fatty acids (SFA) - total ,g
+900 ,Alcoholic beverages ,g
+901 ,Cereals and cereal products ,g
+902 ,Eggs and egg dishes ,g
+903 ,Fats and oils ,g
+904 ,Fish & fish products ,g
+905 ,Fruit ,g
+906 ,Meat and meat products ,g
+907 ,Milk and milk products ,g
+908 ,Non-alcoholic beverages ,g
+909 ,Nuts and seeds ,g
+910 ,Potatoes ,g
+911 ,Soups & sauces ,g
+912 ,Sugars; preserves and snacks ,g
+913 ,Vegetables ,g

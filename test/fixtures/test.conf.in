@@ -1,0 +1,40 @@
+# Location of the nutrients database
+database=":memory:"
+# create pure in memory database, replace with a file name to use a file db
+
+schema="@fixtures@/sql/schema.sql"
+
+# nutrient quantities may contain codes which refer to missing data so an additional
+# config file helps with mapping the codes onto quantities, the absence of a value
+# in the config file is treated as if the value was present and mapped to its literal value.
+nutrient_quantity="@fixtures@/conf/quantity.conf"
+
+# Meals import file - these are grid questions
+meals="@fixtures@/import/meals.csv"
+
+# Food codes import file
+foods="@fixtures@/import/foods.csv"
+
+# Nutrients import file
+nutrients="@fixtures@/import/nutrients.csv"
+
+# Conversion between frequency codes and multipliers
+frequencies="@fixtures@/import/frequencies.csv"
+
+# Weighting factors
+weights="@fixtures@/import/weights.csv"
+
+# Milk portions
+portions="@fixtures@/import/portions.csv"
+
+# Joins between meals and food tables
+meal_foods="@fixtures@/import/meal_foods.csv"
+
+# Joins between foods and nutrients tables
+food_nutrients="@fixtures@/import/food_nutrients.csv"
+
+# cereals, joins between foods and weights
+cereals="@fixtures@/import/cereals.csv"
+
+# milks
+milks="@fixtures@/import/milks.csv"
